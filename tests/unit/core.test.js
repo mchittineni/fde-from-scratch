@@ -95,6 +95,13 @@ describe('XP and ranks', () => {
       + XP.diagnostic + 2 * XP.criterion + XP.drill + XP.story + 2 * XP.resource;
     assert.equal(totalXP(s), expected);
   });
+
+  test('totalXP counts only correctly answered knowledge checks, and tolerates older saves without them', () => {
+    const s = emptyProgress();
+    assert.equal(totalXP(s), 0); // no checks key at all
+    s.checks = { 'o1-c1': { pick: 1, correct: true }, 'o2-c1': { pick: 0, correct: false } };
+    assert.equal(totalXP(s), XP.check);
+  });
 });
 
 describe('simulator scoring', () => {
