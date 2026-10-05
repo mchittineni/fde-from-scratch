@@ -2,278 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FDE Launchpad | Forward Deployed Engineer Career & Interview Hub</title>
-  <meta name="description" content="Master the Forward Deployed Engineer (FDE) role across Palantir, Databricks, Scale AI, OpenAI, and Snowflake. Experience-tailored roadmaps, 5-pillar skill diagnostic, real-world client simulators, and decomp interview playbooks.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>FDE from Scratch — Zero to Forward Deployed</title>
+  <meta name="description" content="A from-scratch field guide to becoming a Forward Deployed Engineer: orientation, experience-tailored learning tracks, hands-on labs, and company interview playbooks.">
+  <meta name="theme-color" content="#0A0E14">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="FDE from Scratch — Zero to Forward Deployed">
+  <meta property="og:description" content="A free, open-source field guide to becoming a Forward Deployed Engineer: learning tracks, labs, a vetted library and interview playbooks.">
+  <meta property="og:url" content="https://mchittineni.github.io/fde-from-scratch/">
+  <meta name="twitter:card" content="summary">
+  <script>
+    // Apply the saved theme before first paint to avoid a flash.
+    try { const t = localStorage.getItem('fde_theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles/main.css">
   <link rel="stylesheet" href="./styles/components.css">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- Navigation Header -->
   <header class="header">
     <div class="container header-inner">
-      <div class="brand" id="brandBtn">
-        <span class="brand-badge">FDE</span>
-        <div>
-          <span class="brand-title">Launchpad</span>
-          <span class="brand-subtitle">Mission Control</span>
-        </div>
-      </div>
+      <a class="brand" href="#/" aria-label="FDE from Scratch home">
+        <span class="brand-mark" aria-hidden="true">FDE</span>
+        <span class="brand-name">from Scratch <span>/ field guide</span></span>
+      </a>
 
-      <nav>
-        <ul class="nav-links">
-          <li>
-            <button class="nav-tab active" data-tab="roadmaps">
-              <span class="nav-tab-icon">🗺️</span> Roadmaps
-            </button>
-          </li>
-          <li>
-            <button class="nav-tab" data-tab="diagnostic">
-              <span class="nav-tab-icon">⚡</span> Skill Diagnostic
-            </button>
-          </li>
-          <li>
-            <button class="nav-tab" data-tab="simulation">
-              <span class="nav-tab-icon">🎮</span> Field Simulator
-            </button>
-          </li>
-          <li>
-            <button class="nav-tab" data-tab="companies">
-              <span class="nav-tab-icon">🏢</span> Company Playbooks
-            </button>
-          </li>
-          <li>
-            <button class="nav-tab" data-tab="cases">
-              <span class="nav-tab-icon">🏛️</span> Decomp Cases
-            </button>
-          </li>
-          <li>
-            <button class="nav-tab" data-tab="questions">
-              <span class="nav-tab-icon">💡</span> Question Bank
-            </button>
-          </li>
-        </ul>
-      </nav>
+      <nav class="nav" aria-label="Primary" id="primaryNav"></nav>
 
-      <div class="header-actions">
-        <button class="btn btn-primary btn-sm" id="headerStartBtn">
-          Take Diagnostic
-        </button>
+      <div class="header-right">
+        <a class="xp-pill" href="#/journey" id="xpPill" aria-label="Your progress"></a>
+        <a class="icon-btn sponsor" id="sponsorBtn" href="https://github.com/sponsors/mchittineni" target="_blank" rel="noopener" aria-label="Sponsor this project on GitHub"></a>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle color theme"></button>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="container hero-content">
-      <div class="hero-pill">
-        <span class="hero-pill-dot"></span>
-        <span>The Standardized Curriculum for Forward Deployed Engineering</span>
-      </div>
-
-      <h1 class="hero-title">
-        Crack the Forward Deployed <br>
-        <span class="hero-title-gradient">Software Engineer (FDE)</span> Role
-      </h1>
-
-      <p class="hero-subtitle">
-        Bridging elite distributed systems engineering with high-stakes customer deployment, C-suite diplomacy, and real-time enterprise problem decomposition across Palantir, Databricks, Scale AI, and OpenAI.
-      </p>
-
-      <!-- Quick Metrics Strip -->
-      <div class="metrics-strip">
-        <div class="metric-card">
-          <div class="metric-val indigo">5 Tiers</div>
-          <div class="metric-lbl">Junior to Field CTO</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-val cyan">5 Pillars</div>
-          <div class="metric-lbl">Skill Diagnostic Radar</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-val emerald">3 Scenarios</div>
-          <div class="metric-lbl">Live Client Simulator</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-val amber">Top 5</div>
-          <div class="metric-lbl">Enterprise AI Loops</div>
-        </div>
-      </div>
-
-      <!-- Experience Level Selector Switcher -->
-      <div class="role-selector-wrap">
-        <div class="role-selector-header">
-          <div>
-            <div class="role-selector-title">Select Your Experience Level</div>
-            <div class="role-selector-note">Customizes the curriculum, milestones, and interview difficulty for your career stage</div>
-          </div>
-          <div class="badge badge-indigo" id="activeRoleBadge">Associate Level</div>
-        </div>
-
-        <div class="role-pill-group" id="rolePillGroup">
-          <!-- Dynamically populated in main.js -->
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Main Views Container -->
-  <main class="container">
-
-    <!-- VIEW 1: ROADMAPS VIEW -->
-    <section id="view-roadmaps" class="view-panel active">
-      <div class="roadmap-hero-card" id="roadmapHero">
-        <!-- Rendered by JS -->
-      </div>
-
-      <div class="section-header">
-        <div class="section-label">// 12-WEEK STRUCTURED SPRINT</div>
-        <h2 class="section-title">Experience-Tailored Milestone Checklist</h2>
-        <p class="section-desc">
-          Complete high-leverage software engineering and consultative tasks. Check items to track your completion progress in real time.
-        </p>
-      </div>
-
-      <div class="timeline-grid" id="timelineGrid">
-        <!-- Rendered by JS -->
-      </div>
-    </section>
-
-    <!-- VIEW 2: SKILL DIAGNOSTIC ASSESSMENT -->
-    <section id="view-diagnostic" class="view-panel">
-      <div class="section-header">
-        <div class="section-label">// 5-PILLAR RADAR DIAGNOSTIC</div>
-        <h2 class="section-title">Forward Deployed Engineering Readiness Audit</h2>
-        <p class="section-desc">
-          Assess your baseline across Systems Velocity, Data/AI Infrastructure, Enterprise Security, Problem Decomposition, and Client Diplomacy.
-        </p>
-      </div>
-
-      <div class="diagnostic-container" id="diagnosticContainer">
-        <!-- Left: Quiz Form -->
-        <div class="quiz-card" id="quizCard">
-          <div id="quizQuestionsWrap">
-            <!-- Rendered by JS -->
-          </div>
-          <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
-            <button class="btn btn-primary btn-lg" id="submitQuizBtn">Calculate My FDE Diagnostic</button>
-          </div>
-        </div>
-
-        <!-- Right: Results Dashboard (shows dynamically) -->
-        <div class="results-card" id="resultsCard" style="display: none;">
-          <!-- Rendered by JS -->
-        </div>
-      </div>
-    </section>
-
-    <!-- VIEW 3: FIELD CLIENT SIMULATION -->
-    <section id="view-simulation" class="view-panel">
-      <div class="section-header">
-        <div class="section-label">// LIVE CLIENT CRISIS SIMULATOR</div>
-        <h2 class="section-title">In The Field: Real-World Incident Brancher</h2>
-        <p class="section-desc">
-          Test your decision-making under fire. Face air-gapped banking deadlines, Black Friday distributed pipeline crashes, and CCO hallucinations.
-        </p>
-      </div>
-
-      <!-- Simulation Selector -->
-      <div class="sim-select-grid" id="simSelectGrid">
-        <!-- Rendered by JS -->
-      </div>
-
-      <!-- Active Mission Console -->
-      <div class="mission-console" id="missionConsole">
-        <!-- Rendered by JS -->
-      </div>
-    </section>
-
-    <!-- VIEW 4: COMPANY PLAYBOOKS -->
-    <section id="view-companies" class="view-panel">
-      <div class="section-header">
-        <div class="section-label">// ENTERPRISE AI & DATA PLAYBOOKS</div>
-        <h2 class="section-title">Company Interview Blueprint & Loops</h2>
-        <p class="section-desc">
-          Deep dives into the interview stages, decomp rubrics, red flags, and insider tips for the world's most elite deployment teams.
-        </p>
-      </div>
-
-      <div class="company-tabs" id="companyTabs">
-        <!-- Rendered by JS -->
-      </div>
-
-      <div class="company-detail-card" id="companyDetailCard">
-        <!-- Rendered by JS -->
-      </div>
-    </section>
-
-    <!-- VIEW 5: DECOMP & SYSTEM DESIGN CASES -->
-    <section id="view-cases" class="view-panel">
-      <div class="section-header">
-        <div class="section-label">// ARCHITECTURE VAULT</div>
-        <h2 class="section-title">Enterprise System Design & Decomp Case Studies</h2>
-        <p class="section-desc">
-          Deconstructing multi-million dollar operational problems into scalable entity models, writeback sagas, and air-gapped edge sync.
-        </p>
-      </div>
-
-      <div class="timeline-grid" id="casesContainer">
-        <!-- Rendered by JS -->
-      </div>
-    </section>
-
-    <!-- VIEW 6: QUESTION BANK -->
-    <section id="view-questions" class="view-panel">
-      <div class="section-header">
-        <div class="section-label">// SEARCHABLE CURATED BANK</div>
-        <h2 class="section-title">FDE Interview Questions & Model Answers</h2>
-        <p class="section-desc">
-          Browse vetted questions from Palantir, Databricks, Scale AI, and OpenAI with detailed model responses and follow-up probes.
-        </p>
-      </div>
-
-      <div class="filter-toolbar">
-        <div class="search-input-wrap">
-          <span>🔍</span>
-          <input type="text" id="questionSearch" class="search-input" placeholder="Search questions, keywords, or topics...">
-        </div>
-        <div class="filter-pills" id="categoryFilterPills">
-          <!-- Rendered by JS -->
-        </div>
-      </div>
-
-      <div id="questionsContainer">
-        <!-- Rendered by JS -->
-      </div>
-    </section>
-
+  <main id="main" tabindex="-1">
+    <div id="app"></div>
   </main>
 
-  <!-- Global Footer -->
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div>
-        <div style="font-weight: 700; color: #FFFFFF; margin-bottom: 0.25rem;">
-          FDE Launchpad
-        </div>
-        <p class="footer-text">
-          Open-Source Forward Deployed Engineering Career Accelerator & Interview Prep Platform.
-        </p>
-      </div>
-      <ul class="footer-links">
-        <li><a href="#roadmaps" class="footer-link" data-tab-link="roadmaps">Roadmaps</a></li>
-        <li><a href="#diagnostic" class="footer-link" data-tab-link="diagnostic">Diagnostic</a></li>
-        <li><a href="#simulation" class="footer-link" data-tab-link="simulation">Simulator</a></li>
-        <li><a href="#companies" class="footer-link" data-tab-link="companies">Companies</a></li>
-      </ul>
-    </div>
-  </footer>
+  <footer class="footer" id="footer"></footer>
 
-  <!-- App Script -->
+  <nav class="tabbar" aria-label="Primary mobile" id="tabbar"></nav>
+  <div class="toast-wrap" id="toasts" role="status" aria-live="polite"></div>
+
   <script type="module" src="./src/main.js"></script>
 </body>
 </html>
