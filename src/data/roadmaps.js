@@ -3,92 +3,93 @@ export const experienceLevels = {
     id: "entry",
     title: "Associate / Early Career FDE",
     experience: "0 - 2 Years",
-    tagline: "Bridging CS fundamentals into rapid enterprise prototyping and client empathy",
-    overview: "Ideal for new grads, junior software engineers, and bootcamp grads. At this level, enterprise tech firms (like Palantir & Databricks) evaluate whether you can learn an unfamiliar tech stack in 48 hours, write clean production code under time pressure, and communicate technical constraints clearly to non-engineers.",
+    tagline: "Turn CS fundamentals into working software a customer can use this week",
+    overview: "For new grads, bootcamp graduates and engineers with under two years of experience. Early-career FDE interviews tend to check three things: whether you can get productive in an unfamiliar stack quickly, whether you can write correct code with the clock running, and whether you can explain a technical constraint to someone who doesn't write code. This track builds evidence for each, one small artifact at a time.",
     keyStrengthsToProve: [
-      "Rapid full-stack prototyping (React/Vue + Python/Go/Java) without boilerplate paralysis",
-      "Robust data wrangling & SQL fluency (handling messy, malformed real-world CSV/Parquet/JSON)",
-      "System debugging in foreign environments (Linux CLI, Docker, networking basics, cURL, logs)",
-      "High coachability and proactive client communication (listening before speaking)"
+      "Shipping a small full-stack app end to end (UI, API, database) without waiting for a template",
+      "SQL fluency and practical data cleaning on messy CSV, JSON and Parquet inputs",
+      "Debugging in an environment you didn't set up: Linux shell, containers, DNS, TLS and logs",
+      "Asking clarifying questions before building, and writing short, clear status updates"
     ],
     targetInterviews: [
-      "Palantir Associate FDE",
-      "Scale AI Operations / Deployment Engineer",
-      "Databricks Associate Solutions Engineer",
-      "Enterprise SaaS Associate Forward Deployed"
+      "Associate or new-grad forward deployed engineer roles",
+      "Forward Deployed Software Engineer (Palantir), early-career hiring",
+      "Associate solutions engineer / solutions architect roles at data-platform companies",
+      "Deployment or implementation engineer roles at applied AI startups",
+      "Technical consultant roles at enterprise SaaS vendors"
     ],
     weeks: [
       {
         week: "Weeks 1 - 2",
-        title: "Pillar 1: Full-Stack Velocity & The 48-Hour MVP Muscle",
-        focus: "Software Engineering & Fast Shipping",
-        summary: "Master building fully functional full-stack web applications from scratch without relying on heavy frameworks or templates.",
+        title: "Pillar 1: Shipping a full-stack prototype fast",
+        focus: "Software engineering and delivery speed",
+        summary: "Get comfortable taking an idea to a running app in one sitting. Keep the stack small so your time goes into the problem, not the setup.",
         tasks: [
-          { id: "e1", text: "Build a single-page data explorer in Vanilla JS or React + FastAPI/Express with zero boilerplate in under 4 hours.", milestone: "Time-to-first-prototype test" },
-          { id: "e2", text: "Master REST & gRPC API design: pagination, error handling, rate limiting, and idempotency keys.", milestone: "Production API standards" },
-          { id: "e3", text: "Dockerize a multi-container app (Frontend + Backend + PostgreSQL) with healthchecks and compose configs.", milestone: "Containerization fluency" }
+          { id: "e1", text: "Build a single-page data explorer (React or plain JS front end, FastAPI or Express back end) that loads a public CSV, filters it and charts one column. Time-box it to four hours and note where the time went.", milestone: "Timed data-explorer prototype with time log" },
+          { id: "e2", text: "Add pagination, consistent error responses, rate limiting and an Idempotency-Key header on the POST endpoint of that API, then write a one-page README explaining each choice and how the same contract would look as a gRPC service.", milestone: "Hardened REST API with design notes" },
+          { id: "e3", text: "Containerize the app as three services (front end, API, PostgreSQL) with Docker Compose, healthchecks, a named volume and environment-based config; confirm a fresh clone starts with one command.", milestone: "One-command Docker Compose stack" }
         ],
-        resources: ["FastAPI Official Tutorials", "Docker Networking Deep Dive", "Building MVPs under Hackathon Constraints"]
+        resources: ["FastAPI documentation (Tutorial - User Guide)", "Docker Compose healthchecks and service dependencies", "Idempotency keys in HTTP APIs"]
       },
       {
         week: "Weeks 3 - 4",
-        title: "Pillar 2: Data Wrangling, SQL & Messy Ingestion Pipelines",
-        focus: "Real-World Data Pipelines",
-        summary: "In the field, client data is NEVER clean. Learn to parse malformed JSON, reconcile schema mismatches, and run complex analytical SQL.",
+        title: "Pillar 2: SQL and messy real-world data",
+        focus: "Data wrangling and SQL",
+        summary: "Customer data almost always arrives with gaps, duplicates and surprises. Practice cleaning it reproducibly and querying it well.",
         tasks: [
-          { id: "e4", text: "Solve 25 advanced SQL challenges: window functions (ROW_NUMBER, LAG, LEAD), CTEs, and self-joins.", milestone: "LeetCode Database & Stratascratch" },
-          { id: "e5", text: "Build a Python ingestion script using Pandas/Polars that cleans messy real-world datasets with missing values, timezone mismatches, and duplicate records.", milestone: "ETL sanitization pipeline" },
-          { id: "e6", text: "Understand indexing (B-Tree, Hash), EXPLAIN ANALYZE query plans, and indexing strategies.", milestone: "Database optimization basics" }
+          { id: "e4", text: "Solve 25 SQL problems that require window functions (ROW_NUMBER, RANK, LAG, LEAD), CTEs and self-joins; keep your solutions in a repo with a one-line note on the technique each one needed.", milestone: "25-problem SQL solutions repo" },
+          { id: "e5", text: "Write a Python cleaning script with pandas or Polars for a messy public dataset: handle nulls, mixed timezones, inconsistent casing and duplicate rows, and emit a before-and-after data-quality report.", milestone: "Reproducible cleaning script with quality report" },
+          { id: "e6", text: "Load a table with at least a million rows into PostgreSQL, capture EXPLAIN ANALYZE for a slow query, add a suitable B-tree or composite index, and write up how the plan and timing changed.", milestone: "Indexed query with EXPLAIN write-up" }
         ],
-        resources: ["Use The Index, Luke (SQL Indexing)", "Polars / Pandas Performance Cookbook", "PostgreSQL Execution Plans"]
+        resources: ["Use The Index, Luke", "PostgreSQL documentation: Using EXPLAIN", "Polars User Guide"]
       },
       {
         week: "Weeks 5 - 6",
-        title: "Pillar 3: The 'Decomp' Round Fundamentals (Decomposition)",
-        focus: "Problem Solving Without Specs",
-        summary: "Palantir and enterprise AI leaders test candidates on ambiguous real-world problems. Learn the 4-phase Decomp framework.",
+        title: "Pillar 3: Decomposition basics",
+        focus: "Structuring ambiguous problems",
+        summary: "Many FDE loops include an open-ended problem with no spec, often called a decomposition or \"decomp\" round. Practice a repeatable way to break it down out loud.",
         tasks: [
-          { id: "e7", text: "Master the 4-Step Decomp Framework: 1) Clarify Goals & Edge Cases, 2) Data Modeling & Entities, 3) Architecture & Ingestion, 4) Tradeoffs & Failure Modes.", milestone: "Decomp methodology mastery" },
-          { id: "e8", text: "Practice 5 classic Decomp prompts: Port shipping logistics, Hospital bed allocation, Credit card fraud triage, Airline flight rebooking.", milestone: "End-to-end decomp mock" },
-          { id: "e9", text: "Learn to ask diagnostic questions rather than jumping straight into database schemas.", milestone: "Consultative problem framing" }
+          { id: "e7", text: "Write a one-page decomposition checklist in your own words covering four phases: goals and users, data and entities, system and data flow, and tradeoffs and failure modes. Use it in every later practice session.", milestone: "Personal decomposition checklist" },
+          { id: "e8", text: "Run five timed 45-minute decompositions (for example: port container scheduling, hospital bed allocation, card-fraud alert triage, airline rebooking after a storm, warehouse stock-outs) and save your notes and diagram for each.", milestone: "Five recorded decomposition sessions" },
+          { id: "e9", text: "For two of those prompts, write the ten questions you would ask the customer before designing anything, and mark which answer would change your design the most.", milestone: "Discovery question list with design impact" }
         ],
-        resources: ["Palantir Decomp Interview Breakdown", "System Design for Ambiguous Workflows", "Entity-Relationship Modeling Guide"]
+        resources: ["The Mom Test", "Entity-relationship modeling basics", "Requirements interviewing techniques"]
       },
       {
         week: "Weeks 7 - 8",
-        title: "Pillar 4: Production Linux, Networking & Troubleshooting",
-        focus: "Infrastructure & Diagnostics",
-        summary: "When you are on-site at a customer VPC, you won't have your comfortable IDE. Master the command line diagnostic toolkit.",
+        title: "Pillar 4: Linux, networking and troubleshooting",
+        focus: "Infrastructure and diagnostics",
+        summary: "On a customer's machines you often get a shell and little else. Build a short, repeatable triage routine with standard tools.",
         tasks: [
-          { id: "e10", text: "Master Linux diagnostics: top/htop, lsof, netstat/ss, strace, journalctl, curl -iv, dig/nslookup, and tcpdump basics.", milestone: "Server triage under pressure" },
-          { id: "e11", text: "Understand TLS/SSL handshakes, reverse proxies (Nginx/Envoy), CORS issues, and WebSocket connections.", milestone: "Networking debugging" },
-          { id: "e12", text: "Diagnose and resolve simulated container crashes: out-of-memory (OOMKilled), connection pool exhaustion, and DNS resolution failures.", milestone: "Live debugging lab" }
+          { id: "e10", text: "Write your own triage runbook using top/htop, ss, lsof, journalctl, strace, curl -v, dig and tcpdump, with the exact commands you would run for \"service is slow\", \"port not reachable\" and \"DNS lookup fails\".", milestone: "Personal Linux triage runbook" },
+          { id: "e11", text: "Put Nginx in front of your API with TLS (self-signed or a local CA), then reproduce and fix a CORS error and a failed WebSocket upgrade; record the request and response headers that revealed each problem.", milestone: "Reverse-proxy lab notes with header traces" },
+          { id: "e12", text: "Break your Compose stack on purpose three ways (a container OOMKilled by its memory limit, an exhausted database connection pool, a wrong service DNS name) and write a short incident note for each: symptom, evidence, fix.", milestone: "Three incident notes from a failure lab" }
         ],
-        resources: ["Linux Command Line & Performance Tools", "Brendan Gregg Systems Performance", "Debugging Network Latency at the CLI"]
+        resources: ["The Linux Command Line (William Shotts)", "Systems Performance (Brendan Gregg)", "TLS handshakes and certificate chains"]
       },
       {
         week: "Weeks 9 - 10",
-        title: "Pillar 5: Enterprise AI & Modern Data Stack Foundations",
-        focus: "Applied AI & Modern Lakehouse",
-        summary: "Understand how modern FDEs integrate Foundation Models, Vector DBs, and Lakehouses into client enterprise workflows.",
+        title: "Pillar 5: Applied AI and lakehouse basics",
+        focus: "LLM applications and modern data storage",
+        summary: "A lot of current FDE work connects language models and lakehouse tables to existing customer workflows. Build one small example of each and measure it.",
         tasks: [
-          { id: "e13", text: "Build an end-to-end RAG (Retrieval-Augmented Generation) application with document chunking, embeddings, vector indexing, and reranking.", milestone: "Applied LLM pipeline" },
-          { id: "e14", text: "Understand Lakehouse architecture concepts: Parquet file format, ACID transactions (Delta Lake/Iceberg), and partitions.", milestone: "Lakehouse foundation" },
-          { id: "e15", text: "Implement prompt evaluations, token usage tracking, and latency reduction caching techniques.", milestone: "AI production metrics" }
+          { id: "e13", text: "Build a small RAG app over 50 or more documents with chunking, embeddings, a vector index, optional reranking, and answers that cite their source chunks. Record ten questions it gets wrong and why.", milestone: "RAG demo with failure log" },
+          { id: "e14", text: "Write a set of Parquet files, then create a Delta Lake or Apache Iceberg table from them; demonstrate an atomic update, a schema change and time travel, and explain what the transaction log or metadata files recorded.", milestone: "Lakehouse table walkthrough notebook" },
+          { id: "e15", text: "Add a 20-question evaluation set to your RAG app, log tokens and latency per request, and add a response cache; report answer quality, cost and p95 latency before and after.", milestone: "RAG eval and cost/latency report" }
         ],
-        resources: ["Building Production RAG Systems", "Delta Lake / Apache Iceberg Architecture", "OpenAI Cookbooks"]
+        resources: ["AI Engineering (Chip Huyen)", "Delta Lake: The Definitive Guide", "Parquet columnar file format"]
       },
       {
         week: "Weeks 11 - 12",
-        title: "Pillar 6: Mock Interview Gauntlet & Client Storytelling",
-        focus: "Live Interview Execution",
-        summary: "Execute end-to-end mock loops: live coding, system decomposition, and behavioral client management questions.",
+        title: "Pillar 6: Mock interviews and storytelling",
+        focus: "Interview execution",
+        summary: "Pull the previous weeks together under realistic conditions: timed coding, a decomposition, and behavioral questions about working with customers.",
         tasks: [
-          { id: "e16", text: "Complete 10 timed 45-minute live coding sessions focusing on medium algorithm/data structure implementations and API plumbing.", milestone: "Live coding rhythm" },
-          { id: "e17", text: "Draft 6 STAR behavioral stories: Handling an unexpected bug in a demo, working with a difficult peer, tight deadline compromise, and learning unfamiliar tech.", milestone: "Behavioral story bank" },
-          { id: "e18", text: "Run a full 4-round mock interview loop with a peer or mentor simulating the target company.", milestone: "Full interview readiness" }
+          { id: "e16", text: "Complete ten timed 45-minute coding sessions on medium problems and practical API or parsing tasks; after each, write down the one thing that cost you the most time.", milestone: "Ten-session coding log" },
+          { id: "e17", text: "Write six STAR stories, including a bug that surfaced during a demo, a disagreement with a teammate, a deadline where you cut scope, and a tool you had to learn quickly. Keep each under two minutes when spoken.", milestone: "Six-story behavioral bank" },
+          { id: "e18", text: "Run a full four-round mock loop with a peer or mentor (coding, decomposition, technical deep dive, behavioral) and collect written feedback against a simple scorecard.", milestone: "Mock loop scorecard and feedback" }
         ],
-        resources: ["STAR Framework for FDEs", "Handling Technical Pushback", "Company Playbook Checklists"]
+        resources: ["STAR method for behavioral interviews", "Explaining technical tradeoffs to non-engineers", "Running peer mock interviews"]
       }
     ]
   },
@@ -97,93 +98,93 @@ export const experienceLevels = {
     id: "mid",
     title: "Mid-Level Software Engineer (2 - 5 YOE)",
     experience: "2 - 5 Years",
-    tagline: "Transitioning from internal feature developer to mission-critical customer deployment architect",
-    overview: "Tailored for software engineers who have built production services but want to transition into high-impact, high-visibility FDE roles. You must demonstrate that you can bridge robust distributed systems engineering with client discovery, product scoping, and architectural autonomy.",
+    tagline: "Move from building features for your own team to delivering systems inside someone else's",
+    overview: "For engineers who have shipped and operated production services and now want customer-facing deployment work. Interviewers at this level commonly probe whether you can reason about distributed data systems, enterprise security constraints and LLM applications, and whether you can run discovery with a customer and defend a scope. Expect to produce working code and written design notes in roughly equal measure.",
     keyStrengthsToProve: [
-      "Distributed systems & data engineering at scale (Spark, Kafka, distributed caching, partition strategies)",
-      "Architectural trade-off justification: build vs buy, real-time vs batch, eventual vs strong consistency",
-      "Executive client technical discovery (extracting true business requirements from vague executive requests)",
-      "Rapid prototype-to-production hardening (instrumentation, observability, CI/CD, security guardrails)"
+      "Distributed data processing in practice: Spark execution, partitioning, skew and streaming delivery guarantees",
+      "Explaining architectural tradeoffs: build vs. buy, batch vs. streaming, strong vs. eventual consistency",
+      "Customer discovery: turning a vague request into requirements, success metrics and a phased plan",
+      "Hardening a prototype for production: tests, CI/CD, observability, secrets and access control"
     ],
     targetInterviews: [
-      "Palantir Forward Deployed Software Engineer (FDSE)",
-      "Databricks Solutions Architect / Field Engineer",
-      "Scale AI Forward Deployed Engineer",
-      "OpenAI Applied AI Engineer / Solutions Engineer",
-      "Snowflake Field Technical Architect"
+      "Forward Deployed Software Engineer (Palantir)",
+      "Solutions architect / field engineering roles at data-platform companies",
+      "Forward deployed engineer roles at applied AI and model companies",
+      "Applied AI or customer engineering roles at LLM platform vendors",
+      "Implementation and integration engineering roles at enterprise SaaS companies"
     ],
     weeks: [
       {
         week: "Weeks 1 - 2",
-        title: "Pillar 1: Distributed Data Engines & Lakehouse Internals",
-        focus: "High-Volume Data Processing",
-        summary: "Master distributed computing internals: Apache Spark, Delta Lake, query optimizers, and memory management.",
+        title: "Pillar 1: Distributed data engines and lakehouse internals",
+        focus: "Large-scale data processing",
+        summary: "Learn how Spark actually executes a job and how table formats affect performance, so you can diagnose a slow pipeline instead of guessing.",
         tasks: [
-          { id: "m1", text: "Deep dive into Spark internals: DAG scheduler, Catalyst optimizer, shuffle partitioning, skew joins, and broadcast joins.", milestone: "Spark optimization mastery" },
-          { id: "m2", text: "Implement a streaming pipeline with Kafka/Kinesis and structured streaming with exactly-once / at-least-once semantics.", milestone: "Streaming ingestion" },
-          { id: "m3", text: "Optimize a query that was running 10x slower due to data skew and small files using compaction (OPTIMIZE/Z-ORDER).", milestone: "Real-world tuning exercise" }
+          { id: "m1", text: "Run a Spark job with a large join and an aggregation, then use the Spark UI to identify stages, shuffles and the physical plan; force a broadcast join and a sort-merge join and explain the difference in a short write-up that covers the Catalyst optimizer and adaptive query execution.", milestone: "Annotated Spark UI and join-plan comparison" },
+          { id: "m2", text: "Build a Kafka to Spark Structured Streaming pipeline that writes to a Delta or Iceberg table with checkpointing; test what happens on restart, and explain why end-to-end exactly-once requires a replayable source, checkpointed offsets and an idempotent or transactional sink.", milestone: "Streaming pipeline with restart test" },
+          { id: "m3", text: "Create a skewed dataset with many small files, measure a slow query, then fix it with AQE skew-join handling or key salting plus file compaction (OPTIMIZE and Z-ORDER in Delta, or rewrite_data_files in Iceberg); report runtime before and after.", milestone: "Skew and small-file tuning report" }
         ],
-        resources: ["Spark: The Definitive Guide", "Delta Lake Under the Hood", "Designing Data-Intensive Applications (Kleppmann)"]
+        resources: ["Spark: The Definitive Guide", "Designing Data-Intensive Applications", "Kafka: The Definitive Guide"]
       },
       {
         week: "Weeks 3 - 4",
-        title: "Pillar 2: Enterprise Integration & Security Architecture",
-        focus: "Enterprise Identity, VPC & Security",
-        summary: "FDEs must deploy into the world's most restrictive customer networks: banks, defense agencies, and healthcare giants.",
+        title: "Pillar 2: Enterprise identity, networking and data security",
+        focus: "Identity, private networking and governance",
+        summary: "Regulated customers such as banks, hospitals and public agencies decide early whether your software can enter their network. Learn the controls they will ask about and build small working versions.",
         tasks: [
-          { id: "m4", text: "Master enterprise auth: SAML 2.0, OIDC, OAuth2 flows (Authorization Code + PKCE, Client Credentials), and mTLS.", milestone: "Identity & Access Architecture" },
-          { id: "m5", text: "Design cloud network topology: AWS PrivateLink, Transit Gateway, VPC peering, egress proxies, and IP whitelisting.", milestone: "Zero-Trust enterprise networking" },
-          { id: "m6", text: "Implement RBAC, ABAC (Attribute-Based Access Control), and column/row-level data masking for compliance (GDPR/HIPAA).", milestone: "Enterprise data governance" }
+          { id: "m4", text: "Implement login for a small app with the OIDC Authorization Code flow plus PKCE against a real identity provider, add a service-to-service call using the OAuth 2.0 Client Credentials grant, and diagram where SAML federation or mTLS would fit in a stricter customer setup.", milestone: "Working OIDC/OAuth demo with flow diagram" },
+          { id: "m5", text: "Diagram a deployment into a customer AWS account (or the equivalent on another cloud) that uses private connectivity (PrivateLink or VPC peering), an egress proxy and IP allowlists, and list what changes when the customer routes many VPCs through a Transit Gateway.", milestone: "Private-connectivity network diagram" },
+          { id: "m6", text: "Add role-based and attribute-based access rules, row-level filtering and column masking to a sample dataset, then map each control to the GDPR or HIPAA requirement it helps satisfy.", milestone: "Access-control demo with compliance mapping" }
         ],
-        resources: ["OAuth 2.0 and OpenID Connect in Action", "AWS PrivateLink & VPC Peering Architecture", "Enterprise Security Best Practices"]
+        resources: ["OAuth 2 in Action", "AWS PrivateLink and VPC endpoints", "Row-level security and column masking"]
       },
       {
         week: "Weeks 5 - 6",
-        title: "Pillar 3: Advanced Problem Decomposition ('Decomp')",
-        focus: "Ambiguity & System Framing",
-        summary: "Tackle high-ambiguity enterprise problems where the client doesn't even know what data they have or what the bottleneck is.",
+        title: "Pillar 3: Decomposition under real ambiguity",
+        focus: "Framing open-ended problems",
+        summary: "At this level the prompt is vaguer and the customer may not know what data they have. Practice scoping, designing for data that changes shape, and tying the design to a business metric.",
         tasks: [
-          { id: "m7", text: "Simulate a live Palantir Decomp: 'A global auto manufacturer needs to track battery warranty defects across 3 million connected vehicles.'", milestone: "End-to-end Decomp session" },
-          { id: "m8", text: "Master dynamic schema evolution: Handling unknown customer payloads without breaking downstream consumers.", milestone: "Flexible data model design" },
-          { id: "m9", text: "Define North Star business metrics and translate them into measurable technical SLAs (p99 latency, freshness, throughput).", milestone: "Business-to-tech alignment" }
+          { id: "m7", text: "Run a timed 60-minute decomposition of: \"An automaker wants to spot battery warranty defects early across about three million connected vehicles.\" Produce an entity model, a data-flow diagram, a first milestone and the top three risks.", milestone: "Battery-warranty decomposition with diagram" },
+          { id: "m8", text: "Design an ingestion layer that accepts customer payloads with unannounced new fields: use a schema registry or a schema-on-read landing zone, define compatibility rules, and show one change that is accepted and one that is rejected.", milestone: "Schema-evolution design with test cases" },
+          { id: "m9", text: "For one practice prompt, pick a single business metric, derive the technical targets it implies (freshness, p99 latency, throughput, accuracy) and write them as SLOs a customer could sign off on.", milestone: "Metric-to-SLO worksheet" }
         ],
-        resources: ["Enterprise System Decomposition Guide", "Case Study: Supply Chain Ontology Modeling", "Decomp Red Flags & Rubrics"]
+        resources: ["Schema registry compatibility modes", "Data contracts between producers and consumers", "Site Reliability Engineering"]
       },
       {
         week: "Weeks 7 - 8",
-        title: "Pillar 4: Applied Generative AI & Enterprise Agentic Workflows",
-        focus: "LLM Orchestration & Evaluation",
-        summary: "Build reliable AI applications that solve enterprise workflows rather than toy demos.",
+        title: "Pillar 4: Applied generative AI and agent workflows",
+        focus: "LLM orchestration and evaluation",
+        summary: "Customers want LLM systems that hold up on their own data and processes. Focus on measurable quality, controlled actions and retrieval that finds the right document.",
         tasks: [
-          { id: "m10", text: "Build an enterprise multi-agent workflow using LangGraph or custom state machine with human-in-the-loop approvals.", milestone: "Production Agentic system" },
-          { id: "m11", text: "Implement LLM evaluation harness: automated synthetic test generation, hallucination detection, and semantic drift monitoring.", milestone: "Eval & benchmark harness" },
-          { id: "m12", text: "Implement hybrid search: Dense vector search + Sparse BM25 + Cross-Encoder Reranker with reciprocal rank fusion (RRF).", milestone: "High-accuracy search engine" }
+          { id: "m10", text: "Build a multi-step agent workflow (LangGraph or a hand-written state machine) for a realistic task such as invoice exception handling, with tool calls, persisted state and a human approval step before any write action.", milestone: "Agent workflow with approval gate" },
+          { id: "m11", text: "Build an evaluation harness for that workflow: a labeled test set (hand-written plus synthetic cases), automated checks for groundedness and correctness, and a regression run you repeat on every prompt or model change.", milestone: "Repeatable LLM eval harness" },
+          { id: "m12", text: "Implement hybrid retrieval that combines BM25 and dense vector results with reciprocal rank fusion, add a cross-encoder reranker, and report recall@k and answer accuracy for each stage on your eval set.", milestone: "Hybrid retrieval benchmark" }
         ],
-        resources: ["LangGraph Multi-Agent Architecture", "RAG Triad & Evaluation Frameworks", "Production Prompt Engineering & Guardrails"]
+        resources: ["AI Engineering (Chip Huyen)", "LLM evaluation and groundedness metrics", "Reciprocal rank fusion and cross-encoder reranking"]
       },
       {
         week: "Weeks 9 - 10",
-        title: "Pillar 5: Stakeholder Diplomacy & The Hostile Client Round",
-        focus: "Field Leadership & Communication",
-        summary: "FDE interview loops always test how you react when a client engineer says 'Your platform is garbage and our in-house script does this better.'",
+        title: "Pillar 5: Stakeholder management and difficult conversations",
+        focus: "Customer communication",
+        summary: "Interviewers commonly role-play a skeptical customer engineer who thinks their in-house script already does the job. Practice staying factual, curious and useful under that pressure.",
         tasks: [
-          { id: "m13", text: "Master the 'Acknowledge, Align, Reframe' technique for de-escalating hostile client stakeholders.", milestone: "Diplomacy framework" },
-          { id: "m14", text: "Practice saying 'No' to executive feature creep while preserving trust and offering phased delivery milestones.", milestone: "Scope negotiation" },
-          { id: "m15", text: "Deliver an executive technical demo: Pitching value in the first 2 minutes before diving into code or architecture.", milestone: "C-Level presentation readiness" }
+          { id: "m13", text: "Write and rehearse responses to three skeptical-customer scenarios using a simple pattern: acknowledge the concern, confirm the shared goal, then propose a test that settles the question with data. Record one and review it.", milestone: "Recorded skeptical-customer role-play" },
+          { id: "m14", text: "Take an over-scoped executive request and write a phased plan that declines part of it for now, stating what ships in each phase, what is deferred and why.", milestone: "Phased scope proposal" },
+          { id: "m15", text: "Record a ten-minute demo for an executive audience that states the business outcome in the first two minutes before showing any architecture or code, and get feedback from someone non-technical.", milestone: "Executive demo recording with feedback" }
         ],
-        resources: ["Never Split the Difference (Chris Voss)", "The Trusted Advisor", "Managing Resistant Enterprise Clients"]
+        resources: ["Never Split the Difference", "The Trusted Advisor", "Crucial Conversations"]
       },
       {
         week: "Weeks 11 - 12",
-        title: "Pillar 6: Target Company Simulation & Final Polish",
-        focus: "Company-Specific Interview Gauntlet",
-        summary: "Target your specific company loop (Palantir FDSE, Databricks Solutions Architect, Scale AI FDE).",
+        title: "Pillar 6: Target-company preparation and full mocks",
+        focus: "Loop simulation",
+        summary: "Pick the two or three companies you are targeting, learn their loop format from public candidate reports, and rehearse it end to end.",
         tasks: [
-          { id: "m16", text: "Palantir Track: 3 full decomp sessions + 2 coding rounds (heavy on graphs, BFS/DFS, priority queues, and concurrency).", milestone: "Palantir interview loop sim" },
-          { id: "m17", text: "Databricks Track: Lakehouse migration presentation + live Spark debugging session.", milestone: "Databricks technical deep dive" },
-          { id: "m18", text: "Scale/OpenAI Track: 3-hour rapid prototype challenge (Fullstack AI demo built from raw API specs).", milestone: "Rapid build challenge" }
+          { id: "m16", text: "For decomposition-heavy loops: complete three timed decompositions and two coding rounds weighted toward graphs (BFS/DFS), heaps and basic concurrency, and log the feedback from each.", milestone: "Decomposition-loop mock log" },
+          { id: "m17", text: "For data-platform loops: prepare a 20-minute warehouse-to-lakehouse migration proposal and pair it with a live session debugging a slow or failing Spark job.", milestone: "Migration pitch and Spark debugging session" },
+          { id: "m18", text: "For applied AI loops: in three hours, build a working AI demo using only the raw API documentation, then present what you would harden before a customer used it.", milestone: "Three-hour AI build with hardening list" }
         ],
-        resources: ["Palantir Glassdoor & Blind Verified Questions", "Databricks Technical Interview Rubric", "FDE Interview Scorecards"]
+        resources: ["System Design Interview – An Insider's Guide", "Public candidate reports on FDE interview loops", "Self-scoring mock interviews"]
       }
     ]
   },
@@ -192,69 +193,69 @@ export const experienceLevels = {
     id: "senior",
     title: "Senior SWE / Solutions Architect (5 - 9 YOE)",
     experience: "5 - 9 Years",
-    tagline: "Owning multi-million dollar enterprise platform deployments from technical architecture to production go-live",
-    overview: "For senior engineers, lead consultants, and system architects. The interview bar shifts to proving you can lead technical deployments, design resilient multi-tenant architectures, unblock high-friction client security reviews, and mentor deployment teams.",
+    tagline: "Lead a customer deployment from the first architecture review through go-live and handover",
+    overview: "For senior engineers, solutions architects and technical consultants with five or more years of experience. The bar moves from building components to owning the deployment: designing for restricted and regulated environments, getting through the customer's security review, planning for failure and recovery, and leading other engineers in the field. Interviewers commonly probe how you made tradeoffs under real constraints, not just what you built.",
     keyStrengthsToProve: [
-      "Large-scale distributed systems architecture, resilience, disaster recovery, and air-gapped deployments",
-      "Field CTO mentality: navigating C-suite relationships, vendor politics, and technical risk de-risking",
-      "Platform extensibility: building reusable deployment frameworks that scale across dozens of customer accounts",
-      "Handling catastrophic failure modes: live incident leadership in customer environments"
+      "Architecting for restricted environments: disconnected networks, customer-managed keys and disaster recovery",
+      "Running the technical side of an account: security reviews, risk tracking and steady communication with customer leaders",
+      "Turning one-off deployment work into reusable templates, tooling and product feedback",
+      "Leading incidents in customer environments, including the communication during and after"
     ],
     targetInterviews: [
-      "Palantir Senior FDSE / Deployment Strategist",
-      "Databricks Senior Solutions Architect / Principal Field Engineer",
-      "Scale AI Senior Forward Deployed Engineer",
-      "OpenAI Enterprise Solutions Architect / Technical Lead",
-      "Snowflake Principal Cloud Architect"
+      "Senior forward deployed engineer roles at applied AI and data companies",
+      "Senior Forward Deployed Software Engineer or Deployment Strategist (Palantir)",
+      "Senior or specialist solutions architect roles at data-platform companies",
+      "Enterprise solutions architect roles at LLM platform vendors",
+      "Technical lead roles on professional services or customer engineering teams"
     ],
     weeks: [
       {
         week: "Weeks 1 - 3",
-        title: "Pillar 1: Air-Gapped, Sovereign Cloud & Zero-Trust Deployments",
-        focus: "Mission-Critical Enterprise Infrastructure",
-        summary: "Architect platforms that run in completely disconnected environments (DoD IL5/IL6, sovereign clouds, FedRAMP High, strict banking DMZs).",
+        title: "Pillar 1: Air-gapped, sovereign and high-assurance deployments",
+        focus: "Restricted infrastructure",
+        summary: "Some customers run fully disconnected or tightly controlled networks: government enclaves, sovereign clouds and bank DMZs. Design software delivery and key management that work without internet access.",
         tasks: [
-          { id: "s1", text: "Design an automated air-gapped deployment pipeline: air-gapped container registries, signed artifact verification, and offline yum/pip mirrors.", milestone: "Air-gap deployment blueprint" },
-          { id: "s2", text: "Implement hardware security module (HSM) integrations, customer-managed encryption keys (CMEK), and envelope encryption.", milestone: "Cryptographic compliance" },
-          { id: "s3", text: "Architect cross-region active-active disaster recovery with RPO < 1 min and RTO < 15 min across heterogeneous cloud providers.", milestone: "Multi-cloud resilience" }
+          { id: "s1", text: "Design and prototype an offline delivery pipeline: build and sign artifacts outside (for example with Sigstore cosign), transfer a bundle, then verify signatures and load images into a private registry with local package mirrors on the inside. Document the update and rollback procedure.", milestone: "Air-gap delivery runbook and prototype" },
+          { id: "s2", text: "Design key management for a customer-managed-key requirement: envelope encryption backed by a cloud KMS or on-premises HSM, key rotation, what happens when the customer revokes a key, and what an auditor would check. Implement envelope encryption for one data path.", milestone: "CMEK design doc with envelope-encryption demo" },
+          { id: "s3", text: "Write a disaster recovery design for a stateful service with explicit RPO and RTO targets, comparing active-passive and active-active options, the replication method for each data store, and the cost and consistency tradeoffs; run one failover drill in a test environment.", milestone: "DR design with failover drill results" }
         ],
-        resources: ["NIST SP 800-53 Security Controls", "Air-Gapped Kubernetes (Rancher/K3s offline guides)", "AWS GovCloud & FedRAMP Compliance Architectures"]
+        resources: ["NIST SP 800-53", "Air-gapped Kubernetes installs and private registries", "FedRAMP authorization and DoD impact levels"]
       },
       {
         week: "Weeks 4 - 6",
-        title: "Pillar 2: Complex Enterprise System Decomposition & Ontologies",
-        focus: "High-Scale Business Domain Modeling",
-        summary: "Deconstruct multi-billion dollar enterprise operations into semantic ontologies, graph networks, and high-throughput microservices.",
+        title: "Pillar 2: Enterprise domain modeling and decomposition",
+        focus: "Domain modeling at scale",
+        summary: "Large customers keep the same concept in many systems with different IDs and definitions. Model the domain, reconcile identities and make the engagement's risks visible.",
         tasks: [
-          { id: "s4", text: "Design a Palantir Foundry-style Object/Ontology layer on top of heterogeneous enterprise data sources (SAP, Salesforce, Kafka, Oracle).", milestone: "Enterprise Ontology Architecture" },
-          { id: "s5", text: "Solve entity resolution at scale (100M+ entities) using probabilistic record linkage (Fellegi-Sunter) and graph clustering.", milestone: "Entity Resolution Engine" },
-          { id: "s6", text: "Formulate technical risk registers and de-risking matrices for 9-figure enterprise pilot engagements.", milestone: "Pilot de-risking blueprint" }
+          { id: "s4", text: "Design a shared object model (an ontology layer) over at least three source systems such as an ERP, a CRM and an event stream: define core objects and links, which system owns each field, and how updates propagate. Present it as a diagram plus a one-page rationale.", milestone: "Cross-system object model with rationale" },
+          { id: "s5", text: "Build an entity-resolution prototype on a public dataset using blocking, pairwise scoring (Fellegi-Sunter or a trained classifier) and graph-based clustering; report precision and recall, and explain how blocking keeps comparisons tractable at 100M+ records.", milestone: "Entity-resolution prototype with accuracy report" },
+          { id: "s6", text: "Write a risk register for a hypothetical six-month pilot covering technical, data, security and organizational risks, each with likelihood, impact, owner, mitigation and the date by which it must be resolved.", milestone: "Pilot risk register" }
         ],
-        resources: ["Palantir Foundry Architecture Whitepapers", "Entity Resolution in the Era of Big Data", "Domain-Driven Design (Eric Evans)"]
+        resources: ["Domain-Driven Design", "Data Matching (Peter Christen)", "Ontology and knowledge graph modeling"]
       },
       {
         week: "Weeks 7 - 9",
-        title: "Pillar 3: Enterprise AI Governance, Guardrails & Fine-Tuning Economics",
-        focus: "Strategic AI Architecture",
-        summary: "Lead discussions on when to build RAG vs fine-tune vs pre-train, and how to prevent data exfiltration in enterprise LLM workflows.",
+        title: "Pillar 3: Enterprise AI architecture, guardrails and cost",
+        focus: "AI architecture decisions",
+        summary: "Senior FDEs are often asked whether to use retrieval, fine-tuning or a different model, and how to keep sensitive data inside the customer's boundary. Back those answers with numbers and working controls.",
         tasks: [
-          { id: "s7", text: "Construct a comprehensive Total Cost of Ownership (TCO) model comparing self-hosted open-weights models (vLLM on H100s) vs Frontier APIs (OpenAI/Anthropic).", milestone: "AI TCO Calculator" },
-          { id: "s8", text: "Architect real-time PII redaction and enterprise guardrail proxies with sub-20ms overhead using token classification and regex masking.", milestone: "Zero-Leakage AI Gateway" },
-          { id: "s9", text: "Design synthetic data generation pipelines for client models where real customer data cannot leave compliant boundaries.", milestone: "Synthetic Data & Privacy Pipeline" }
+          { id: "s7", text: "Build a cost model comparing a hosted model API with self-hosting an open-weights model (for example on vLLM): include GPU cost and utilization, throughput, engineering and on-call time, and the request volume at which the cheaper option flips.", milestone: "API vs. self-hosted cost model" },
+          { id: "s8", text: "Prototype a gateway in front of an LLM that detects and redacts PII using pattern rules plus an NER model, logs its decisions for audit and flags likely prompt-injection attempts; measure the latency it adds at p50 and p95.", milestone: "PII-redaction gateway with latency measurements" },
+          { id: "s9", text: "Design a pipeline that produces synthetic or de-identified data for model testing when real records cannot leave the customer's environment, and define how you will check that it is useful (task metrics) and safe (re-identification risk).", milestone: "Synthetic-data design with utility and privacy checks" }
         ],
-        resources: ["LLM Inference Serving at Scale (vLLM/TGI)", "Enterprise AI Security Framework (OWASP Top 10 for LLMs)", "Cost Modeling for Large Language Models"]
+        resources: ["vLLM documentation", "OWASP Top 10 for LLM Applications", "Differential privacy and synthetic data"]
       },
       {
         week: "Weeks 10 - 12",
-        title: "Pillar 4: Executive Presence, Contract De-escalation & Interview Gauntlet",
-        focus: "Executive Leadership & Board-Level Presentation",
-        summary: "Ace the Senior FDE system design, Field CTO situational scenarios, and high-stakes behavioral evaluations.",
+        title: "Pillar 4: Executive communication and the senior interview loop",
+        focus: "Senior system design and leadership",
+        summary: "Senior loops combine large system designs with scenarios about leading through a crisis and influencing the product. Practice all three and keep written artifacts you can reuse.",
         tasks: [
-          { id: "s10", text: "Conduct 4 advanced system designs: 1) Global Financial Fraud Detection, 2) Healthcare Multi-Hospital Federated Learning, 3) Global Fleet Telemetry.", milestone: "Senior system design mastery" },
-          { id: "s11", text: "Simulate a live C-suite crisis meeting where a pilot deployment suffered data corruption 12 hours before public board announcement.", milestone: "Crisis communication test" },
-          { id: "s12", text: "Formulate your engineering philosophy: How you scale customer deployment templates into core product features.", milestone: "Field-to-Product Flywheel" }
+          { id: "s10", text: "Complete four timed system designs and write up each with requirements, architecture, data model, failure modes and cost: real-time payment fraud detection, federated model training across hospitals, global vehicle telemetry, and a multi-tenant document-processing service.", milestone: "Four written system designs" },
+          { id: "s11", text: "Role-play a customer executive meeting after a pilot corrupted data the night before a planned announcement: prepare your first five minutes, the facts you will and won't state yet, the remediation plan and the written follow-up.", milestone: "Incident briefing script and follow-up email" },
+          { id: "s12", text: "Write a two-page memo on how you turn repeated customer deployment work into shared templates and product features, built around one concrete example from your own experience.", milestone: "Field-to-product memo" }
         ],
-        resources: ["Field CTO Playbook", "High Output Management (Andy Grove)", "Executive Communication for Technical Leaders"]
+        resources: ["High Output Management", "The Pyramid Principle", "Incident communication and blameless postmortems"]
       }
     ]
   },
@@ -263,57 +264,57 @@ export const experienceLevels = {
     id: "staff",
     title: "Staff / Principal / Field CTO (10+ YOE)",
     experience: "10+ Years",
-    tagline: "Shaping enterprise technology strategy, transforming product roadmap via field feedback, and closing 8-figure technical deals",
-    overview: "For principal engineers, former founders, and field CTOs. At this level, you are the technical authority who unlocks strategic enterprise accounts, influences core company product roadmaps, and builds scalable deployment practices across regions.",
+    tagline: "Set technical direction across accounts and turn what the field learns into product",
+    overview: "For principal engineers, field CTOs, former founders and long-tenured architects. The work is less about any single deployment and more about leverage: deciding which customer problems become platform capabilities, guiding customer executives through large modernization programs, and building the team and practices that let other engineers deploy well. Interviews at this level commonly include a vision presentation, an architecture defense and conversations about organizational design.",
     keyStrengthsToProve: [
-      "Translating company-wide technical strategy into enterprise customer transformation programs",
-      "The 'Field-to-Product Flywheel': institutionalizing customer deployment patterns into reusable core platform modules",
-      "Boardroom & C-Suite technical authority: advising Fortune 50 CTOs/CIOs on architecture modernization",
-      "Mentoring and scaling high-performing Forward Deployed Engineering organizations"
+      "Connecting company strategy to multi-year customer transformation programs",
+      "Deciding, with evidence, which field patterns become reusable platform capabilities",
+      "Advising senior customer technology leaders on modernization and its tradeoffs",
+      "Building and developing a forward deployed team: hiring, leveling and sustainable on-site work"
     ],
     targetInterviews: [
-      "Palantir Principal Deployment Strategist / Lead Architect",
-      "Databricks Field CTO / Principal Solutions Architect",
-      "Scale AI Head of Forward Deployed Engineering / Principal FDE",
-      "OpenAI Head of Enterprise Architecture / Strategic Applied AI",
-      "Snowflake Principal Field Architect"
+      "Principal or staff forward deployed engineer roles",
+      "Field CTO or office-of-the-CTO roles at data and AI platform companies",
+      "Head or director of forward deployed engineering at growth-stage AI companies",
+      "Principal solutions architect or enterprise architect roles at cloud and data vendors",
+      "Founding forward deployed or customer engineering lead at an early-stage startup"
     ],
     weeks: [
       {
         week: "Weeks 1 - 4",
-        title: "Pillar 1: Enterprise Modernization Strategy & Field-to-Product Flywheel",
-        focus: "Organizational & Platform Scaling",
-        summary: "Design architectures that not only win one customer, but systematically become core product features used by hundreds of clients.",
+        title: "Pillar 1: Modernization strategy and the field-to-product loop",
+        focus: "Platform and organizational leverage",
+        summary: "Design work that solves one customer's problem and then, deliberately, makes the next deployment cheaper.",
         tasks: [
-          { id: "st1", text: "Create a formal framework for identifying when bespoke customer code should be abstracted into a core platform capability.", milestone: "Field-to-Product governance" },
-          { id: "st2", text: "Architect multi-tenant isolation patterns for enterprise SaaS serving competing clients in the same industry (e.g. rival airlines or investment banks).", milestone: "Multi-tenant tenant security" },
-          { id: "st3", text: "Develop reference architectures for hybrid legacy (Mainframe/COBOL/Oracle) to cloud-native streaming data transformations.", milestone: "Legacy-to-Cloud Playbook" }
+          { id: "st1", text: "Write a decision framework for promoting customer-specific code into the core platform: the signals (number of customers, maintenance cost, strategic fit), the evidence required, an owner and the review process. Apply it to three real or hypothetical examples.", milestone: "Field-to-product decision framework" },
+          { id: "st2", text: "Design tenant isolation for a SaaS product whose customers compete in the same industry: compare pooled, bridged and siloed models for compute, storage, encryption keys and logs, and state which model you would offer at each pricing tier.", milestone: "Tenant-isolation design with tier mapping" },
+          { id: "st3", text: "Write a reference architecture for moving a mainframe or Oracle system to cloud-native streaming using change data capture, including the coexistence period, data reconciliation, cutover criteria and rollback plan.", milestone: "Legacy-to-streaming reference architecture" }
         ],
-        resources: ["The Flywheel Effect (Jim Collins)", "Enterprise Architecture as Strategy (Ross, Weill, Robertson)", "Platform Engineering at Scale"]
+        resources: ["Enterprise Architecture as Strategy", "Platform Engineering (Camille Fournier and Ian Nottingham)", "Change data capture and strangler fig migrations"]
       },
       {
         week: "Weeks 5 - 8",
-        title: "Pillar 2: Global AI Strategy, Sovereign Infrastructure & Regulatory Compliance",
-        focus: "Global Policy & AI Governance",
-        summary: "Lead discussions on EU AI Act compliance, cross-border data sovereignty, and custom enterprise foundation model fine-tuning.",
+        title: "Pillar 2: AI strategy, data sovereignty and regulation",
+        focus: "Governance and business cases",
+        summary: "Large customers expect you to connect AI architecture to regulation, data residency and cost. Produce artifacts their legal, security and finance teams would take seriously.",
         tasks: [
-          { id: "st4", text: "Formulate a multi-region deployment strategy adhering to GDPR, EU AI Act, HIPAA, and China Cross-Border Data Transfer rules.", milestone: "Global Compliance Matrix" },
-          { id: "st5", text: "Design an enterprise AI Center of Excellence (CoE) architectural blueprint for Fortune 100 organizations.", milestone: "AI CoE blueprint" },
-          { id: "st6", text: "Create an executive ROI model demonstrating quantified cost savings and revenue acceleration for a $20M platform engagement.", milestone: "Executive Business Case" }
+          { id: "st4", text: "Build a compliance matrix for deploying one AI product in the EU, US healthcare and China: map GDPR, the EU AI Act's risk categories, HIPAA and China's PIPL cross-border transfer rules to concrete architecture decisions (data location, logging, model hosting, human oversight), and mark where legal review is needed.", milestone: "Multi-region compliance matrix" },
+          { id: "st5", text: "Write a blueprint for a customer's internal AI enablement team: shared platform components, an intake and review process for new use cases, evaluation and risk standards, and a 12-month staffing plan.", milestone: "AI enablement team blueprint" },
+          { id: "st6", text: "Build a business-case model for a multi-year platform engagement: baseline cost, measurable savings or revenue impact, implementation cost, payback period, and the three assumptions that most affect the result.", milestone: "Engagement business-case model" }
         ],
-        resources: ["EU AI Act Technical Requirements", "Cross-Border Data Residency Architecture", "Enterprise AI ROI Modeling"]
+        resources: ["EU AI Act risk classification", "Data residency and sovereignty architecture", "NIST AI Risk Management Framework"]
       },
       {
         week: "Weeks 9 - 12",
-        title: "Pillar 3: The Executive Gauntlet & Principal Leadership Interview",
-        focus: "Principal Evaluation Mastery",
-        summary: "Execute principal-level interviews: Vision presentation, VP of Engineering interview, and Board-level architecture defense.",
+        title: "Pillar 3: Principal-level interviews",
+        focus: "Vision, leadership and architecture defense",
+        summary: "Principal loops typically include a presentation of your point of view, a conversation with an engineering or field leader about building teams, and a hard challenge to one of your designs.",
         tasks: [
-          { id: "st7", text: "Prepare and deliver a 45-minute executive presentation on 'The Next 5 Years of Enterprise AI & Forward Deployment Architecture'.", milestone: "Keynote presentation" },
-          { id: "st8", text: "Simulate a live interview with a VP of Engineering on organizational design, FDE career ladders, and managing field burnout.", milestone: "People & org leadership" },
-          { id: "st9", text: "Defend an end-to-end architecture against rigorous scrutiny from Distinguished Engineers.", milestone: "Distinguished architecture defense" }
+          { id: "st7", text: "Prepare a 30 to 45-minute talk on where forward deployed engineering is heading in your domain over the next few years, with a clear thesis, evidence from your own work and two predictions you might be wrong about; deliver it to a practice audience.", milestone: "Recorded vision talk" },
+          { id: "st8", text: "Write a short plan for growing an FDE team from five to twenty-five engineers: hiring profile, leveling criteria, rotation and travel policy to prevent burnout, and how field feedback reaches product. Use it in a mock interview with an engineering leader.", milestone: "FDE team-building plan" },
+          { id: "st9", text: "Present one end-to-end architecture you own to two or three senior engineers asked to find its weakest points; record their objections, your answers and the changes you would make.", milestone: "Architecture review with objection log" }
         ],
-        resources: ["Staff Engineer: Culture and Leadership", "The Manager's Path", "Executive Presence in High-Stakes Tech Sales"]
+        resources: ["Staff Engineer: Leadership beyond the management track", "The Staff Engineer's Path", "The Manager's Path"]
       }
     ]
   },
@@ -322,69 +323,69 @@ export const experienceLevels = {
     id: "transitioner",
     title: "SWE / Solutions Architect / DevOps to FDE",
     experience: "Any Level",
-    tagline: "Bridging the gap from pure coding or pure consulting into the hybrid superpower of Forward Deployed Engineering",
-    overview: "Specifically designed for engineers currently in traditional roles (Pure Backend SWE, Cloud Solutions Architect, Technical Sales Engineer, or DevOps/SRE) who want to pivot into high-paying, high-impact Forward Deployed Engineering.",
+    tagline: "Keep what your current role taught you and close the specific gaps forward deployed work exposes",
+    overview: "For backend software engineers, solutions architects and sales engineers, and DevOps or SRE engineers moving into forward deployed engineering. Each background arrives with different gaps: SWEs usually need more customer-facing practice, SAs and SEs usually need to rebuild hands-on coding speed, and DevOps and SRE engineers usually need more application and product work. Weeks 1 to 3 help you find your gap; later blocks note which background each one matters most for.",
     keyStrengthsToProve: [
-      "For Backend SWEs: Developing high client empathy, commercial awareness, and communication without losing coding depth",
-      "For Solutions Architects / SEs: Re-igniting hardcore coding, rapid debugging, and hands-on algorithm implementation",
-      "For DevOps/SREs: Shifting focus from purely keeping infra running to building user-facing customer workflows and business logic",
-      "Mastering the FDE identity: You are an engineer who thrives in the chaos of live customer environments"
+      "SWE to FDE: running discovery with customers, explaining tradeoffs plainly and owning outcomes beyond the codebase",
+      "SA/SE to FDE: writing and debugging real code live, not only designing or demoing it",
+      "DevOps/SRE to FDE: building user-facing features and business logic on top of the infrastructure you already know",
+      "For everyone: staying effective when requirements, environments and stakeholders change mid-engagement"
     ],
     targetInterviews: [
-      "Palantir FDSE Transition",
-      "Databricks Solutions Architect / Field Engineering",
-      "Scale AI Forward Deployed Engineer",
-      "OpenAI Enterprise Solutions Engineer",
-      "Enterprise AI Startup FDE Roles"
+      "Forward deployed engineer roles at applied AI startups",
+      "Forward Deployed Software Engineer (Palantir)",
+      "Solutions architect / field engineering roles at data-platform companies",
+      "Customer or deployment engineering roles at LLM platform vendors",
+      "Implementation engineering roles at enterprise SaaS companies"
     ],
     weeks: [
       {
         week: "Weeks 1 - 3",
-        title: "Pillar 1: The FDE Mindset Shift (From Tickets to Outcomes)",
-        focus: "Identity & Operating Model",
-        summary: "Understand how an FDE differs from traditional SWEs and Consultants. An FDE owns the client's business outcome, not just a Jira ticket.",
+        title: "Pillar 1: From tickets to outcomes",
+        focus: "Role understanding and self-assessment",
+        summary: "An FDE is judged by whether the customer's problem gets solved, not by tickets closed. Learn what the role involves day to day, find your gap and reposition your experience.",
         tasks: [
-          { id: "t1", text: "Study the history and philosophy of Forward Deployed Engineering: origin at Palantir, evolution at Databricks, and explosion in the GenAI era.", milestone: "FDE Mindset immersion" },
-          { id: "t2", text: "Audit your current skills: Complete the FDE 5-Pillar Diagnostic to pinpoint whether your gap is Coding Velocity, Data, or Client Diplomacy.", milestone: "Personal diagnostic audit" },
-          { id: "t3", text: "Rewrite your resume: Shift from listing internal tech stacks to highlighting business outcomes, customer impact, and rapid problem solving.", milestone: "FDE Resume overhaul" }
+          { id: "t1", text: "Read public write-ups and job descriptions for at least five FDE-style roles and summarize on one page what the work involves day to day, how it differs from your current role, and which parts you have already done.", milestone: "One-page role comparison" },
+          { id: "t2", text: "Take the diagnostic on this site (or score yourself on software velocity, data and AI, enterprise security and infrastructure, decomposition, and customer communication), pick your two weakest areas, and write a study plan that weights the later blocks for your background.", milestone: "Gap assessment and study plan" },
+          { id: "t3", text: "Rewrite your resume so each bullet states a problem, what you built or changed, and a measurable result for a user or customer; ask someone outside your field to read it and tell you what you do.", milestone: "Outcome-focused resume" }
         ],
-        resources: ["The Forward Deployed Engineer Handbook", "Why FDEs Are Replacing Traditional Tech Sales", "Resume Transformation Examples"]
+        resources: ["What forward deployed engineers do day to day", "Writing impact-focused resume bullets", "FDE vs. solutions architect vs. sales engineer roles"]
       },
       {
         week: "Weeks 4 - 6",
-        title: "Pillar 2: Remediation — The Coding & Prototyping Accelerator",
-        focus: "Hands-on Full-Stack & Algo Speed",
-        summary: "If you come from a non-coding or low-code background, ramp up your live coding and rapid building speed.",
+        title: "Pillar 2: Coding and prototyping speed",
+        focus: "Hands-on coding (most important for SA/SE backgrounds)",
+        summary: "If your recent work has been design, demos or infrastructure, rebuild the habit of writing and debugging code quickly while someone watches. SWEs can move through this block faster.",
         tasks: [
-          { id: "t4", text: "Complete 50 LeetCode Mediums focusing on Trees, Graphs, Hash Tables, and String Parsing (the bread-and-butter of FDE coding rounds).", milestone: "Algorithm proficiency" },
-          { id: "t5", text: "Build 3 full-stack mini-apps from scratch in a weekend each: 1) Live Log Streamer, 2) SQL Query Visualizer, 3) Document QA Chatbot.", milestone: "Rapid prototyping portfolio" },
-          { id: "t6", text: "Practice live coding while narrating your thought process out loud to build confidence under observation.", milestone: "Interview vocalization drill" }
+          { id: "t4", text: "Solve 50 medium problems on trees, graphs, hash maps and string parsing, timed at 30 minutes each; track the patterns you miss and redo those problems a week later.", milestone: "50-problem log with pattern review" },
+          { id: "t5", text: "Build three small full-stack apps, each in a weekend: a live log viewer that streams over WebSockets, a SQL query runner that renders results as a chart, and a document Q&A tool. DevOps/SRE engineers should spend most of their effort on the UI and API layers.", milestone: "Three-app prototype portfolio" },
+          { id: "t6", text: "Record yourself solving three problems while explaining your reasoning out loud, then review the recordings for long silences, unexplained jumps and missed edge cases.", milestone: "Recorded think-aloud sessions" }
         ],
-        resources: ["Grokking the Coding Interview", "Rapid Full-Stack Blueprint with Vite & FastAPI", "Think-Aloud Protocols for Coding"]
+        resources: ["Elements of Programming Interviews", "Vite and FastAPI project setup", "Thinking aloud in coding interviews"]
       },
       {
         week: "Weeks 7 - 9",
-        title: "Pillar 3: The Decomp Round & Enterprise System Design",
-        focus: "Problem Structuring & Architecture",
-        summary: "Learn how to approach open-ended, ambiguous customer problem statements with structured confidence.",
+        title: "Pillar 3: Decomposition and system design",
+        focus: "Problem structuring (most important for SWE and DevOps/SRE backgrounds)",
+        summary: "SAs often have a head start here. Everyone should practice turning a vague customer problem into a data model, an architecture and a plan in under an hour.",
         tasks: [
-          { id: "t7", text: "Master the 4-step Decomp formula: Scope & Requirements, Data Model & Entity Graph, Architecture & Ingestion, Security & Failure Scenarios.", milestone: "Decomp methodology" },
-          { id: "t8", text: "Practice 6 end-to-end Decomp prompts with timer: Hospital logistics, Smart city traffic, Defense drone imagery processing, Anti-money laundering.", milestone: "Decomp fluency" },
-          { id: "t9", text: "Learn to sketch clear architectural diagrams that communicate clearly to both engineers and business stakeholders.", milestone: "Visual architecture sketching" }
+          { id: "t7", text: "Write your own decomposition checklist (scope and users, data model and entities, architecture and ingestion, security and failure modes) and test it on one practice prompt.", milestone: "Personal decomposition checklist" },
+          { id: "t8", text: "Run six timed decompositions across different domains (for example hospital logistics, city traffic signals, aerial imagery triage, anti-money-laundering alerts) and score each one against your checklist.", milestone: "Six scored decomposition sessions" },
+          { id: "t9", text: "Redraw two of your designs so a non-engineer can follow them: one box-and-arrow diagram each with plain labels and a three-sentence explanation underneath. Test them on someone outside engineering.", milestone: "Two audience-tested architecture diagrams" }
         ],
-        resources: ["System Design Primer", "Palantir Decomp Sample Solutions", "The Art of Visual Technical Communication"]
+        resources: ["The System Design Primer", "Designing Data-Intensive Applications", "C4 model for architecture diagrams"]
       },
       {
         week: "Weeks 10 - 12",
-        title: "Pillar 4: Behavioral Story Crafting & Live Company Loops",
-        focus: "Client Experience & Behavioral Mastery",
-        summary: "Turn your past engineering or consulting experience into compelling evidence of forward-deployed excellence.",
+        title: "Pillar 4: Behavioral stories and live loops",
+        focus: "Customer-facing evidence and applications",
+        summary: "Turn experience from your current role into evidence that you can work directly with customers, then start applying.",
         tasks: [
-          { id: "t10", text: "Translate past work into 5 high-impact STAR stories highlighting ambiguous problems solved, difficult stakeholders aligned, and fast deliveries.", milestone: "STAR story repository" },
-          { id: "t11", text: "Conduct 3 realistic mock interviews with seasoned FDEs or mentors covering both technical and client-handling rounds.", milestone: "Targeted mock rounds" },
-          { id: "t12", text: "Targeted job applications and referral outreach to target companies with customized pitch notes.", milestone: "Application launch" }
+          { id: "t10", text: "Write five STAR stories from past work that show an ambiguous problem, a difficult stakeholder and a fast delivery, each with one line on how it maps to customer-facing work. SWEs and DevOps/SRE engineers should include at least one story involving an external customer or partner.", milestone: "Five-story behavioral bank" },
+          { id: "t11", text: "Complete three mock interviews with practicing FDEs or mentors covering coding, decomposition and a customer role-play, and write down one change you will make after each.", milestone: "Three mock rounds with action items" },
+          { id: "t12", text: "Shortlist 15 target roles, ask for referrals where you have a connection, and send applications with a short note tailored to each company's customers and products; track responses in a spreadsheet.", milestone: "Application tracker with tailored notes" }
         ],
-        resources: ["The FDE Behavioral Playbook", "Referral Outreach Templates", "Negotiating FDE Compensation Packages"]
+        resources: ["STAR method for behavioral interviews", "Asking for job referrals", "Fearless Salary Negotiation"]
       }
     ]
   }

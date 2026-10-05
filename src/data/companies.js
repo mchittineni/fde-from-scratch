@@ -1,67 +1,75 @@
+// Interview playbooks for companies that hire field and forward deployed engineers.
+// Interview loops are not public and change often. Stages describe the shape
+// candidates commonly report, not an official or guaranteed process.
+// Sample questions are original practice prompts, not real interview questions.
+
 export const companyPlaybooks = [
   {
     id: "palantir",
     name: "Palantir Technologies",
     roleName: "Forward Deployed Software Engineer (FDSE)",
     logoBadge: "PLTR",
-    accentColor: "#6366F1",
-    tagline: "The pioneer of Forward Deployed Engineering — where code meets geopolitical and enterprise reality.",
-    overview: "Palantir created the modern FDE role. At Palantir, FDSEs deploy directly onto client sites (DoD, NHS, Airbus, Morgan Stanley) to transform chaotic, siloed data into real-time operational decisions using Foundry, Gotham, and AIP. You are expected to be an elite software engineer who can architect distributed systems in the morning and lead C-suite strategy in the afternoon.",
-    compensationTier: "$180,000 - $350,000+ (Base + Equity + Relocation/Per-Diem)",
-    products: ["Palantir Foundry (Data Integration & Ontology)", "Palantir Gotham (Defense & Intelligence)", "Palantir Apollo (Autonomous Continuous Deployment)", "Palantir AIP (Artificial Intelligence Platform)"],
+    accentColor: "#4F46E5",
+    tagline: "The company most associated with the forward deployed model: engineers embedded with a customer until the software changes how work gets done.",
+    overview: "Palantir popularized the forward deployed engineer as a distinct job. FDSEs work closely with customer teams in sectors such as government, defense, healthcare and manufacturing, connecting fragmented source systems into Palantir's platforms and building the applications operators use day to day. The role is distinctive because one engineer often owns the whole path: scoping the problem with stakeholders, writing the data integration, shipping the workflow and supporting it in production. Expect travel, ambiguity and frequent context switching between code and customer conversations.",
+    compensationTier: "Varies widely by level, location and equity. Check Levels.fyi and the official job posting for current figures.",
+    products: ["Palantir Foundry", "Palantir Gotham", "Palantir AIP", "Palantir Apollo"],
     interviewStages: [
       {
-        stage: "Stage 1: Recruiter & Alignment Screen (30m)",
-        details: "Assess motivation for the high-travel, high-intensity FDE culture. Expect questions on why you want forward-deployed rather than internal product SWE, and your perspective on working with defense, government, and commercial sectors."
+        stage: "Recruiter conversation",
+        details: "Candidates commonly report a short call about background and motivation. Be ready to explain why you want a customer-facing deployment role rather than an internal product team, and how you feel about travel and about the sectors Palantir serves."
       },
       {
-        stage: "Stage 2: Technical Phone Screen (45-60m)",
-        details: "Live algorithmic coding or systems design. Typical questions involve graph traversal (BFS/DFS), priority queues, string parsing, or writing a lightweight concurrent task queue in your language of choice."
+        stage: "Technical phone screen",
+        details: "Usually a live coding exercise. Reported topics lean toward practical data structures: graphs, hash maps, heaps, parsing and simple simulations. Clear code and talking through trade-offs tend to matter as much as speed."
       },
       {
-        stage: "Stage 3: The Legendary 'Decomp' Round (60m)",
-        details: "The signature Palantir interview! You are presented with a massive, ambiguous real-world prompt (e.g., 'A commercial airline needs to handle severe weather disruptions and rebook 40,000 passengers while balancing crew fatigue rules'). You must decompose this into entities, data pipelines, schema models, API contracts, and user workflows on a whiteboard without being guided."
+        stage: "Decomposition interview",
+        details: "The round most candidates mention. You get a broad, loosely defined operational problem and are expected to break it into users, decisions, data sources, a data model and a first version you could ship. The interviewer typically adds constraints as you go to see how you adapt."
       },
       {
-        stage: "Stage 4: Systems Design & Distributed Architecture (60m)",
-        details: "Design a high-scale ingestion, streaming, or analytical engine. Focus areas: Air-gapped deployments, VPC isolation, zero-trust security, eventual consistency vs strict ACID, and handling multi-tenant data pipelines."
+        stage: "Coding and system design rounds",
+        details: "Onsite loops often include further coding and a design discussion. Design prompts tend to involve integrating messy data from several systems, access control, and deployment into restricted or disconnected environments."
       },
       {
-        stage: "Stage 5: Live Coding & Implementation (60m)",
-        details: "Hands-on coding focused on clean object-oriented or functional patterns, robust error handling, concurrency, and writing maintainable code under time pressure."
-      },
-      {
-        stage: "Stage 6: Culture, Ethics & Leadership Fit (45m)",
-        details: "Led by a Senior Deployment Strategist or Engineering Director. Tests resilience, handling hostile client pushback, moral/ethical clarity, and intellectual curiosity."
+        stage: "Hiring manager and values conversation",
+        details: "Often a behavioral discussion about ownership, working with difficult stakeholders and judgment on sensitive use cases. Concrete stories about projects you drove end to end land better than general statements."
       }
     ],
     decompPlaybook: {
       formula: [
-        "Phase 1: Clarify & Bound Scope (5m) — Ask 3-4 pointed questions on latency tolerance, operational constraints, and human-in-the-loop requirements.",
-        "Phase 2: Entity & Ontology Modeling (15m) — Define core real-world objects, their properties, relationships, and state transitions (e.g. Flight, Passenger, Seat, CrewMember, AircraftMaintenance).",
-        "Phase 3: Data Ingestion & Transformation Architecture (15m) — Design how legacy mainframe / ERP data gets ingested, sanitized, deduplicated, and unified into an operational data layer.",
-        "Phase 4: Operational Workflow & UI/API Contracts (15m) — How does an airline dispatcher or field operator interact with the system to make decisions?",
-        "Phase 5: Failure Modes, Scalability & Tradeoffs (10m) — What happens when an airport loses power? How do you resolve concurrent rebooking race conditions?"
+        "Clarify the decision: who is the operator, what decision are they making, how often, and what happens when it is wrong.",
+        "Bound the scope: state two or three assumptions out loud (scale, latency, who has access) and ask the interviewer to confirm or change them.",
+        "Model the world: name the core objects, their key properties, the links between them and the state changes that matter (for example Shipment, Warehouse, Carrier, Delay).",
+        "Map the data: list the source systems, how often each updates, how you join records that lack a shared key, and where data quality will break.",
+        "Design the workflow: sketch what the operator sees, what action they take, and how that action is written back to the source system.",
+        "Stress-test it: walk through one failure (a source goes stale, two users edit the same record, the site loses connectivity) and say what the system does."
       ],
       goldenRules: [
-        "Never jump into database schemas or ML models in the first 5 minutes.",
-        "Focus on the OPERATOR'S workflow: Who is using this software, and what decision are they making?",
-        "Acknowledge edge cases early (e.g. regulatory crew flight time caps, missing baggage)."
+        "Start from the user and the decision, not from the database or a model.",
+        "Propose a small first version you could ship in weeks, then describe how it grows.",
+        "Treat entity resolution and data quality as first-class problems; they usually are on real deployments.",
+        "When the interviewer adds a constraint, restate it, adjust the design and keep moving."
       ]
     },
     redFlags: [
-      "Asking the interviewer for the requirements instead of proposing assumptions and validating them.",
-      "Over-complicating with buzzwords (e.g. 'We'll just train a neural net') when simple business rules or graph search solve the problem.",
-      "Becoming defensive when the interviewer introduces a sudden constraint (e.g., 'What if the customer only has an air-gapped on-prem datacenter?')."
+      "Waiting for complete requirements instead of proposing assumptions and checking them.",
+      "Reaching for machine learning when rules, joins or a search over a graph would solve the problem.",
+      "Ignoring who is allowed to see which data in a multi-team or multi-agency setting.",
+      "Getting defensive when a new constraint invalidates part of your design."
     ],
     sampleQuestions: [
       {
-        q: "Decomp: Design a vaccine distribution and tracking system across 5,000 disparate clinics with cold-chain refrigeration constraints.",
-        tip: "Model ColdStorageUnit, BatchVaccine, PatientAppointment, and TransportRoute. Emphasize spoilage alerts and offline sync."
+        q: "Decomposition practice: a regional hospital network wants to cut the time patients spend waiting for a bed after admission. Where do you start?",
+        tip: "Identify the bed manager as the operator. Model Bed, Patient, Ward, Discharge and Cleaning task. Note that admission, discharge and housekeeping data usually live in separate systems with different update rates, and propose a live board that flags likely discharges before demand peaks."
       },
       {
-        q: "System Design: How would you architect Palantir Apollo to deploy software across 500 disconnected air-gapped customer environments?",
-        tip: "Discuss cryptographically signed release manifests, peer-to-peer artifact distribution, automated rollback triggers, and local audit logging."
+        q: "Design practice: how would you ship software updates to dozens of customer sites that have no direct internet connection?",
+        tip: "Cover signed release bundles, a manifest of versions per site, transfer through an approved one-way channel, health checks after install, automatic rollback, and audit logs that sync back when a connection is available."
+      },
+      {
+        q: "Decomposition practice: a manufacturer wants early warning when a supplier delay will stop a production line.",
+        tip: "Link Purchase order, Part, Bill of materials, Line and Supplier. The hard part is joining supplier part numbers to internal ones, so say how you would handle unmatched records. Rank alerts by days of inventory left, not by delay size."
       }
     ]
   },
@@ -69,65 +77,69 @@ export const companyPlaybooks = [
   {
     id: "databricks",
     name: "Databricks",
-    roleName: "Solutions Architect / Field Engineer / Forward Deployed",
+    roleName: "Solutions Architect / Resident Solutions Architect",
     logoBadge: "DBRX",
-    accentColor: "#EF4444",
-    tagline: "Unifying Data, Analytics, and AI on the Lakehouse for Fortune 500 transformation.",
-    overview: "Databricks Field Engineers and Solutions Architects are technical powerhouses who architect the Lakehouse for the world's most demanding enterprises. You work alongside enterprise CDOs and lead data teams to migrate from legacy warehouses (Snowflake, Teradata, Oracle) to Delta Lake, scale Apache Spark clusters, and deploy enterprise AI with Mosaic AI and Unity Catalog.",
-    compensationTier: "$190,000 - $370,000+ (Base + Equity + Target Commission)",
-    products: ["Delta Lake & Lakehouse Architecture", "Apache Spark Engine & Photon", "Databricks Mosaic AI & Model Serving", "Unity Catalog (Unified Governance)"],
+    accentColor: "#DC2626",
+    tagline: "A field role built around helping data teams design, migrate and tune workloads on a Spark-based data platform.",
+    overview: "Databricks field engineers sit between the sales team and the customer's data and platform engineers. Pre-sales solutions architects run technical discovery, build proofs of concept and design target architectures; resident and professional services architects stay with a customer to deliver migrations and production pipelines. The role is distinctive for its technical depth: you are expected to read a Spark query plan, explain a cost profile and still present the design clearly to a data leader.",
+    compensationTier: "Varies widely by level, location and equity. Pre-sales field roles often include variable or commission pay. Check Levels.fyi and the official job posting for current figures.",
+    products: ["Delta Lake", "Unity Catalog", "Databricks SQL", "Lakeflow"],
     interviewStages: [
       {
-        stage: "Stage 1: Recruiter & Technical Baseline (30m)",
-        details: "Deep dive into your experience with distributed computing, cloud providers (AWS/Azure/GCP), customer-facing engineering, and big data ecosystems."
+        stage: "Recruiter screen",
+        details: "Typically covers your experience with data engineering, cloud platforms (AWS, Azure or Google Cloud) and customer-facing work, plus which segment or region you are targeting."
       },
       {
-        stage: "Stage 2: Technical Screen — Spark & Data Manipulation (60m)",
-        details: "Live coding in Python/PySpark or SQL. Focuses on data wrangling, data transformations, window functions, and diagnosing suboptimal query plans."
+        stage: "Technical screen",
+        details: "Candidates commonly report hands-on SQL or PySpark work: joins, aggregations, window functions and reasoning about why a query is slow."
       },
       {
-        stage: "Stage 3: Spark Internals & Distributed Systems Deep Dive (60m)",
-        details: "Hardcore distributed systems round: Catalyst optimizer, Tungsten execution engine, DAG scheduling, shuffle operations, partition skew, broadcast joins, and JVM memory tuning."
+        stage: "Distributed systems deep dive",
+        details: "Often a conversation about how Spark executes work: stages and tasks, shuffles, partitioning, skew, join strategies and memory pressure. Interviewers tend to probe how you would diagnose a real failure."
       },
       {
-        stage: "Stage 4: Lakehouse System Design & Migration Architecture (60m)",
-        details: "Architect an enterprise migration from on-prem Hadoop or legacy data warehouses to Databricks Lakehouse. Designing Bronze/Silver/Gold medallion pipelines, streaming ingestion with Auto Loader, and data governance with Unity Catalog."
+        stage: "Architecture and migration design",
+        details: "A design exercise such as moving a legacy warehouse or Hadoop estate onto Databricks. Expect to discuss layered pipelines, streaming versus batch ingestion, governance and a phased cutover plan."
       },
       {
-        stage: "Stage 5: Customer Technical Presentation & Whiteboard Demo (60m)",
-        details: "You are given a scenario 48 hours prior (e.g., 'Present Lakehouse architecture to a skeptical VP of Analytics who prefers staying on Snowflake'). Judged on technical depth, handling executive pushback, and storytelling."
-      },
-      {
-        stage: "Stage 6: Executive & Culture Alignment (45m)",
-        details: "Leadership principles: Customer Obsession, High Standards, Truth Seeking, and Bias for Action."
+        stage: "Customer presentation and behavioral rounds",
+        details: "Many candidates report a prepared presentation to a mock customer, followed by questions and pushback. Behavioral rounds usually map to the company's stated values, such as customer focus and ownership."
       }
     ],
     decompPlaybook: {
       formula: [
-        "Step 1: Ingestion & Medallion Design — Bronze (raw streaming/batch append-only), Silver (cleansed, deduplicated, enriched), Gold (business-level aggregates).",
-        "Step 2: Engine & File Sizing Optimization — Photon vectorized execution, Delta compaction (OPTIMIZE, Z-ORDER by high cardinality filter keys).",
-        "Step 3: Governance & Security — Unity Catalog fine-grained access control, lineage tracking, and data sharing without copying (Delta Sharing).",
-        "Step 4: AI & ML Integration — Feature Store, MLflow tracking, and fine-tuning with Databricks Mosaic AI."
+        "Size the problem: data volume, daily growth, freshness needed by consumers and the current monthly cost.",
+        "Layer the pipeline: raw landing tables, cleaned and deduplicated tables, then business-ready aggregates, with a clear owner for each layer.",
+        "Choose ingestion per source: incremental file loading for object storage, change data capture for operational databases, scheduled batch for slow-moving reference data.",
+        "Tune storage and compute: file sizing and compaction, liquid clustering or partitioning on common filter columns, and right-sized job versus SQL warehouse compute.",
+        "Govern it: catalog permissions, row and column controls, lineage and an audit trail before any data is shared outside the team.",
+        "Plan the cutover: run old and new systems in parallel, reconcile outputs, then migrate consumers in waves."
       ],
       goldenRules: [
-        "Always calculate data volume, velocity, and compute cost before proposing cluster sizes.",
-        "Demonstrate mastery of Spark shuffle bottlenecks — this is the #1 filter in Databricks technical rounds.",
-        "Frame every technical decision in terms of business cost savings and developer velocity."
+        "Estimate data volume and cost before you propose cluster sizes.",
+        "Explain shuffles, skew and join strategies in plain terms; this is where many candidates struggle.",
+        "Tie each design choice to an outcome the customer cares about: cost, freshness, reliability or team productivity.",
+        "Be fair about competing platforms. Credibility comes from saying where the trade-offs really are."
       ]
     },
     redFlags: [
-      "Treating Spark like a black box without understanding driver vs worker nodes or shuffle exchanges.",
-      "Proposing massive compute clusters without addressing data skew or file compaction first.",
-      "Getting defensive during the presentation round when mock clients throw aggressive curveballs."
+      "Treating Spark as a black box with no sense of what the driver and executors do.",
+      "Adding compute to fix a job before checking for skew, small files or an unnecessary shuffle.",
+      "A migration plan with no parallel run, reconciliation or rollback.",
+      "Dismissing a customer's existing platform instead of engaging with why they chose it."
     ],
     sampleQuestions: [
       {
-        q: "A PySpark job processing 10TB of telemetry data runs for 6 hours and suddenly fails with 'ExecutorLostFailure (exit code 137: OOM)'. How do you diagnose and fix this?",
-        tip: "Check Spark UI for data skew on join/groupBy keys, check for large broadcasts exceeding driver/executor memory, adjust spark.sql.shuffle.partitions, or apply salting."
+        q: "A nightly PySpark job that joins clickstream events to a customer table has started failing with executor out-of-memory errors as data grows. How do you investigate?",
+        tip: "Open the Spark UI and compare task durations within the failing stage to spot skew. Check whether a broadcast table outgrew memory, look at shuffle partition counts, and consider salting the hot key or enabling adaptive query execution before adding nodes."
       },
       {
-        q: "How would you design a real-time CDC (Change Data Capture) pipeline from 50 production MySQL databases into a Delta Lakehouse with sub-minute latency?",
-        tip: "Debezium / Kafka Connect -> Kafka -> Databricks Structured Streaming with Auto Loader & Delta Live Tables (DLT) using MERGE INTO."
+        q: "A retailer wants inventory changes from several operational PostgreSQL databases available for analytics within a few minutes. Sketch the pipeline.",
+        tip: "Use change data capture from each database, land raw change records in an append-only table, then apply them with MERGE into a current-state table using Structured Streaming or Lakeflow Declarative Pipelines. Cover ordering, deletes, schema changes and how you would replay after an outage."
+      },
+      {
+        q: "A data leader says their warehouse bill doubled after moving to Databricks. What do you look at first?",
+        tip: "Break cost down by workload, check for always-on or oversized compute, idle clusters without auto-termination, and repeated full-table scans. Propose quick fixes and a tagging scheme so cost is attributed to teams."
       }
     ]
   },
@@ -135,65 +147,68 @@ export const companyPlaybooks = [
   {
     id: "scale_ai",
     name: "Scale AI",
-    roleName: "Forward Deployed Engineer (FDE) / Applied AI Deployment",
+    roleName: "Forward Deployed Engineer (FDE)",
     logoBadge: "SCALE",
-    accentColor: "#EC4899",
-    tagline: "Accelerating the development of AI applications — where rapid prototyping meets enterprise foundation models.",
-    overview: "Scale AI is the data infrastructure engine behind OpenAI, Meta, Toyota, and the US Department of Defense. Scale FDEs operate at breakneck startup speed, building customized AI applications, RLHF workflows, and generative AI platforms (Scale Donovan, Enterprise GenAI Platform) directly embedded with defense and Fortune 500 customers.",
-    compensationTier: "$180,000 - $340,000+ (Competitive Base + High-Upside Equity)",
-    products: ["Scale Data Engine (RLHF & Annotation)", "Scale Donovan (AI Decision Platform for Defense)", "Scale GenAI Platform (Enterprise Model Customization)", "Scale Rapid (On-Demand Data Labeling)"],
+    accentColor: "#DB2777",
+    tagline: "A fast-moving deployment role focused on turning AI models and training data into working applications for enterprise and public sector teams.",
+    overview: "Scale AI is known for data labeling and evaluation infrastructure used to train and test AI models, and it also builds AI applications for enterprise and government customers. Forward deployed engineers there typically scope a customer use case, build a working prototype quickly, and harden it into something the customer can rely on, often involving retrieval, model evaluation and human review loops. The role is distinctive for the pace and for how much of the work centers on measuring model quality, not just shipping features.",
+    compensationTier: "Varies widely by level, location and equity. Check Levels.fyi and the official job posting for current figures.",
+    products: ["Scale Data Engine", "Scale GenAI Platform", "Scale Donovan"],
     interviewStages: [
       {
-        stage: "Stage 1: Recruiter Screen & Speed Check (30m)",
-        details: "Assess full-stack versatility, experience with LLMs/APIs, and appetite for high-intensity, fast-shipping environment."
+        stage: "Recruiter screen",
+        details: "Usually a conversation about your range across backend, frontend and AI work, and whether you are comfortable in a fast, loosely structured environment."
       },
       {
-        stage: "Stage 2: Live Hack / Rapid Prototyping Screen (60-90m)",
-        details: "Build a working prototype from scratch against a live API under time pressure. Testing speed, clean architecture, and UI responsiveness."
+        stage: "Practical coding or build exercise",
+        details: "Candidates commonly report a hands-on exercise where you build something that works against a provided API or dataset. Working software, sensible structure and clear communication typically count for more than polish."
       },
       {
-        stage: "Stage 3: Full-Stack & Systems Architecture (60m)",
-        details: "Design a high-throughput data labeling orchestration system or real-time model inference gateway. Handling worker queue scheduling, consensus scoring, and latency budgets."
+        stage: "System design",
+        details: "Often a design prompt tied to AI workflows, such as a pipeline that routes items to human reviewers, or a service that calls models with latency and cost limits."
       },
       {
-        stage: "Stage 4: Applied AI & Foundation Model Engineering (60m)",
-        details: "Evaluating model quality: RLHF pipelines, fine-tuning vs prompt caching, RAG retrieval quality, synthetic data generation, and guardrail enforcement."
+        stage: "Applied AI discussion",
+        details: "Expect questions on choosing between prompting, retrieval and fine-tuning, building evaluation sets, measuring quality and handling unsafe or incorrect model output."
       },
       {
-        stage: "Stage 5: Client Scenario & Product Execution (60m)",
-        details: "Handling an enterprise customer whose pilot model is failing quality SLAs 72 hours before contract renewal. Strategy, de-escalation, and technical remediation."
-      },
-      {
-        stage: "Stage 6: Founder / Leadership Chat (30-45m)",
-        details: "Deep dive into intellectual horsepower, extreme ownership, and grit."
+        stage: "Customer scenario and behavioral rounds",
+        details: "A scenario about a customer project that is behind or underperforming, plus behavioral questions about ownership and working through ambiguity."
       }
     ],
     decompPlaybook: {
       formula: [
-        "Step 1: Rapid MVP Framing — What can we build in 48 hours to prove immediate value to the customer?",
-        "Step 2: Data Pipeline & Annotation Loop — Ingestion -> Pre-labeling with foundation models -> Human-in-the-loop review -> Active learning selection.",
-        "Step 3: Evaluation & Quality Metrics — Inter-annotator agreement, precision/recall on edge cases, automated model regression tests.",
-        "Step 4: Deployment & API Hardening — Webhook notifications, rate limiting, and private VPC deployment."
+        "Define success with the customer: one task, one metric, a target and the date it needs to be met.",
+        "Build the thinnest working version end to end: input, model call, output and a way for a person to review it.",
+        "Create an evaluation set early: real examples, labeled correct answers and a script that scores every change.",
+        "Close the loop: route low-confidence or disputed outputs to human reviewers and feed their corrections back into prompts, retrieval or training data.",
+        "Harden for production: logging, retries, rate limits, access control and a clear plan for where customer data is stored."
       ],
       goldenRules: [
-        "Shipping a working 80% solution in 2 hours beats designing a 100% solution that never runs.",
-        "Always instrument observability and error logging right from the prototype stage.",
-        "Treat client data security with military-grade rigor."
+        "A narrow solution that works end to end beats a complete design that does not run yet.",
+        "Add logging and an evaluation script from the first prototype, not after launch.",
+        "Report model quality with numbers and examples, including the failures.",
+        "Handle customer data deliberately: know where it is stored, who can see it and when it is deleted."
       ]
     },
     redFlags: [
-      "Spending 45 minutes configuring webpack or CSS boilerplate instead of shipping a functioning product.",
-      "Lacking understanding of LLM fundamentals (tokens, context length, temperature, top-p, embeddings).",
-      "Showing hesitation or paralysis when given ambiguous, incomplete specifications."
+      "Spending most of a timed build on tooling setup or styling instead of core functionality.",
+      "Shaky fundamentals on tokens, context windows, sampling settings or embeddings.",
+      "Claiming a model works without any evaluation data to back it up.",
+      "Stalling when a specification is incomplete instead of making and stating a reasonable assumption."
     ],
     sampleQuestions: [
       {
-        q: "Build an interactive prototype that ingests satellite imagery, allows analysts to draw bounding boxes around military vehicles, and submits them to an async model inference pipeline.",
-        tip: "Focus on snappy UI state management, optimistic UI updates, handling network retries, and clean API separation."
+        q: "Build practice: create a small web tool where reviewers see a document, the model's extracted fields, and can accept or correct each field. Corrections should be saved for later evaluation.",
+        tip: "Keep the data model simple (Document, Field, Prediction, Correction). Show the model's confidence, make keyboard review fast, handle API failures with retries, and export corrections in a format an evaluation script can read."
       },
       {
-        q: "Design an active learning pipeline that selects only the most informative 2% of unlabelled data from a 100M document corpus to minimize human annotation costs.",
-        tip: "Discuss uncertainty sampling, entropy scoring, diversity clustering in vector space, and model confidence thresholds."
+        q: "Design practice: you have a very large pool of unlabeled documents and budget to label only a small fraction. How do you choose which ones to label?",
+        tip: "Combine uncertainty sampling (where the current model is least confident) with diversity sampling (clusters in embedding space) so you do not label near-duplicates. Hold out a random sample to measure true quality, and re-select after each training round."
+      },
+      {
+        q: "Scenario practice: a customer's pilot assistant answers correctly in demos but users report frequent wrong answers. What do you do in the first week?",
+        tip: "Collect real failing queries, label them and group failures by cause (retrieval missed the source, outdated documents, ambiguous question, model error). Fix the largest group first and share before-and-after numbers with the customer."
       }
     ]
   },
@@ -201,65 +216,68 @@ export const companyPlaybooks = [
   {
     id: "openai_anthropic",
     name: "OpenAI & Anthropic",
-    roleName: "Applied AI Engineer / Forward Deployed Solutions Lead",
+    roleName: "Forward Deployed Engineer / Applied AI Engineer",
     logoBadge: "AI LABS",
-    accentColor: "#10B981",
-    tagline: "Deploying frontier intelligence into global enterprise systems safely and reliably.",
-    overview: "Applied AI Engineers and Solutions Architects at OpenAI and Anthropic are at the absolute bleeding edge of technology. They help the world's most strategic enterprises (Apple, Morgan Stanley, Salesforce, healthcare systems) build mission-critical autonomous agents, multi-modal workflows, and secure generative platforms on GPT-4o and Claude 3.5 Sonnet.",
-    compensationTier: "$250,000 - $550,000+ (High Base + Liquid/Private Tech Equity)",
-    products: ["OpenAI Enterprise / Assistants API", "Anthropic Claude 3.5 Sonnet & Model Context Protocol (MCP)", "Function Calling & Tool Orchestration", "Enterprise Fine-Tuning & Custom Models"],
+    accentColor: "#047857",
+    tagline: "Customer-facing engineering at model developers: helping organizations build reliable products on top of large language models.",
+    overview: "Both OpenAI and Anthropic hire engineers who work directly with customers building on their models, under titles such as forward deployed engineer, applied AI engineer and solutions architect. The work typically covers designing agents and tool use, retrieval systems, evaluation, cost and latency tuning, and safe deployment patterns. The role is distinctive because the underlying models change quickly, so judgment about what to build, how to measure it and how to keep it safe matters more than knowledge of any one model version.",
+    compensationTier: "Varies widely by level, location and equity. Equity terms differ between private companies, so read the offer details carefully. Check Levels.fyi and the official job posting for current figures.",
+    products: ["OpenAI API", "ChatGPT Enterprise", "Claude API", "Model Context Protocol (MCP)"],
     interviewStages: [
       {
-        stage: "Stage 1: Recruiter & Applied AI Background Screen (30m)",
-        details: "Assess experience deploying production LLM systems, engineering rigor, and ability to translate cutting-edge AI capabilities into business ROI."
+        stage: "Recruiter screen",
+        details: "Typically covers your experience shipping software that uses language models, how you work with customers and why you want this kind of role."
       },
       {
-        stage: "Stage 2: Live Agentic / Tool-Calling Coding Round (60m)",
-        details: "Implement an agentic tool-use loop: handling JSON schema validation, parallel tool execution, recursive state management, and graceful recovery from model hallucinated tool inputs."
+        stage: "Practical coding",
+        details: "Candidates commonly report a hands-on exercise close to real work, such as building a tool-calling loop, parsing structured model output or integrating with an API, with attention to error handling."
       },
       {
-        stage: "Stage 3: LLM System Design & Enterprise Architecture (60m)",
-        details: "Design a high-throughput, fault-tolerant enterprise AI platform: Prompt caching strategies, token budget rate-limiting, semantic caching, vector search with hybrid reranking, and sub-second streaming responses."
+        stage: "System design for LLM applications",
+        details: "Often a design prompt such as an internal assistant or a document processing pipeline. Expect to discuss retrieval, context management, streaming, caching, rate limits and cost."
       },
       {
-        stage: "Stage 4: Evaluation, Safety & Guardrail Architecture (60m)",
-        details: "Deep dive into model reliability: Building automated eval benchmarks, LLM-as-a-judge calibration, preventing prompt injection/jailbreaks, and red-teaming enterprise deployments."
+        stage: "Evaluation and safety discussion",
+        details: "Questions on how you would measure quality, catch regressions when prompts or models change, and defend against prompt injection and data leakage."
       },
       {
-        stage: "Stage 5: Enterprise Solutions Deep Dive & C-Suite Pitch (60m)",
-        details: "Consulting with an enterprise CIO on whether to use RAG, Fine-Tuning, or Agentic workflows for their core business process while ensuring zero customer data retention."
-      },
-      {
-        stage: "Stage 6: Culture, AI Safety & Mission Alignment (45m)",
-        details: "Evaluating candidates on alignment with ethical AI deployment, humbleness, and high collaborative standards."
+        stage: "Customer scenario and values rounds",
+        details: "A scenario where you advise a customer on an approach, plus behavioral questions. Both companies place visible emphasis on responsible deployment, so expect questions on how you handle risky use cases."
       }
     ],
     decompPlaybook: {
       formula: [
-        "Step 1: Problem Classification — Is this a RAG problem, an Agentic workflow problem, a Fine-Tuning problem, or a simple Deterministic code problem?",
-        "Step 2: Architecture & Latency Budget — TTFT (Time to First Token), streaming architecture via Server-Sent Events (SSE), and token economics.",
-        "Step 3: Tool & Context Management — Model Context Protocol (MCP), structured outputs via function schemas, and context window pruning.",
-        "Step 4: Continuous Evaluation Pipeline — Establishing ground-truth evaluation suites (Golden Datasets) before writing a single production prompt."
+        "Classify the problem: plain code, a single model call, retrieval over documents, a multi-step agent, or a case that needs fine-tuning.",
+        "Write the evaluation first: a set of real inputs with expected outcomes and a scoring method you trust.",
+        "Design the context: what the model needs to see, where it comes from, and how you keep it within the context window and budget.",
+        "Define tools and boundaries: typed tool schemas, which actions need human approval, and what the model must never do on its own.",
+        "Plan for production: latency targets, streaming, retries, rate limits, caching, logging and a way to roll back a prompt or model change."
       ],
       goldenRules: [
-        "Never propose fine-tuning when in-context few-shot prompting and retrieval achieves the same result for 1/10th the cost.",
-        "Always enforce structured outputs (Pydantic / JSON schema) when passing model outputs to downstream APIs.",
-        "Safety and PII redaction must be architected at the network layer, not left to model discretion."
+        "Try prompting and retrieval before fine-tuning; move on only when evaluations show a gap you cannot close.",
+        "Validate structured output against a schema before any downstream system acts on it.",
+        "Enforce permissions and sensitive-data handling in code around the model, not in the prompt alone.",
+        "Avoid tying a design to one model version; make the model a configuration choice you can re-evaluate."
       ]
     },
     redFlags: [
-      "Believing that LLMs are magical and not having concrete strategies for handling hallucinations.",
-      "No understanding of token economics, rate limits (TPM/RPM), or prompt caching mechanics.",
-      "Treating evaluations as an afterthought rather than the foundation of reliable AI deployment."
+      "No concrete plan for wrong or made-up answers beyond better prompting.",
+      "Little sense of token costs, rate limits or how latency adds up across chained calls.",
+      "Treating evaluation as a final check rather than the way you make decisions.",
+      "Letting a model take irreversible actions without validation or human approval."
     ],
     sampleQuestions: [
       {
-        q: "Design an enterprise customer support agent that can autonomously execute account refunds up to $500, check order statuses in real-time, and transfer to human agents with full conversation summaries.",
-        tip: "Discuss state machines (LangGraph), deterministic authorization gates, idempotency keys for financial transactions, and human-in-the-loop fallback."
+        q: "Design practice: build a support agent that can look up orders, issue small refunds and hand off to a human with a summary. How do you keep it safe?",
+        tip: "Expose narrow, typed tools. Enforce refund limits and identity checks in the tool code, use idempotency keys so retries never double-pay, log every action, and define clear triggers for handing off to a human."
       },
       {
-        q: "How would you design a systematic evaluation framework to detect regressions when switching from GPT-4o to Claude 3.5 Sonnet across 50 enterprise use cases?",
-        tip: "Define automated test harnesses, semantic similarity metrics, LLM-as-a-judge with reference answers, latency/cost benchmarking, and blind A/B testing."
+        q: "Evaluation practice: a customer wants to switch the model behind several production features. How do you decide whether it is safe?",
+        tip: "Assemble an evaluation set per feature from real traffic, score with exact checks where possible and a calibrated model grader elsewhere, compare cost and latency, then roll out gradually with monitoring and a quick way to switch back."
+      },
+      {
+        q: "Security practice: an assistant reads incoming emails and can draft replies and update a CRM. What could go wrong?",
+        tip: "Treat email content as untrusted input that may contain injected instructions. Separate reading from acting, require confirmation for writes, limit tool permissions to the current user, and test with adversarial examples."
       }
     ]
   },
@@ -267,65 +285,68 @@ export const companyPlaybooks = [
   {
     id: "snowflake",
     name: "Snowflake",
-    roleName: "Field Technical Architect / Forward Deployed Solutions Engineer",
+    roleName: "Solutions Engineer / Solutions Architect",
     logoBadge: "SNOW",
-    accentColor: "#38BDF8",
-    tagline: "Mobilizing the world's data on the AI Data Cloud with zero-management simplicity.",
-    overview: "Snowflake Field Technical Architects are the strategic technical drivers behind global enterprise migrations. You help Fortune 500 customers architect modern cloud data warehouses, build data sharing applications via the Snowflake Marketplace, deploy Python pipelines using Snowpark, and leverage Snowflake Cortex AI without managing infrastructure.",
-    compensationTier: "$185,000 - $360,000+ (Base + Equity + Field Incentive)",
-    products: ["Snowflake Data Cloud & Virtual Warehouses", "Snowpark & Streamlit", "Snowflake Cortex AI & Vector Search", "Apache Iceberg Tables & Universal Storage"],
+    accentColor: "#0369A1",
+    tagline: "A field role centered on SQL performance, cost control and migrations for teams moving analytics onto a managed cloud data platform.",
+    overview: "Snowflake's field engineers work with customer data and analytics teams before and after a purchase. Pre-sales solutions engineers run discovery, proofs of concept and architecture reviews; professional services architects lead migrations and production builds. The role is distinctive for how often the conversation turns to cost: because compute is billed by usage, you are expected to explain how warehouse sizing, query design and governance settings affect the bill, alongside performance and security.",
+    compensationTier: "Varies widely by level, location and equity. Pre-sales field roles often include variable or commission pay. Check Levels.fyi and the official job posting for current figures.",
+    products: ["Snowpark", "Snowflake Cortex AI", "Streamlit in Snowflake", "Snowflake Marketplace"],
     interviewStages: [
       {
-        stage: "Stage 1: Recruiter & Technical Qualification (30m)",
-        details: "Assessing enterprise cloud architecture experience, SQL expertise, and customer consultative aptitude."
+        stage: "Recruiter screen",
+        details: "Typically covers your SQL and data warehousing background, cloud experience and comfort leading technical conversations with customers."
       },
       {
-        stage: "Stage 2: Technical Hands-on SQL & Query Optimization (60m)",
-        details: "Solving complex analytical SQL, analyzing query profiles, understanding micro-partition pruning, clustering keys, and eliminating spills to local/remote storage."
+        stage: "SQL and performance screen",
+        details: "Candidates commonly report analytical SQL problems and questions about reading a query profile: pruning, join behavior and data spilling out of memory."
       },
       {
-        stage: "Stage 3: Snowflake Architecture & Cloud Internals (60m)",
-        details: "Deep dive: Multi-cluster shared data architecture, Centralized Storage Layer, Multi-Cluster Compute Layer, and Cloud Services Layer. Zero-Copy Cloning, Time Travel, and Fail-safe."
+        stage: "Platform architecture discussion",
+        details: "Often a conversation about how separating storage from compute works in practice, plus features such as cloning, Time Travel, data sharing and access control."
       },
       {
-        stage: "Stage 4: Enterprise Migration System Design (60m)",
-        details: "Designing an end-to-end modernization from legacy on-prem (Teradata/Netezza/Oracle) to Snowflake. Ingestion patterns (Snowpipe Streaming), security governance (RBAC, Row Access Policies, Masking), and cost management."
+        stage: "Migration design",
+        details: "A design exercise such as moving an on-premises warehouse to Snowflake. Expect ingestion choices, security and governance, cost controls and a validation plan."
       },
       {
-        stage: "Stage 5: Customer Discovery & Business Value Defense (60m)",
-        details: "Whiteboard presentation to an enterprise customer team comparing Snowflake with Databricks or BigQuery, defending credit consumption and total cost of ownership (TCO)."
-      },
-      {
-        stage: "Stage 6: Field Leadership Alignment (45m)",
-        details: "Customer advocacy, handling complex partner ecosystems, and culture fit."
+        stage: "Customer presentation and behavioral rounds",
+        details: "Many candidates report presenting to a mock customer and handling objections, including comparisons with other platforms, followed by behavioral questions."
       }
     ],
     decompPlaybook: {
       formula: [
-        "Step 1: Compute & Storage Separation — Right-sizing virtual warehouses (XS to 4XL), auto-scaling policies, and auto-suspend timing to optimize credits.",
-        "Step 2: Partitioning & Clustering Strategy — Understanding micro-partitions, evaluating clustering depth, and applying automatic clustering only when query profile warrants it.",
-        "Step 3: Modern Ingestion & Snowpark — Continuous micro-batch ingestion via Snowpipe, serverless tasks, and running Python/DataFrame logic securely in Snowpark.",
-        "Step 4: Enterprise Data Sharing & Marketplace — Sharing live data across cloud regions and accounts without data duplication or ETL overhead."
+        "Profile the workload: who queries what, how often, how fresh the data must be and how many users run queries at once.",
+        "Separate workloads: give loading, transformation and BI their own warehouses so one cannot slow down another, with auto-suspend on each.",
+        "Design for pruning: filter on columns that align with how data arrives, and add clustering keys only when the query profile shows poor pruning on large tables.",
+        "Choose ingestion: bulk loading for history, Snowpipe or Snowpipe Streaming for continuous data, and tasks or dynamic tables for transformations.",
+        "Govern and share: role hierarchy, masking and row access policies, then share data through secure shares or listings instead of copying it."
       ],
       goldenRules: [
-        "Cost governance is job #1: Always implement resource monitors and auto-suspend rules in every architectural proposal.",
-        "Understand when to use Snowpark DataFrames vs Native SQL for performance.",
-        "Highlight Zero-Copy Cloning for instant development/staging environments without increasing storage costs."
+        "Put cost controls in every design: resource monitors, auto-suspend and per-team warehouses so spend is visible.",
+        "Fix the query before resizing the warehouse; a bigger warehouse only helps when the work is truly limited by memory or parallelism.",
+        "Know when Snowpark code is the right tool and when plain SQL is simpler and just as fast.",
+        "Use zero-copy cloning for development and testing environments, and explain the storage cost as data diverges."
       ]
     },
     redFlags: [
-      "Assuming larger virtual warehouses automatically solve poorly written queries that lack partition pruning.",
-      "Ignoring credit consumption governance and runaway query risks.",
-      "Failing to explain how micro-partitions differ from traditional database B-trees or static table partitioning."
+      "Assuming a larger warehouse fixes any slow query.",
+      "A design with no resource monitors, budgets or ownership for compute spend.",
+      "Not being able to explain micro-partitions and pruning compared with indexes in a traditional database.",
+      "Overselling: promising features or performance you have not verified for the customer's case."
     ],
     sampleQuestions: [
       {
-        q: "A high-priority business intelligence dashboard query in Snowflake takes 8 minutes to run and shows significant 'Bytes spilled to remote storage' in the Query Profile. How do you optimize it?",
-        tip: "Spilling to remote storage indicates memory exhaustion on the warehouse. Scale up the warehouse size for more RAM, reduce data volume via early filtering, optimize join keys to avoid cross joins, or cluster on filter keys."
+        q: "A dashboard query takes several minutes and the query profile shows a large amount of data spilled to remote storage. What do you check?",
+        tip: "Spilling means the operation did not fit in memory. First reduce the data involved: filter earlier, select fewer columns, check for an accidental row explosion in a join. If the work is still large, try one size up and compare cost per run."
       },
       {
-        q: "How would you design a secure multi-region data sharing architecture between a pharmaceutical company in AWS us-east-1 and an analytics partner in Azure West Europe?",
-        tip: "Use Snowflake Cross-Cloud Cross-Region Replication to replicate the source database to Azure West Europe, and create a Secure Data Share without exposing underlying raw storage."
+        q: "A company on one cloud provider needs to share curated data with a partner whose Snowflake account is on a different cloud and region. How do you set it up?",
+        tip: "Direct shares only work within a region, so either replicate the database to an account in the partner's region or publish a listing that uses cross-cloud auto-fulfillment. Share secure views rather than base tables and agree on refresh frequency and costs."
+      },
+      {
+        q: "A customer's monthly credit usage jumped with no new projects. How do you find the cause?",
+        tip: "Query account usage views to break spend down by warehouse, user and query pattern. Look for warehouses that never suspend, repeated full scans, runaway tasks or retries, then set resource monitors and alerts."
       }
     ]
   }
