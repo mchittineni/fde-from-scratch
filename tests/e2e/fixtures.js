@@ -16,6 +16,7 @@ export { expect };
 // Every route the router knows, with one deep link per parameterized route.
 export const ROUTES = [
   '#/', '#/start', '#/journey', '#/orientation/what-is-an-fde', '#/orientation/fde-vs-other-roles',
+  '#/orientation/your-first-90-days', '#/orientation/field-triage', '#/orientation/proving-impact', '#/orientation/working-sustainably',
   '#/labs', '#/labs/diagnostic', '#/labs/simulator', '#/labs/simulator/sim_airgap_bank',
   '#/labs/cases', '#/labs/cases/cs_ontology', '#/labs/questions', '#/labs/projects', '#/labs/projects/p-rag',
   '#/labs/decomp', '#/labs/decomp/d3', '#/labs/stories', '#/library', '#/playbooks', '#/playbooks/palantir'

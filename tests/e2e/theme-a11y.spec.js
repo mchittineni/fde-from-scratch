@@ -10,7 +10,7 @@ test('theme toggle switches and remembers light mode', async ({ page }) => {
 });
 
 // Pages that cover every component type. Serious and critical axe violations fail the build.
-const A11Y_ROUTES = ['#/', '#/journey', '#/orientation/fde-vs-other-roles', '#/labs', '#/labs/diagnostic',
+const A11Y_ROUTES = ['#/', '#/journey', '#/orientation/fde-vs-other-roles', '#/orientation/field-triage', '#/labs', '#/labs/diagnostic',
   '#/labs/simulator/sim_airgap_bank', '#/labs/questions', '#/labs/decomp/d1', '#/labs/stories', '#/library', '#/playbooks/palantir'];
 
 for (const scheme of ['dark', 'light']) {
