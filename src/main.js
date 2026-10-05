@@ -9,6 +9,7 @@ import { resources, resourceTopics } from './data/resources.js';
 import { portfolioProjects, decompPhases, decompRubric, decompPrompts, storyPrompts, starFields } from './data/labs.js';
 import { esc, pad, pct, cleanTitle, todayKey, XP, rankFor, totalXP as totalXPFor, SIM_START, gradeFor, simScore, applyImpact, fmtClock, phaseAt as phaseAtFor } from './lib/core.js';
 import { practiceFor, topicsFor, learnFor as learnForProgress, projectFor as projectForProgress, projectDone as projectDoneFor, topicById, resById } from './lib/journey.js';
+import { LESSON_DIAGRAMS, renderDeploymentPipelineSvg, renderJourneyTransitSvg, renderSimulatorArchitectureSvg, renderCaseArchitectureSvg, renderPlaybookPipelineSvg } from './lib/diagrams.js';
 
 /* ==========================================================================
    0. EXTERNAL LINKS
@@ -77,6 +78,7 @@ const state = {
   stories: store.get('fde_stories', {}),     // { storyId: { situation, task, action, result } }
   storiesAwarded: store.get('fde_stories_awarded', {}),
   readRes: store.get('fde_resources', {}),   // { resourceId: true }
+  checks: store.get('fde_checks', {}),       // { checkId: { pick, correct } } — first answer is final
   // session-only UI state
   libTopic: 'all',
   libLevel: 'all',
@@ -90,7 +92,8 @@ const state = {
   quizIndex: 0,
   sim: null,
   qSearch: '',
-  qCat: 'All'
+  qCat: 'All',
+  diagrams: {}                               // { diagramName: selected value }
 };
 
 function persist(key, stateKey) { store.set(key, state[stateKey]); }
@@ -337,10 +340,56 @@ function render() {
     window.scrollTo({ top: scrollY, behavior: 'instant' });
     if (focusKey) app.querySelector(`[data-key="${CSS.escape(focusKey)}"]`)?.focus({ preventScroll: true });
   }
+  if (routeChanged) revealOnScroll(); // after the scroll reset, so on-screen checks are accurate
   lastPath = path;
 }
 
 const rerender = render;
+
+// Replace one component in place instead of re-rendering the whole view, so a click on a diagram
+// or knowledge check doesn't replay animations elsewhere on the page.
+function swap(id, html) {
+  const old = document.getElementById(id);
+  if (!old) { rerender(); return; }
+  const focusKey = document.activeElement?.dataset?.key;
+  old.outerHTML = html;
+  if (focusKey) app.querySelector(`[data-key="${CSS.escape(focusKey)}"]`)?.focus({ preventScroll: true });
+}
+
+function diagramHtml(name, value) {
+  if (name === 'playbook') {
+    const co = companyPlaybooks.find((c) => c.id === value.split(':')[0]);
+    return co ? renderPlaybookPipelineSvg(co, playbookRound(co)) : '';
+  }
+  return LESSON_DIAGRAMS[name]?.(value) ?? '';
+}
+
+// The playbook diagram stores "<companyId>:<round>", so a round picked on one company never leaks into another.
+function playbookRound(co) {
+  const [id, round] = (state.diagrams.playbook || '').split(':');
+  return id === co.id ? Number(round) || 0 : 0;
+}
+
+// Fade sections in as they scroll into view. Runs only on route changes (in-place re-renders never
+// flicker), skips anything already on screen, and does nothing when the user prefers reduced motion.
+const REVEAL = '.card, .panel, .callout, .check, .station, .table-wrap, .steps, .timeline, .lab-tile';
+let revealObserver = null;
+function revealOnScroll() {
+  revealObserver?.disconnect();
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  revealObserver = new IntersectionObserver((entries) => {
+    entries.filter((e) => e.isIntersecting).forEach((e, i) => {
+      e.target.style.setProperty('--reveal-delay', `${Math.min(i, 5) * 70}ms`);
+      e.target.classList.add('is-in');
+      revealObserver.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -6% 0px' });
+  for (const el of app.querySelectorAll(REVEAL)) {
+    if (el.parentElement.closest('.reveal') || el.getBoundingClientRect().top < innerHeight) continue;
+    el.classList.add('reveal');
+    revealObserver.observe(el);
+  }
+}
 
 function renderChrome(path) {
   const section = path.split('/')[1] || '';
@@ -493,6 +542,9 @@ function viewHome() {
               <h3>${t}</h3>
               <p>${d}</p>
             </div>`).join('')}
+        </div>
+        <div class="mt-32">
+          ${renderDeploymentPipelineSvg(state.diagrams.lifecycle)}
         </div>
       </div>
     </section>
@@ -729,7 +781,8 @@ function viewJourney() {
             <button class="btn btn-ghost btn-sm" type="button" data-action="collapse-all">Collapse all</button>
           </div>
         </div>
-        <ol class="route">
+        ${renderJourneyTransitSvg(prog.stations, cur?.id)}
+        <ol class="route mt-24">
           ${prog.stations.map(stationHtml).join('')}
         </ol>
       </section>
@@ -850,12 +903,34 @@ function blockHtml(b) {
     case 'steps': return `<div><div class="steps-title">${esc(b.title)}</div><div class="steps">${b.items.map((s, i) => `<div class="step"><span class="step-n">${pad(i + 1)}</span><div><strong>${esc(s.label)}</strong><p>${esc(s.text)}</p></div></div>`).join('')}</div></div>`;
     case 'table': return `<div class="table-wrap"><table><thead><tr>${b.head.map((h) => `<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${b.rows.map((r) => `<tr><th scope="row">${esc(r[0])}</th>${r.slice(1).map((c) => `<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
     case 'timeline': return `<div class="timeline">${b.items.map((t) => `<div class="tl-item"><span class="tl-day">${esc(t.label)}</span><div><strong>${esc(t.title)}</strong><p>${esc(t.text)}</p></div></div>`).join('')}</div>`;
-    case 'pillars': return `<div class="pillar-grid">${diagnosticPillars.map((p) => {
-      const st = PILLAR_STYLE[p.id] || { icon: 'target', tone: 'accent' };
-      return `<div class="pillar"><div class="pillar-head"><span class="cap-icon tone-${st.tone}">${icon(st.icon, 'icon-sm')}</span><strong>${esc(p.name)}</strong></div><p>${esc(p.description)}</p></div>`;
-    }).join('')}</div>`;
+    case 'diagram': return LESSON_DIAGRAMS[b.name]?.(state.diagrams[b.name]) ?? '';
+    case 'check': return checkHtml(b);
     default: return '';
   }
+}
+
+// Knowledge checks: the first answer is final, earns XP if right, and always shows the explanation.
+const CHECKS = Object.fromEntries(orientationLessons.flatMap((l) => l.blocks.filter((b) => b.type === 'check')).map((b) => [b.id, b]));
+
+function checkHtml(b) {
+  const done = state.checks[b.id];
+  const tone = done ? (done.correct ? ' is-right' : ' is-wrong') : '';
+  return `<section class="check${tone}" id="check-${esc(b.id)}" aria-labelledby="check-${esc(b.id)}-q">
+    <div class="check-head">
+      <span class="check-badge">${icon('help', 'icon-sm')} Check yourself</span>
+      <span class="check-xp">${done ? (done.correct ? `+${XP.check} XP earned` : 'Answered') : `+${XP.check} XP if right first time`}</span>
+    </div>
+    <p class="check-q" id="check-${esc(b.id)}-q">${esc(b.question)}</p>
+    <div class="check-options">${b.options.map((o, i) => {
+      const mark = done ? (i === b.answer ? ' is-answer' : i === done.pick ? ' is-picked' : ' is-dim') : '';
+      return `<button class="check-opt${mark}" type="button" data-action="answer-check" data-id="${esc(b.id)}" data-pick="${i}" ${done ? 'disabled' : ''}>
+        <span class="option-key">${String.fromCharCode(65 + i)}</span><span>${esc(o)}</span>
+        ${done && i === b.answer ? `<span class="check-mark">${icon('check', 'icon-sm')}<span class="sr-only">Correct answer</span></span>` : ''}
+        ${done && i === done.pick && !done.correct ? '<span class="sr-only">(your answer)</span>' : ''}
+      </button>`;
+    }).join('')}</div>
+    ${done ? `<div class="check-explain" tabindex="-1"><strong>${done.correct ? 'Correct.' : 'Not quite.'}</strong> ${esc(b.explain)}</div>` : ''}
+  </section>`;
 }
 
 /* ---------- Labs hub ---------- */
@@ -957,6 +1032,10 @@ function diagnosticResults(head) {
     return `<text class="radar-label" x="${x}" y="${y}" text-anchor="${anchor}" dominant-baseline="middle">${esc(r.pillarScores[k].name)}</text>`;
   }).join('');
 
+  const seniorTarget = [0.85, 0.90, 0.85, 0.95, 0.90];
+  const seniorArea = keys.map((_, i) => pt(i, seniorTarget[i]).join(',')).join(' ');
+  const seniorOverlay = `<polygon points="${seniorArea}" fill="none" stroke="var(--amber)" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.6"/>`;
+
   return {
     title: 'Diagnostic results',
     html: `<div class="container">${head}
@@ -966,8 +1045,9 @@ function diagnosticResults(head) {
         <div class="panel">
           <div class="spread"><div><div class="panel-title">Overall</div><div class="score-big">${r.overallScore}<small>/100</small></div></div>
             <div class="stack" style="--stack:8px;text-align:right"><div class="chip chip-accent">Strength: ${esc(r.primaryStrength)}</div><div class="chip chip-amber">Focus: ${esc(r.primaryWeakness)}</div></div></div>
-          <svg class="radar mt-16" viewBox="-80 -10 480 340" role="img" aria-label="Radar chart of pillar scores">
-            ${rings}${axes}<polygon class="radar-area" points="${area}"/>${dots}${labels}
+          <svg class="radar mt-16" viewBox="-80 -25 480 365" role="img" aria-label="Radar chart of your pillar scores against an illustrative senior target">
+            <text x="160" y="-8" text-anchor="middle" fill="var(--amber)" font-size="11" font-family="var(--font-mono)">- - illustrative senior target</text>
+            ${rings}${axes}${seniorOverlay}<polygon class="radar-area" points="${area}"/>${dots}${labels}
           </svg>
         </div>
         <div class="stack" style="--stack:20px">
@@ -1059,7 +1139,8 @@ function viewSimulator([simId]) {
       <span class="eyebrow mt-24" style="display:flex">Stage ${run.idx + 1} of ${sim.stages.length}</span>
       <h2>${esc(stage.title)}</h2>
       <p class="dilemma">${esc(stage.dilemma)}</p>
-      <div class="choices">
+      ${renderSimulatorArchitectureSvg(sim, run)}
+      <div class="choices mt-24">
         ${stage.options.map((o, k) => `
           <button class="choice ${run.picked === o.id ? `picked ${net < 0 ? 'bad' : ''}` : ''}" type="button" data-action="sim-pick" data-id="${o.id}" data-key="choice-${k}" ${picked ? 'disabled' : ''}>
             <span class="option-key">${String.fromCharCode(65 + k)}</span><span>${esc(o.text)}</span>
@@ -1117,6 +1198,7 @@ function viewCases([caseId]) {
       <header class="page-head"><div style="max-width:820px"><div class="chip-row"><span class="chip chip-amber">${esc(cs.category)}</span><span class="chip chip-mono">${esc(cs.difficulty)}</span><span class="chip chip-mono">${esc(cs.companyContext)}</span></div><h1>${esc(cs.title)}</h1></div>
         <button class="btn ${state.studied[cs.id] ? 'btn-secondary' : 'btn-primary'}" type="button" data-action="toggle-studied" data-id="${cs.id}" data-key="studied">${icon('check')} ${state.studied[cs.id] ? 'Studied' : 'Mark as studied'}</button></header>
       <div class="callout amber"><div class="callout-title">The prompt</div><p>${esc(cs.problemStatement)}</p></div>
+      ${renderCaseArchitectureSvg(cs)}
       <div class="mt-24">
         ${cs.architecturePhases.map((ph) => `
           <section class="card case-phase">
@@ -1227,7 +1309,8 @@ function viewPlaybooks([companyId]) {
         <div class="panel"><div class="panel-title">Compensation</div><p>${esc(co.compensationTier)}</p></div>
         <div class="panel"><div class="panel-title">Products you'll deploy</div><div class="chip-row">${co.products.map((p) => `<span class="chip">${esc(p)}</span>`).join('')}</div></div>
       </div>
-      <div class="pb-grid">
+      ${renderPlaybookPipelineSvg(co, playbookRound(co))}
+      <div class="pb-grid mt-24">
         <section class="panel">
           <div class="panel-title">The loop</div>
           <ol>
@@ -1702,6 +1785,23 @@ const ACTIONS = {
     state.target = state.target === el.dataset.id ? null : el.dataset.id; persist('fde_target', 'target');
     toast(state.target ? 'Target set. Your final station is updated.' : 'Target cleared.');
     rerender();
+  },
+  'select-diagram'(el) {
+    const { diagram, value } = el.dataset;
+    state.diagrams[diagram] = value;
+    const html = diagramHtml(diagram, value);
+    if (html) swap(`dg-${diagram}`, html); else rerender();
+  },
+  'answer-check'(el) {
+    const b = CHECKS[el.dataset.id];
+    if (!b || state.checks[b.id]) return;
+    const pick = Number(el.dataset.pick);
+    const correct = pick === b.answer;
+    state.checks[b.id] = { pick, correct }; persist('fde_checks', 'checks');
+    if (correct) award(XP.check, 'Correct'); else markActive();
+    swap(`check-${b.id}`, checkHtml(b));
+    renderChrome(parseHash().path);
+    document.querySelector(`#check-${CSS.escape(b.id)} .check-explain`)?.focus({ preventScroll: true });
   }
 };
 
