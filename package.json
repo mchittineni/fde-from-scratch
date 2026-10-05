@@ -1,0 +1,25 @@
+{
+  "name": "fde-interview-hub",
+  "version": "1.0.0",
+  "description": "Comprehensive Forward Deployed Engineer (FDE) learning portal, experience-tailored roadmaps, client simulations, and enterprise AI interview playbooks.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "preview": "node server.js"
+  },
+  "keywords": [
+    "forward-deployed-engineer",
+    "fde",
+    "interview-prep",
+    "palantir",
+    "databricks",
+    "scale-ai",
+    "openai",
+    "snowflake",
+    "system-design",
+    "applied-ai"
+  ],
+  "author": "FDE Hub",
+  "license": "MIT"
+}
