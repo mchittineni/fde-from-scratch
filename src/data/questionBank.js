@@ -221,5 +221,60 @@ export const questionBank = [
     modelAnswer: "1. Gather evidence: document the three implementations, what was shared and what was customer-specific, and how many hours each took.\n2. Find the general shape: separate what can be configuration (endpoints, authentication type, field mappings) from logic that is genuinely specific to one customer.\n3. Write a short proposal for the product team: the problem, the demand (named customers and revenue at stake), the proposed design, and what you will own.\n4. Build it as a reusable component that meets the product's normal quality bar (tests, documentation, versioning), and migrate one existing customer to prove it works.\n5. Measure the result: how long it takes to deploy the connector for the fourth customer.",
     redFlags: "Copying the connector a fourth time; handing an unfinished generalization to the product team; generalizing after only one customer.",
     followUp: "The product team says it is not on their roadmap this year. What do you do?"
+  },
+  {
+    id: "qb_21",
+    category: "Client EQ & Hostile Stakeholders",
+    company: "Any enterprise team",
+    level: "All Levels",
+    title: "Your first 30 days at a new customer",
+    prompt: "You are the first FDE assigned to a large new customer. The executive sponsor wants \"AI-driven visibility into operations\" and a demo in four weeks. Walk me through your first 30 days.",
+    modelAnswer: "1. Week one is discovery: meet the sponsor and ask what will be different in six months if this works and how they will measure it; sit with two or three operators to see where the time actually goes; meet IT and security to learn what a deployment must pass. Request every access (VPN, accounts, data, sandbox) on day one because approvals take time.\n2. Send a one-page \"what I heard\" recap within the week: problem, stakeholders, success metric, open questions, and ask them to correct it.\n3. Weeks two and three: pick one narrow, visible pain point and ship a thin working tool on real data (a sample export if access is still pending). Get one real operator using it and iterate daily on their feedback.\n4. Capture the baseline now (how long the task takes today), before anything changes.\n5. By day 30: a written success plan agreed with the sponsor (baseline, target, owner, date), the demo built around the operator's real workflow, and a short risk list including anything blocked on access or security.",
+    redFlags: "Starting to build before talking to users; building the demo on synthetic data; promising the full \"AI visibility\" vision for week four; no baseline or success metric; treating security as a last-week formality.",
+    followUp: "Two weeks in, security tells you production data cannot leave their network. What changes in your plan, and what do you tell the sponsor?"
+  },
+  {
+    id: "qb_22",
+    category: "Linux & Systems Diagnostics",
+    company: "Palantir / Databricks style",
+    level: "Mid / Senior",
+    title: "\"It works on my laptop but not in their cluster\"",
+    prompt: "Your service runs fine in your environment. Deployed in the customer's Kubernetes cluster, every call to their internal API fails. You have kubectl access to your namespace only. How do you find the cause?",
+    modelAnswer: "1. Scope: does every call fail or only some, since when, and does anything else in the namespace reach that API? Read the actual error text first; it usually names the layer.\n2. Reproduce from inside the failing environment, not from your laptop: kubectl exec into the pod (or run a debug pod in the same namespace) and test from there.\n3. Climb the stack bottom-up. DNS: does the hostname resolve from the pod (dig or nslookup)? Network: does a TCP connection open (nc -vz host port)? Timed out suggests a network policy, firewall or egress rule; refused means nothing is listening. TLS: does openssl s_client complete, and does the chain end at a corporate CA your image doesn't trust? Proxy: are HTTPS_PROXY and NO_PROXY set correctly for internal hosts? Identity: is the token valid for this audience, and is clock skew breaking expiry?\n4. Change one thing at a time and record each result.\n5. Fix at the right layer (for example, add the customer's CA bundle to the image or mount it from a ConfigMap; don't disable verification), then add a startup check or readiness probe that fails loudly if it regresses, and write a short note for the customer's platform team.",
+    redFlags: "Debugging application code before checking DNS, network and TLS; testing only from the laptop; disabling TLS verification to make it work; changing several settings at once; asking for cluster-admin instead of working within the access given.",
+    followUp: "DNS and TCP both work, and openssl shows a certificate issued by \"Corp-Inspection-CA\". What exactly do you change, and how do you ship it to an air-gapped cluster?"
+  },
+  {
+    id: "qb_23",
+    category: "Product Sense & Scoping",
+    company: "Palantir / Scale AI style",
+    level: "All Levels",
+    title: "Proving the value of a deployment",
+    prompt: "Your deployment has been live for three months and renewal is next quarter. The sponsor asks you to show the value it delivered. What do you present, and how do you build it?",
+    modelAnswer: "1. Start from the success plan agreed early on: the metric and the baseline. If no baseline was captured, reconstruct one honestly from logs, tickets or interviews, and say that it is reconstructed.\n2. Use the customer's units: hours saved, cost avoided, incidents prevented, cycle time, revenue protected. Pick the one or two metrics the sponsor already reports upward.\n3. Show the arithmetic with stated assumptions (for example: 1.75 hours saved per planner per day, 40 planners, about 65 working days a quarter, about 4,500 hours) so anyone can check it.\n4. Get the number confirmed by the operational owner, and add one short user quote.\n5. Close with what's next: the next use case, its expected value, and what you need from them. Keep it to one page or five minutes.",
+    redFlags: "Leading with architecture or feature counts; vanity metrics such as logins; inflated numbers that the customer cannot reproduce; no named customer confirming the result; no next step.",
+    followUp: "The numbers show the tool saved less time than promised. How do you present that?"
+  },
+  {
+    id: "qb_24",
+    category: "Client EQ & Hostile Stakeholders",
+    company: "OpenAI / Anthropic style",
+    level: "All Levels",
+    title: "A request that crosses a data boundary",
+    prompt: "Late on a deadline, a customer engineer asks you to copy a production table containing personal data to your laptop so you can debug faster. Their manager has said \"whatever it takes\". What do you do?",
+    modelAnswer: "1. Decline clearly but helpfully, and explain why in terms of their interests: personal data leaving approved systems is a security and compliance risk for them, and it is outside what your agreement allows.\n2. Offer faster alternatives that stay within the boundary: debug inside their environment through the access you already have; use a masked or synthetic extract; work from the schema and a few hand-crafted rows; pair with their engineer who has access.\n3. If the deadline is genuinely at risk, escalate early to your manager and their sponsor with options and trade-offs, rather than quietly breaking the rule.\n4. Write down what was asked and what you agreed, so there is no ambiguity later.",
+    redFlags: "Copying the data because a manager said so; refusing without offering an alternative; anonymizing by just dropping the name column; hiding the deadline risk instead of escalating.",
+    followUp: "The engineer copies the table to a shared drive themselves and sends you the link. What now?"
+  },
+  {
+    id: "qb_25",
+    category: "Behavioral & Motivation",
+    company: "Any enterprise team",
+    level: "All Levels",
+    title: "Bad news early",
+    prompt: "Tell me about a time you realized a project would miss a commitment. When did you raise it, and how?",
+    modelAnswer: "A strong answer follows STAR and shows timing and ownership. Situation and task in two sentences. Action: the moment you noticed the signal (a dependency slipping, data quality worse than assumed), how quickly you raised it (ideally within a day), who you told, and what you brought: impact, options with trade-offs and a recommendation, not just the problem. Show that you kept stakeholders updated as things changed. Result: the decision that was made, the outcome with a number if possible, and what you changed afterwards (for example, adding a risk check to weekly status updates).",
+    redFlags: "Raising it at the deadline; blaming another team; describing the team's actions with no individual ownership; no options, only the problem; no reflection on what you would do differently.",
+    followUp: "What would you have done if your manager told you not to tell the customer yet?"
   }
 ];
