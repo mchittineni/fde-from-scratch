@@ -1,118 +1,117 @@
-# 🚀 FDE Launchpad: Forward Deployed Engineer Career & Interview Hub
+# FDE from Scratch — Zero to Forward Deployed
 
-> **The comprehensive, open-source preparation platform for Software Engineers across all experience levels aiming to master and crack the Forward Deployed Software Engineer (FDE / FDSE) role at Palantir, Databricks, Scale AI, OpenAI, and Snowflake.**
+[![CI](https://github.com/mchittineni/fde-from-scratch/actions/workflows/ci.yml/badge.svg)](https://github.com/mchittineni/fde-from-scratch/actions/workflows/ci.yml)
+[![Link check](https://github.com/mchittineni/fde-from-scratch/actions/workflows/links.yml/badge.svg)](https://github.com/mchittineni/fde-from-scratch/actions/workflows/links.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-3DDC97.svg)](LICENSE)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-3DDC97.svg)](CONTRIBUTING.md)
 
----
+[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=000000)](https://buymeacoffee.com/mchittineni)
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-24292F?style=for-the-badge&logo=githubsponsors&logoColor=EA4AAA)](https://github.com/sponsors/mchittineni)
 
-## 🌟 What is a Forward Deployed Engineer (FDE)?
+A free, open-source field guide to becoming a **Forward Deployed Engineer (FDE)** — the engineers who embed with customers, untangle their data and politics, and ship production software that changes a real business outcome.
 
-Popularized by **Palantir Technologies** and adopted rapidly across enterprise AI and data leaders (**Databricks, Scale AI, OpenAI, Anthropic, Snowflake**), the Forward Deployed Engineer is one of the most lucrative, high-impact, and intellectually demanding engineering roles in modern tech.
+It starts from zero with what the job actually is, then walks you along a route of stations tailored to your experience level. Each station tells you what to learn (with vetted resources), where to practice (hands-on labs) and what to build (portfolio projects). It ends with a rehearsed interview loop for the company you're targeting.
 
-Unlike traditional software engineers who write code against sprint tickets behind product managers, an **FDE is embedded directly at the sharp edge of the business**:
-- Partnering on-site with Fortune 500 C-suites, defense agencies, and healthcare networks.
-- Architecting high-scale distributed data pipelines, lakehouses, and LLM applications.
-- Operating in the world's most restrictive customer networks (air-gapped datacenters, Zero-Trust VPCs).
-- Translating chaotic, ambiguous real-world problems into production software without product specs.
-- Mastering high-stakes client diplomacy, de-escalation, and scope negotiation.
+**[Open the guide →](https://mchittineni.github.io/fde-from-scratch/)**
 
----
+## What's inside
 
-## 🎯 Platform Features
+### The journey
 
-### 1. 🗺️ Experience-Tailored 12-Week Roadmaps
-Curated week-by-week sprints with interactive checklists, milestones, and resource reading lists tailored specifically to your career stage:
-- **Associate / Early Career (0 - 2 YOE)**: Rapid prototyping, SQL data wrangling, Linux triage, and Decomp fundamentals.
-- **Mid-Level SWE (2 - 5 YOE)**: Distributed computing (Spark/Kafka), enterprise identity (SAML/OIDC/VPCs), and applied AI orchestration.
-- **Senior SWE / Architect (5 - 9 YOE)**: Air-gapped containerization, enterprise ontologies, multi-tenant RBAC, and C-suite technical leadership.
-- **Staff / Principal / Field CTO (10+ YOE)**: The Field-to-Product Flywheel, global AI compliance (EU AI Act), and 8-figure pilot architecture.
-- **Role Transitioners (Solutions Architect / DevOps / SE to FDE)**: Bridging deep coding velocity with consultative diplomacy.
+| Station | What happens there |
+| --- | --- |
+| **00 · Orientation** | Seven short reads: what an FDE does, FDE vs SWE / SA / consultant, a week in the field, the five pillars, the starter toolkit, everyday communication frameworks, and how to use the guide. |
+| **01–06 · Your track** | Week-by-week milestones for your level — Associate (0–2 YOE), Mid (2–5), Senior (5–9), Staff / Field CTO (10+), or role transitioner. Each milestone names the proof artifact to produce. |
+| **GO · The Loop** | Rehearse your target company's interview: playbook, simulations, story bank, timed decomps and a full mock loop. |
 
-### 2. ⚡ 5-Pillar Skill Diagnostic Assessment
-A granular 15-question readiness audit evaluating the 5 core superpowers of an FDE:
-1. **Software & Systems Velocity** (48-hour MVPs, concurrency, debugging foreign codebases)
-2. **Distributed Data & AI Stack** (Spark, Delta Lake, SQL execution plans, RAG evals)
-3. **Enterprise Security & Infrastructure** (Air-gapped clusters, SAML 2.0, VPC peering, Linux diagnostics)
-4. **Problem Decomposition ('The Decomp')** (Domain modeling, entity graphs, tradeoffs)
-5. **Client Diplomacy & EQ** (Handling hostile client engineers, executive demos, scope defense)
-*Includes an interactive SVG Spider/Radar chart and automated track recommendation.*
+Progress, XP, ranks, notes and stories are saved in your browser. There are no accounts and nothing is sent anywhere.
 
-### 3. 🎮 "In The Field" Client Incident Simulator
-Interactive, multi-stage branching crisis scenarios with real-time telemetry meters (**Client Trust**, **Technical Integrity**, **Deployment Velocity**):
-- **The 48-Hour Air-Gapped Financial Crisis** (Palantir Style): Handling an unexpected CISO air-gapped ban before a CEO demo.
-- **Black Friday Lakehouse Ingestion Outage** (Databricks Style): Diagnosing join skew and memory saturation under 450,000 events/sec.
-- **Enterprise LLM PII Leak & Hallucination Escalation** (OpenAI/Scale Style): Remediating HIPAA compliance breaches with deterministic gateway guardrails.
+### Labs
 
-### 4. 🏢 Target Company Playbooks
-Deep-dive insider blueprints covering interview stages, decomp formulas, red flags, and sample questions for:
-- **Palantir Technologies**: FDSE loop, the 5-step Decomp formula, and high-ownership deployment culture.
-- **Databricks**: Solutions Architect loop, Spark internals, Catalyst optimizer, and Medallion Lakehouse design.
-- **Scale AI**: Rapid prototyping challenges, RLHF pipelines, and defense AI platforms (Scale Donovan).
-- **OpenAI & Anthropic**: Applied AI loop, Model Context Protocol (MCP), structured tool outputs, and LLM eval harnesses.
-- **Snowflake**: Field Technical Architect loop, micro-partition pruning, Snowpark, and Zero-Copy data sharing.
+- **Portfolio projects** — 10 mini-deployments (data explorer, messy ingestion, SSO + RBAC, air-gapped bundle, grounded RAG with evals, MCP server, streaming, decomp write-up, incident drill, exec demo), each with a customer brief and trackable acceptance criteria.
+- **Decomp drill** — 12 prompts across industries, a 45-minute clock, a five-phase scaffold with hints, a mid-drill twist, a self-review rubric, and Markdown export.
+- **Field simulator** — four branching client crises with live trust, integrity and velocity meters.
+- **Story bank** — eight behavioral prompts every FDE loop asks, in STAR form, exportable as Markdown.
+- **Skill diagnostic** — 15 scenario questions across five pillars, a radar of your strengths, a recommended track and resources for your weakest area.
+- **Decomp cases** — end-to-end architectures with entity models, ingestion, writeback and trade-offs.
+- **Question bank** — 20 prompts across eight categories with model answers, red flags and follow-up probes.
 
-### 5. 🏛️ Architecture & Decomp Vault
-End-to-end real-world system designs with full entity models, sequence phases, and tradeoff justifications:
-- Palantir Foundry-Style Enterprise Ontology & Writeback Engine
-- Air-Gapped Multi-Region Fleet Telemetry & Defense Logistics (DDIL)
-- Enterprise Agentic RAG Platform with VPC Isolation & Document ACL Pre-Filtering
+### Library
 
-### 6. 💡 Searchable Question Bank
-Filterable by category, seniority level, and company with model answers, red flags to avoid, and interviewer follow-up probes.
+55 vetted resources — docs, books, courses, tools and articles — grouped by skill and level (Start, Core, Deep). 46 are free, and every link is checked weekly in CI.
 
----
+### Playbooks
 
-## 🛠️ Quick Start & Local Development
+Interview loop stages, decomp formulas, red flags and sample questions for Palantir, Databricks, Scale AI, OpenAI & Anthropic, and Snowflake.
 
-This application is built with **zero external runtime dependencies** using modern standard HTML5, CSS3 (Vanilla), and ES6 native modules, paired with a lightweight Node.js HTTP server.
+## Run it locally
 
-### Prerequisites
-- Node.js (v18+) or Python 3
+No runtime dependencies — plain HTML, CSS and ES modules. Dev dependencies are only for linting and tests.
 
-### Running the App
-1. Clone or navigate to the project directory:
-   ```bash
-   cd /Users/manideepchittineni/.gemini/antigravity-ide/scratch/FDE
-   ```
-
-2. Start the local server:
-   ```bash
-   npm start
-   ```
-   *(Alternatively, run `node server.js` or `python3 -m http.server 5173`)*
-
-3. Open your browser:
-   ```
-   http://localhost:5173
-   ```
-
----
-
-## 📂 Project Directory Structure
-
-```
-FDE/
-├── index.html              # Modern semantic SPA shell & viewport
-├── server.js               # Zero-dependency local Node HTTP server (MIME/CORS)
-├── package.json            # Scripts & project metadata
-├── README.md               # Documentation & curriculum guide
-├── styles/
-│   ├── main.css            # Dark enterprise design system, variables & layout
-│   └── components.css      # Component styles (Timeline, Radar, Simulator, Cards)
-└── src/
-    ├── main.js             # Main SPA controller, tab router, state & events
-    └── data/
-        ├── roadmaps.js     # 5 Experience level curriculum roadmaps
-        ├── diagnostic.js   # 15-question 5-pillar assessment & scoring logic
-        ├── companies.js    # Palantir, Databricks, Scale AI, OpenAI, Snowflake playbooks
-        ├── simulations.js  # Branching real-world field incident scenarios
-        ├── caseStudies.js  # Decomp & enterprise system design case studies
-        └── questionBank.js # Searchable interview questions with model answers
+```bash
+git clone https://github.com/mchittineni/fde-from-scratch.git
+cd fde-from-scratch
+npm ci
+npm start            # http://localhost:5173
 ```
 
----
+| Command | What it does |
+| --- | --- |
+| `npm start` | Serve the site locally on port 5173 |
+| `npm run lint` | Lint JavaScript, CSS, HTML and Markdown |
+| `npm test` | Validate content data and run unit tests |
+| `npm run test:e2e` | Run Playwright browser tests, including accessibility checks (run `npx playwright install chromium` once first) |
+| `npm run test:all` | Lint plus every test |
+| `npm run check:links` | Check every Library link still loads |
 
-## 🤝 Contributing
-Contributions are welcomed! If you have real-world FDE interview questions, company loop updates, or decomp prompts to share, feel free to submit a pull request or open an issue.
+CI runs lint, unit tests with coverage, and the browser tests on every pull request.
 
-## 📄 License
-MIT License. Free for software engineers everywhere.
+Routes are hash-based and deep-linkable, e.g. `#/journey`, `#/library?t=ai`, `#/labs/projects/p-rag`, `#/labs/decomp/d3`, `#/playbooks/palantir`.
+
+The site deploys to GitHub Pages automatically on every push to `main` (see [`.github/workflows/pages.yml`](.github/workflows/pages.yml)).
+
+## Contributing
+
+Contributions are very welcome — especially content from people who do this work. Good places to start:
+
+- Add a Library resource you learned from
+- Write a question in the style you were asked (in your own words)
+- Add a decomp prompt from an industry you know
+- Correct an outdated company playbook detail
+
+Read the [contributing guide](CONTRIBUTING.md) for the content format and quality bar, and [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) if you're changing code. Please follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+Never submit interview material covered by an NDA or that a company asked candidates to keep confidential.
+
+## Project layout
+
+```text
+index.html            App shell
+styles/               Design tokens and components (dark + light)
+src/main.js           Router, views, actions
+src/lib/              Pure logic: XP, ranks, scoring, drill clock, station topic matching
+src/data/             All content — lessons, tracks, library, labs, questions, playbooks
+scripts/              Content validator and link checker
+tests/unit/           Node test runner: logic, content guardrails, dev server
+tests/e2e/            Playwright: every route, progress, mobile, accessibility
+docs/                 Architecture notes
+.github/              CI, link check, Pages deploy, issue and PR templates
+```
+
+## More guides
+
+- [Ultimate DevOps Guide](https://github.com/mchittineni/ultimate-devops-guide) — CI/CD, containers, IaC, observability and SRE.
+- [Ultimate AI Engineering Guide](https://github.com/mchittineni/ultimate-ai-engineering-guide) — LLMs, retrieval, agents, evals and inference.
+- [Ultimate Platform Engineering Guide](https://github.com/mchittineni/ultimate-platform-engineering-guide) — IDPs, Kubernetes, GitOps, multi-tenancy, FinOps.
+
+## Support
+
+If this guide helped you, you can [buy me a coffee](https://buymeacoffee.com/mchittineni) or [sponsor on GitHub](https://github.com/sponsors/mchittineni). Starring the repo and sharing it with someone preparing for an FDE role helps too.
+
+## Disclaimer
+
+This is an independent community project. It is not affiliated with, endorsed by, or sponsored by any company named in it. Company names are used only to describe publicly known roles and interview formats, which change over time. Compensation figures are approximate. Always confirm details with the company's official careers pages.
+
+## License
+
+[MIT](LICENSE) © mchittineni and contributors
