@@ -1,0 +1,38 @@
+name: Content suggestion
+description: Suggest a new or corrected question, resource, project, decomp prompt, simulation, lesson or company playbook.
+labels: [content]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of content?
+      options:
+        - Library resource
+        - Question bank entry
+        - Portfolio project
+        - Decomp drill prompt
+        - Field simulation
+        - Orientation lesson
+        - Company playbook update
+        - Correction to existing content
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: For a resource, include the title, link and why it helps an aspiring FDE. For a correction, say what is wrong and what it should say.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source
+      description: A public link backing the content, if there is one.
+  - type: checkboxes
+    id: nda
+    attributes:
+      label: Confidentiality
+      options:
+        - label: This is not covered by an NDA or a company's confidential interview material.
+          required: true
