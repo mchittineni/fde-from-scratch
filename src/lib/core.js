@@ -8,7 +8,7 @@ export const cleanTitle = (t) => t.replace(/^Pillar\s*\d+\s*:\s*/i, '');
 export const todayKey = (d = new Date()) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 
 /* ---------- XP + ranks ---------- */
-export const XP = { task: 50, lesson: 25, practiced: 15, studied: 40, sim: 100, diagnostic: 100, criterion: 30, drill: 75, story: 40, resource: 10 };
+export const XP = { task: 50, lesson: 25, practiced: 15, studied: 40, sim: 100, diagnostic: 100, criterion: 30, drill: 75, story: 40, resource: 10, check: 10 };
 
 export const RANKS = [
   { name: 'Recruit', min: 0 },
@@ -30,7 +30,8 @@ export function totalXP(s) {
     + Object.values(s.projects).reduce((a, p) => a + n(p), 0) * XP.criterion
     + Object.values(s.drills).filter((d) => d.done).length * XP.drill
     + n(s.storiesAwarded) * XP.story
-    + n(s.readRes) * XP.resource;
+    + n(s.readRes) * XP.resource
+    + Object.values(s.checks || {}).filter((c) => c.correct).length * XP.check;
 }
 
 export function rankFor(xp) {
