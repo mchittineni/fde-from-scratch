@@ -10,12 +10,20 @@ All notable changes to this project are documented here. The format follows [Kee
 - Unit tests (Node's built-in test runner) for the journey, XP and simulator logic, the content data and the dev server.
 - End-to-end browser tests (Playwright) covering every route, saved progress, themes and mobile layout.
 - CI runs lint, unit tests with coverage, and end-to-end tests on every pull request.
+- **Interactive diagrams** (`src/lib/diagrams.js`): a deployment lifecycle, role comparison, five-pillar map, toolkit stack, 90-day trust curve, field triage ladder and field-to-product flywheel, plus a journey route map, a live simulator system map, case overviews and playbook interview loops. Each has a keyboard-accessible button row and a detail panel.
+- **Four orientation lessons on succeeding in the job**: your first 90 days on a deployment, field triage inside customer networks, proving impact and feeding the product, and working sustainably (customer data, escalation, focus).
+- **Knowledge checks** in every lesson: one-shot questions with explanations, worth 10 XP when answered correctly first time (saved as `fde_checks`).
+- Five question-bank prompts on the first 30 days, in-cluster debugging, proving value, data boundaries and raising bad news early.
+- Sections fade in as they scroll into view; diagrams draw and pulse. All motion is skipped when the user prefers reduced motion.
 
 ### Changed
 
 - Pure logic moved out of `src/main.js` into `src/lib/core.js` and `src/lib/journey.js` so it can be unit tested.
 
 ### Fixed
+
+- Lesson and journey pages no longer scroll sideways on phones when they contain long code samples or the route map.
+- The five-pillars lesson now uses the same pillar names as the diagnostic.
 
 - Dev server no longer serves files from sibling folders whose names start with the project folder's name (path traversal), and refuses dotfiles such as `.git/`.
 
