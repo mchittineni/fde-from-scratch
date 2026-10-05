@@ -9,6 +9,7 @@ styles/components.css Every component: hero, journey route, stations, labs, libr
 src/main.js           Router, state, views and actions
 src/lib/core.js       Pure helpers: esc(), XP and ranks, simulator scoring, drill clock
 src/lib/journey.js    Pure station logic: TOPIC_RULES, learnFor(), projectFor(), practiceFor()
+src/lib/diagrams.js   Interactive SVG diagrams, as pure functions that return HTML strings
 src/data/*.js         All content (see CONTRIBUTING.md → Content guide)
 scripts/validate.mjs  Content + syntax validation (CI)
 scripts/check-links.mjs  Library link checker (weekly CI job)
@@ -56,6 +57,7 @@ Routes are hash-based so the site works on any static host (including GitHub Pag
 | `fde_drills` | Decomp drill notes, rubric and completion |
 | `fde_stories`, `fde_stories_awarded` | Story bank text and completion |
 | `fde_resources` | Library items marked done |
+| `fde_checks` | Knowledge-check answers: `{ checkId: { pick, correct } }` (first answer is final) |
 | `fde_activity` | Days with activity (for the weekly strip) |
 | `fde_theme` | Light/dark override |
 
@@ -80,6 +82,17 @@ The scoring functions live in `src/lib/` and take progress as arguments (`learnF
 - Clicks are handled by one delegated listener that dispatches on `data-action` to the `ACTIONS` map.
 - Checkbox changes (`data-task`, `data-crit`, `data-rubric`) and textarea input (`data-note`, `data-story`) are delegated too. Textareas save as you type without re-rendering, so the caret stays put.
 - `rerender()` re-runs the current view in place, preserving scroll position and focus (via `data-key`).
+- `swap(id, html)` replaces a single component instead. Diagrams and knowledge checks use it so a click doesn't replay animations elsewhere on the page.
+- On route changes only, `revealOnScroll()` fades in below-the-fold sections with an `IntersectionObserver`. It does nothing when the user prefers reduced motion.
+
+## Diagrams and lesson blocks
+
+Lesson `blocks` in `src/data/foundations.js` can be `p`, `list`, `steps`, `table`, `callout`, `timeline`, `diagram` or `check`.
+
+- `{ type: 'diagram', name }` renders `LESSON_DIAGRAMS[name]` from `src/lib/diagrams.js`. Any element with `data-action="select-diagram" data-diagram="<name>" data-value="<id>"` stores the choice in `state.diagrams` and swaps that card. The HTML button row is the keyboard and screen-reader path. SVG nodes are a pointer shortcut only, because an `<svg role="img">` hides its children from assistive technology.
+- `{ type: 'check', id, question, options, answer, explain }` is a one-shot knowledge check. Check IDs are progress keys, so they must never change.
+
+`scripts/validate.mjs` fails on unknown diagram names, duplicate check IDs and out-of-range answers.
 
 ## Adding a new lab
 
