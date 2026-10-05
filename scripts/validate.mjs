@@ -67,6 +67,18 @@ for (const r of Object.values(experienceLevels)) {
 unique('orientation lesson ids', orientationLessons.map((l) => l.id));
 unique('orientation lesson slugs', orientationLessons.map((l) => l.slug));
 orientationLessons.forEach((l) => required(`lesson ${l.id}`, l, ['title', 'slug', 'minutes', 'summary', 'blocks']));
+const { LESSON_DIAGRAMS } = await import(new URL('../src/lib/diagrams.js', import.meta.url));
+const lessonChecks = orientationLessons.flatMap((l) => l.blocks.filter((b) => b.type === 'check'));
+unique('knowledge checks', lessonChecks.map((c) => c.id));
+for (const l of orientationLessons) {
+  for (const b of l.blocks) {
+    if (b.type === 'diagram' && !LESSON_DIAGRAMS[b.name]) fail(`lesson ${l.id}: unknown diagram "${b.name}"`);
+    if (b.type !== 'check') continue;
+    required(`check ${b.id}`, b, ['question', 'options', 'explain']);
+    if (!(b.options?.length >= 2)) fail(`check ${b.id}: needs at least two options`);
+    if (!Number.isInteger(b.answer) || b.answer < 0 || b.answer >= (b.options?.length || 0)) fail(`check ${b.id}: answer must index an option`);
+  }
+}
 
 // Diagnostic
 unique('diagnostic questions', diagnosticQuestions.map((q) => q.id));
