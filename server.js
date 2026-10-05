@@ -1,10 +1,10 @@
+// Local development server. Not meant for production: GitHub Pages serves the site.
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 5173;
 
 const MIME_TYPES = {
@@ -23,63 +23,45 @@ const MIME_TYPES = {
   '.ttf': 'font/ttf'
 };
 
-const server = http.createServer((req, res) => {
-  const urlPath = req.url.split('?')[0];
-  let filePath = path.join(__dirname, urlPath === '/' ? 'index.html' : urlPath);
+// Map a request URL to a file under root, or null if it would escape root or touch a dotfile.
+export function resolveRequestPath(root, url) {
+  let urlPath;
+  try { urlPath = decodeURIComponent(new URL(url, 'http://localhost').pathname); } catch { return null; }
+  if (urlPath.includes('\0')) return null;
+  const filePath = path.resolve(root, `.${urlPath === '/' ? '/index.html' : urlPath}`);
+  const rel = path.relative(root, filePath);
+  if (rel.startsWith('..') || path.isAbsolute(rel)) return null;
+  if (rel.split(path.sep).some((part) => part.startsWith('.'))) return null;
+  return filePath;
+}
 
-  // Security check to avoid directory traversal
-  const normalizedPath = path.normalize(filePath);
-  if (!normalizedPath.startsWith(__dirname)) {
-    res.writeHead(403, { 'Content-Type': 'text/plain' });
-    res.end('403 Forbidden');
-    return;
-  }
+const send = (res, status, body, type = 'text/plain; charset=utf-8') => {
+  res.writeHead(status, { 'Content-Type': type, 'Cache-Control': 'no-cache, no-store, must-revalidate' });
+  res.end(body);
+};
 
-  fs.stat(normalizedPath, (err, stats) => {
-    if (err) {
-      // Fallback to index.html for SPA if not a file request
-      if (!path.extname(urlPath)) {
-        const indexPath = path.join(__dirname, 'index.html');
-        fs.readFile(indexPath, (readErr, content) => {
-          if (readErr) {
-            res.writeHead(404, { 'Content-Type': 'text/plain' });
-            res.end('404 Not Found');
-          } else {
-            res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-            res.end(content);
-          }
-        });
-        return;
-      }
-      res.writeHead(404, { 'Content-Type': 'text/plain' });
-      res.end(`404 Not Found: ${urlPath}`);
-      return;
-    }
+export function createServer(root = ROOT) {
+  return http.createServer((req, res) => {
+    const filePath = resolveRequestPath(root, req.url);
+    if (!filePath) return send(res, 403, '403 Forbidden');
 
-    if (stats.isDirectory()) {
-      filePath = path.join(filePath, 'index.html');
-    }
+    fs.stat(filePath, (err, stats) => {
+      const target = !err && stats.isDirectory() ? path.join(filePath, 'index.html') : filePath;
+      // Unknown extensionless paths fall back to the SPA shell; missing assets are a real 404.
+      const fallback = err && !path.extname(filePath) ? path.join(root, 'index.html') : null;
+      if (err && !fallback) return send(res, 404, '404 Not Found');
 
-    const ext = path.extname(filePath).toLowerCase();
-    const contentType = MIME_TYPES[ext] || 'application/octet-stream';
-
-    fs.readFile(filePath, (readErr, content) => {
-      if (readErr) {
-        res.writeHead(500, { 'Content-Type': 'text/plain' });
-        res.end(`500 Server Error: ${readErr.message}`);
-        return;
-      }
-
-      res.writeHead(200, {
-        'Content-Type': contentType,
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Access-Control-Allow-Origin': '*'
+      const file = fallback || target;
+      fs.readFile(file, (readErr, content) => {
+        if (readErr) return send(res, 404, '404 Not Found');
+        send(res, 200, content, MIME_TYPES[path.extname(file).toLowerCase()] || 'application/octet-stream');
       });
-      res.end(content);
     });
   });
-});
+}
 
-server.listen(PORT, '127.0.0.1', () => {
-  console.log(`🚀 FDE Launchpad Server running at http://localhost:${PORT}`);
-});
+if (import.meta.main) {
+  createServer().listen(PORT, '127.0.0.1', () => {
+    console.log(`FDE from Scratch dev server running at http://localhost:${PORT}`);
+  });
+}
