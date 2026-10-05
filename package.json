@@ -1,25 +1,70 @@
 {
-  "name": "fde-interview-hub",
+  "name": "fde-from-scratch",
   "version": "1.0.0",
-  "description": "Comprehensive Forward Deployed Engineer (FDE) learning portal, experience-tailored roadmaps, client simulations, and enterprise AI interview playbooks.",
+  "description": "A from-scratch, open-source field guide to becoming a Forward Deployed Engineer: orientation, experience-tailored learning tracks, hands-on labs, a vetted resource library and company interview playbooks.",
   "type": "module",
+  "private": true,
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "preview": "node server.js"
+    "lint": "npm run lint:js && npm run lint:css && npm run lint:html && npm run lint:md",
+    "lint:js": "eslint .",
+    "lint:css": "stylelint \"styles/**/*.css\"",
+    "lint:html": "html-validate index.html",
+    "lint:md": "markdownlint-cli2",
+    "lint:fix": "eslint . --fix && stylelint \"styles/**/*.css\" --fix && markdownlint-cli2 --fix",
+    "validate": "node scripts/validate.mjs",
+    "test": "npm run validate && npm run test:unit",
+    "test:unit": "node --test \"tests/unit/**/*.test.js\"",
+    "test:coverage": "node --test --experimental-test-coverage --test-coverage-include=\"src/**\" --test-coverage-include=\"server.js\" --test-coverage-exclude=\"src/main.js\" --test-coverage-lines=90 --test-coverage-branches=80 --test-coverage-functions=90 \"tests/unit/**/*.test.js\"",
+    "test:e2e": "playwright test",
+    "test:all": "npm run lint && npm test && npm run test:e2e",
+    "check:links": "node scripts/check-links.mjs"
   },
+  "engines": {
+    "node": ">=26"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.63.0",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
+    "html-validate": "^11.16.2",
+    "markdownlint-cli2": "^0.23.3",
+    "stylelint": "^17.16.0",
+    "stylelint-config-standard": "^40.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mchittineni/fde-from-scratch.git"
+  },
+  "homepage": "https://mchittineni.github.io/fde-from-scratch/",
+  "bugs": {
+    "url": "https://github.com/mchittineni/fde-from-scratch/issues"
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/mchittineni"
+    },
+    {
+      "type": "buymeacoffee",
+      "url": "https://buymeacoffee.com/mchittineni"
+    }
+  ],
   "keywords": [
     "forward-deployed-engineer",
     "fde",
+    "learning-path",
+    "career",
     "interview-prep",
-    "palantir",
-    "databricks",
-    "scale-ai",
-    "openai",
-    "snowflake",
     "system-design",
-    "applied-ai"
+    "decomposition",
+    "applied-ai",
+    "field-engineering",
+    "solutions-architect"
   ],
-  "author": "FDE Hub",
+  "author": "mchittineni (https://github.com/mchittineni)",
   "license": "MIT"
 }
