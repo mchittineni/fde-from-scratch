@@ -1,8 +1,8 @@
 // Validates the content data and checks every JS file parses.
 // Run with: npm run validate
 import { spawnSync } from 'node:child_process';
-import { readdirSync, statSync } from 'node:fs';
-import { join, relative } from 'node:path';
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
+import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
@@ -140,10 +140,33 @@ for (const s of simulations) {
   }
 }
 
+// Field guides — every listed guide exists, and relative links inside docs/ resolve
+const { fieldGuides } = await load('guides.js');
+unique('field guides', fieldGuides.map((g) => g.id));
+unique('field guide files', fieldGuides.map((g) => g.file));
+const guidesDir = join(root, 'docs', 'guides');
+for (const g of fieldGuides) {
+  required(`guide ${g.id}`, g, ['file', 'title', 'summary']);
+  if (g.topic !== null && !topicIds.has(g.topic)) fail(`guide ${g.id}: unknown topic "${g.topic}"`);
+  if (!existsSync(join(guidesDir, g.file))) fail(`guide ${g.id}: docs/guides/${g.file} does not exist`);
+}
+const listed = new Set(fieldGuides.map((g) => g.file));
+for (const name of readdirSync(guidesDir).filter((n) => n.endsWith('.md'))) {
+  if (!listed.has(name)) fail(`docs/guides/${name} is not listed in src/data/guides.js`);
+}
+for (const file of [...readdirSync(guidesDir).map((n) => join(guidesDir, n)), join(root, 'README.md')].filter((p) => p.endsWith('.md'))) {
+  const text = readFileSync(file, 'utf8').replace(/```[\s\S]*?```/g, '');
+  for (const [, target] of text.matchAll(/\]\(([^)\s]+)\)/g)) {
+    if (/^(https?:|mailto:|#)/.test(target)) continue;
+    const path = decodeURIComponent(target.split('#')[0]);
+    if (!existsSync(join(dirname(file), path))) fail(`${relative(root, file)}: broken relative link "${target}"`);
+  }
+}
+
 // ---- Report ----
 if (errors.length) {
   console.error(`✗ ${errors.length} problem(s) found:\n`);
   errors.forEach((e) => console.error(`  - ${e}`));
   process.exit(1);
 }
-console.log(`✓ Content valid — ${resources.length} resources, ${portfolioProjects.length} projects, ${decompPrompts.length} decomp prompts, ${questionBank.length} questions, ${simulations.length} simulations, ${orientationLessons.length} lessons.`);
+console.log(`✓ Content valid — ${resources.length} resources, ${portfolioProjects.length} projects, ${decompPrompts.length} decomp prompts, ${questionBank.length} questions, ${simulations.length} simulations, ${orientationLessons.length} lessons, ${fieldGuides.length} field guides.`);
