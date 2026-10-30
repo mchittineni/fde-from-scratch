@@ -33,12 +33,23 @@ Progress, XP, ranks, notes and stories are saved in your browser. There are no a
 - **Field simulator** — four branching client crises with live trust, integrity and velocity meters.
 - **Story bank** — eight behavioral prompts every FDE loop asks, in STAR form, exportable as Markdown.
 - **Skill diagnostic** — 15 scenario questions across five pillars, a radar of your strengths, a recommended track and resources for your weakest area.
-- **Decomp cases** — end-to-end architectures with entity models, ingestion, writeback and trade-offs.
-- **Question bank** — 20 prompts across eight categories with model answers, red flags and follow-up probes.
+- **Decomp cases** — 5 end-to-end architectures with entity models, ingestion, writeback and trade-offs.
+- **Question bank** — 30 prompts across eight categories with model answers, red flags and follow-up probes.
+
+### Technical Guides
+
+Deep-dive architectural playbooks and field guides located in [`docs/guides/`](docs/guides/):
+
+- **[Decomposition Playbook](docs/guides/DECOMPOSITION_PLAYBOOK.md)** — A 6-phase structured blueprint for turning vague customer problems into working systems, with whiteboard time management and failure twists.
+- **[Enterprise Data & Integration](docs/guides/ENTERPRISE_DATA_AND_INTEGRATION.md)** — CDC (Debezium), Spark performance tuning and skew handling, DuckDB local analysis, and probabilistic entity resolution.
+- **[Air-Gap, Security & Networking](docs/guides/AIRGAP_SECURITY_AND_NETWORKING.md)** — Deploying into zero-internet customer networks, surviving TLS-inspection proxies, SAML 2.0 vs OIDC, and offline container bundles.
+- **[Applied AI in Enterprise](docs/guides/APPLIED_AI_IN_ENTERPRISE.md)** — Production RAG, layout-aware parsing, hybrid search, Model Context Protocol (MCP) tool design, and CI eval harnesses.
+- **[Client Diplomacy & Field Survival](docs/guides/CLIENT_DIPLOMACY_AND_SURVIVAL.md)** — Discovery interviewing (The Mom Test in enterprise), executive readouts (Minto Pyramid), scope negotiation, and the 24-hour bad news rule.
+- **[Curated Media & Reading List](docs/guides/RECOMMENDED_MEDIA.md)** — Master index of vetted YouTube lectures, engineering blogs (Palantir, Databricks, Stripe), Medium posts, and books.
 
 ### Library
 
-55 vetted resources — docs, books, courses, tools and articles — grouped by skill and level (Start, Core, Deep). 46 are free, and every link is checked weekly in CI.
+88 vetted resources — official docs, books, courses, tools, YouTube lectures and engineering articles — grouped by skill and level (Start, Core, Deep), with weekly CI link validation.
 
 ### Playbooks
 
