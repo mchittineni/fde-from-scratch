@@ -2,19 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; style-src-attr 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>FDE from Scratch — Zero to Forward Deployed</title>
   <meta name="description" content="A from-scratch field guide to becoming a Forward Deployed Engineer: orientation, experience-tailored learning tracks, hands-on labs, and company interview playbooks.">
   <meta name="theme-color" content="#0A0E14">
+  <meta name="color-scheme" content="dark light">
+  <link rel="canonical" href="https://mchittineni.github.io/fde-from-scratch/">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <meta property="og:type" content="website">
   <meta property="og:title" content="FDE from Scratch — Zero to Forward Deployed">
   <meta property="og:description" content="A free, open-source field guide to becoming a Forward Deployed Engineer: learning tracks, labs, a vetted library and interview playbooks.">
   <meta property="og:url" content="https://mchittineni.github.io/fde-from-scratch/">
   <meta name="twitter:card" content="summary">
-  <script>
-    // Apply the saved theme before first paint to avoid a flash.
-    try { const t = localStorage.getItem('fde_theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
-  </script>
+  <script src="./src/theme-init.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -26,15 +28,15 @@
 
   <header class="header">
     <div class="container header-inner">
-      <a class="brand" href="#/" aria-label="FDE from Scratch home">
-        <span class="brand-mark" aria-hidden="true">FDE</span>
+      <a class="brand" href="#/">
+        <span class="brand-mark">FDE</span>
         <span class="brand-name">from Scratch <span>/ field guide</span></span>
       </a>
 
       <nav class="nav" aria-label="Primary" id="primaryNav"></nav>
 
       <div class="header-right">
-        <a class="xp-pill" href="#/journey" id="xpPill" aria-label="Your progress"></a>
+        <a class="xp-pill" href="#/journey" id="xpPill"><span class="sr-only">Your progress</span></a>
         <a class="icon-btn sponsor" id="sponsorBtn" href="https://github.com/sponsors/mchittineni" target="_blank" rel="noopener" aria-label="Sponsor this project on GitHub"></a>
         <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle color theme"></button>
       </div>
@@ -42,7 +44,14 @@
   </header>
 
   <main id="main" tabindex="-1">
-    <div id="app"></div>
+    <div id="app">
+      <noscript>
+        <div class="container">
+          <h1>FDE from Scratch needs JavaScript</h1>
+          <p>The interactive guide runs in your browser. Enable JavaScript, or read the field guides on <a href="https://github.com/mchittineni/fde-from-scratch/tree/main/docs/guides">GitHub</a>.</p>
+        </div>
+      </noscript>
+    </div>
   </main>
 
   <footer class="footer" id="footer"></footer>

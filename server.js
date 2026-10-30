@@ -12,6 +12,8 @@ const MIME_TYPES = {
   '.css': 'text/css; charset=utf-8',
   '.js': 'application/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
+  '.md': 'text/markdown; charset=utf-8',
+  '.webmanifest': 'application/manifest+json',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
@@ -35,13 +37,22 @@ export function resolveRequestPath(root, url) {
   return filePath;
 }
 
-const send = (res, status, body, type = 'text/plain; charset=utf-8') => {
-  res.writeHead(status, { 'Content-Type': type, 'Cache-Control': 'no-cache, no-store, must-revalidate' });
-  res.end(body);
+const HEADERS = {
+  'Cache-Control': 'no-cache, no-store, must-revalidate',
+  'X-Content-Type-Options': 'nosniff',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'X-Frame-Options': 'DENY'
+};
+
+const send = (res, status, body, type = 'text/plain; charset=utf-8', extra = {}) => {
+  res.writeHead(status, { ...HEADERS, 'Content-Type': type, ...extra });
+  res.end(res.req.method === 'HEAD' ? undefined : body);
 };
 
 export function createServer(root = ROOT) {
   return http.createServer((req, res) => {
+    // A static file server: anything other than a read is a client mistake.
+    if (req.method !== 'GET' && req.method !== 'HEAD') return send(res, 405, '405 Method Not Allowed', undefined, { Allow: 'GET, HEAD' });
     const filePath = resolveRequestPath(root, req.url);
     if (!filePath) return send(res, 403, '403 Forbidden');
 
