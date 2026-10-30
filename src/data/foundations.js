@@ -117,6 +117,36 @@ export const orientationLessons = [
     ]
   },
   {
+    id: "o13",
+    slug: "starting-from-zero",
+    title: "Starting from zero: what to learn before the tracks",
+    minutes: 5,
+    summary: "If you can't yet code, query a database or use a terminal, this is the honest on-ramp — and how long it takes.",
+    blocks: [
+      { type: "p", text: "The tracks assume you can already write a small program, use a terminal and query a database. If you can't yet, that's fine — almost every FDE started there. Spend your first months on foundations, not on interview prep. Foundations compound; interview tricks don't." },
+      { type: "table", head: ["You can…", "If not, learn it with"], rows: [
+        ["Write a 100-line program that reads a file and prints a summary", "CS50's Introduction to Programming with Python, or Automate the Boring Stuff"],
+        ["Navigate folders, search files and run scripts in a terminal", "The Missing Semester (MIT) and OverTheWire: Bandit"],
+        ["Write a SQL query with a JOIN and a GROUP BY", "SQLBolt or Select Star SQL"],
+        ["Commit, branch and undo a mistake in git", "Learn Git Branching and Pro Git"],
+        ["Explain what happens when you type a URL into a browser", "How DNS works and MDN's web development guide"]
+      ] },
+      { type: "steps", title: "A realistic on-ramp", items: [
+        { label: "Months 1–2", text: "One language (Python), the terminal and git. Write small programs every day, even 30 minutes." },
+        { label: "Months 2–3", text: "SQL and data cleaning. Load a messy public CSV, clean it and answer five questions about it." },
+        { label: "Months 3–4", text: "A small web API and a container. Then pick a track here and start Station 01." }
+      ] },
+      { type: "callout", tone: "blue", title: "Where the full plan lives", text: "The Library's Field guides section opens with \"Start here: zero to FDE\" — a phase-by-phase curriculum with exit checkpoints and a weekly study rhythm. Every resource named above is in the Library, filtered to the Start level." },
+      { type: "callout", tone: "amber", title: "The trap", text: "Watching courses feels like progress. It isn't until you've built something without the video open. Aim for at least half your hours on building, not watching." },
+      { type: "check", id: "o13-c1", question: "You've finished two programming courses but freeze when you open an empty editor. What's the best next step?", options: [
+        "Start a third, more advanced course.",
+        "Build small projects of your own from a blank file, looking things up as you go.",
+        "Skip ahead to system design interview prep.",
+        "Memorize common LeetCode solutions."
+      ], answer: 1, explain: "Courses teach recognition; building from a blank file teaches recall. FDE work is mostly the second — a customer problem with no tutorial." }
+    ]
+  },
+  {
     id: "o7",
     slug: "communication-frameworks",
     title: "Communication frameworks you'll use every day",
@@ -253,6 +283,43 @@ export const orientationLessons = [
     ]
   },
   {
+    id: "o12",
+    slug: "how-enterprises-buy-software",
+    title: "How enterprises buy software (and why it matters to you)",
+    minutes: 6,
+    summary: "Champions, economic buyers, security reviews and pilots — the business process every deployment lives inside.",
+    blocks: [
+      { type: "p", text: "Your deployment exists because a customer decided to spend money and political capital on it. Understanding who made that decision, and what they need to see to keep making it, tells you what to build first and whom to keep informed." },
+      { type: "table", head: ["Role", "What they care about", "What you give them"], rows: [
+        ["Champion", "Looking good for backing you internally", "Early wins they can show, and no surprises"],
+        ["Economic buyer", "Return on the money and risk", "A value number in their units: hours, dollars, incidents"],
+        ["End users", "Whether their day gets easier", "Software that fits their workflow, and fast fixes"],
+        ["Security and IT", "Not being the team that let a breach in", "Clear data flows, least-privilege access, answers in writing"],
+        ["Procurement and legal", "Terms, liability and data protection", "Accurate answers via your account team — never improvised promises"]
+      ] },
+      { type: "steps", title: "The usual path", items: [
+        { label: "Discovery", text: "A problem worth solving, a sponsor and a rough value hypothesis." },
+        { label: "Pilot or proof of concept", text: "Time-boxed, with written success criteria agreed before you start." },
+        { label: "Security review", text: "Questionnaires, architecture diagrams and data-flow descriptions. Often the slowest step." },
+        { label: "Production", text: "Real users, real data, support expectations and an owner on the customer side." },
+        { label: "Expansion", text: "The next use case, team or region — usually won by the results of the first." }
+      ] },
+      { type: "callout", tone: "accent", title: "Write the success criteria down", text: "Before a pilot starts, agree on three to five measurable criteria, the baseline for each and who will judge them. A pilot without written criteria can't be won — it just ends." },
+      { type: "check", id: "o12-c1", question: "Two weeks into a pilot, the champion asks for a feature that wasn't in the agreed success criteria. What's the best response?", options: [
+        "Build it immediately to keep them happy.",
+        "Refuse — it's out of scope.",
+        "Check whether it affects the agreed criteria; if it's important, agree in writing what moves or drops to fit it in.",
+        "Escalate to procurement to amend the contract."
+      ], answer: 2, explain: "The criteria are how the pilot gets judged. Trading scope openly keeps the champion's trust and protects the result they'll need to show their own boss." },
+      { type: "check", id: "o12-c2", question: "Which statement belongs in a readout to an economic buyer?", options: [
+        "We migrated the pipeline to a lakehouse with incremental CDC.",
+        "Claims triage time fell from 3 days to 4 hours across the pilot team, freeing about 2 analyst-weeks a month.",
+        "Users said they liked the new interface.",
+        "We closed 47 tickets this sprint."
+      ], answer: 1, explain: "Economic buyers fund outcomes. A before-and-after measured in their units — time, money, risk — is what earns the next phase." }
+    ]
+  },
+  {
     id: "o11",
     slug: "working-sustainably",
     title: "Working sustainably in the field",
@@ -303,7 +370,9 @@ export const orientationLessons = [
         "Run the Decomp drill weekly with a timer. Fill the Story bank as you go — don't leave behavioral prep for the last week.",
         "Two weeks before interviews, open your target company's playbook and run its loop end to end."
       ] },
-      { type: "callout", tone: "blue", title: "Pace", text: "Tracks are paced for roughly 12 weeks at 8–10 hours a week. Going slower is fine. Skipping the artifacts is not." }
+      { type: "callout", tone: "blue", title: "Pace", text: "Tracks are paced for roughly 12 weeks at 8–10 hours a week. Going slower is fine. Skipping the artifacts is not." },
+      { type: "callout", tone: "accent", title: "Go deeper with the field guides", text: "The Library ends with long-form field guides — a zero-to-FDE curriculum, deep dives on each pillar, business and industry primers, interview and career advice, self-assessment rubrics and a glossary. Use them when a station's links leave you wanting more." },
+      { type: "callout", tone: "blue", title: "Tell us what's missing", text: "Stuck, confused or found something outdated? Open a \"Learner feedback\" issue on the GitHub repository. Feedback from people working through the guide decides what gets improved next." }
     ]
   }
 ];
