@@ -145,5 +145,101 @@ export const caseStudies = [
       { decision: "Automated actions versus confirmation", reasoning: "Letting the assistant take actions makes it more useful but also lets prompt injection cause harm. Starting read-only, and requiring confirmation for anything that writes, limits the damage a malicious document can do." }
     ],
     interviewTakeaway: "Show that you see enterprise RAG as mostly a data and access-control problem. Explain how permissions apply to retrieval, how you parse difficult documents, how you would measure quality, and what the system does when it doesn't know. Leave prompt design for last."
+  },
+
+  {
+    id: "cs_fraud_aml",
+    title: "Real-Time Financial Crime & AML Triage with High-Throughput CDC",
+    category: "Distributed Data & Event Streaming",
+    difficulty: "Senior / Staff",
+    companyContext: "Financial crime detection platform (Fintech / Tier-1 Bank)",
+    problemStatement: "A global retail bank processes 45,000 transactions per second across credit cards, wire transfers, and merchant terminals. Fraud rules and ML scoring must evaluate every transaction within 120 milliseconds. Confirmed suspicious events must immediately generate an investigator alert, trigger account restrictions in the core banking ledger (Mainframe/Oracle), and support full auditability without dropping events during database failovers.",
+    architecturePhases: [
+      {
+        phase: "1. Ingestion and Partitioned Streaming",
+        details: "Capture transactions across heterogenous banking channels with zero event loss and strict per-account temporal ordering.",
+        technicalDecisions: [
+          "Deploy log-based Change Data Capture (Debezium) on payment databases and an event gateway for online checkout traffic.",
+          "Partition Kafka topics by account_id so all transactions and state changes for a given customer land on the same broker in strict arrival order.",
+          "Enforce schema evolution using Confluent Schema Registry with backward compatibility checks, preventing broken payloads.",
+          "Persist all raw events into an Apache Iceberg table on object storage with daily compaction for historical backtesting and regulator audit."
+        ]
+      },
+      {
+        phase: "2. Real-Time Feature Store and Scoring Engine",
+        details: "Calculate sliding-window aggregations and run scoring models within an 80 ms latency budget.",
+        technicalDecisions: [
+          "Use Apache Flink stateful stream processing with RocksDB state backend to compute rolling window features (e.g., velocity in last 5 minutes, sudden geographic hops).",
+          "Cache customer risk profiles and sanction watchlists in Redis with sub-millisecond read access.",
+          "Score incoming transactions with a two-tier evaluation engine: fast deterministic rules execute first (<10 ms), followed by an ONNX-runtime ML model (<40 ms).",
+          "Include a circuit-breaker: if the ML scoring tier times out (>60 ms), default to deterministic rules and tag the transaction for post-authorization asynchronous review rather than declining legitimate cardholders."
+        ]
+      },
+      {
+        phase: "3. Analyst Workspace and Sagas Writeback",
+        details: "Present high-risk cases to compliance investigators and coordinate ledger holds across legacy systems without distributed transactions.",
+        technicalDecisions: [
+          "Serve an investigator web dashboard with WebSocket live alerts, showing the graph of transactions, card devices, and risk feature explanations.",
+          "Execute account restrictions via a saga orchestrator: Step 1 places a temporary freeze on the card rail; Step 2 submits a hold to the core banking ledger; Step 3 notifies the account owner.",
+          "Use compensating transactions: if the legacy core banking ledger rejects the hold due to an offline maintenance window, release the card rail lock and escalate to an urgent on-call fraud analyst queue.",
+          "Maintain an immutable, append-only audit trail recording every automated score, threshold trigger, human analyst override, and customer communication."
+        ]
+      }
+    ],
+    tradeoffs: [
+      { decision: "Synchronous blocking versus asynchronous post-authorization triage", reasoning: "Card networks enforce hard sub-second authorization timeouts (under 150 ms total roundtrip). Running deep graph analytics synchronously risks timing out and dropping valid revenue. High-confidence fraud is blocked synchronously; borderline fraud is approved synchronously but triggers an asynchronous alert and immediate step-up authentication within 5 seconds." },
+      { decision: "In-memory sliding state versus query-on-demand database lookups", reasoning: "Querying a traditional database for a customer's last 20 transactions under 45,000 TPS causes severe connection exhaustion. Flink in-memory state provides predictable latency but requires checkpointing to object storage to recover from task manager failures without losing window counts." },
+      { decision: "Sagas versus two-phase commit (2PC) across banking tiers", reasoning: "Legacy mainframes and third-party payment rails do not support XA distributed transactions. Sagas handle cross-system coordination reliably with compensation logic, at the cost of short temporary windows of eventual consistency." }
+    ],
+    interviewTakeaway: "In financial streaming decomps, partition by the entity that defines business ordering (account or cardholder). Separate hard authorization latency budgets from deep asynchronous investigation, and demonstrate how sagas handle writeback when the system of record is an inflexible legacy ledger."
+  },
+
+  {
+    id: "cs_hospital_bed_coordination",
+    title: "Regional Emergency Bed and Patient Transfer Coordination",
+    category: "Decomposition & Domain Modeling",
+    difficulty: "Mid / Senior",
+    companyContext: "Healthcare system & emergency operations platform",
+    problemStatement: "A regional healthcare network of 28 hospitals and 110 clinics needs to coordinate intensive care (ICU) bed capacity, emergency transport dispatch, and specialized equipment (e.g., pediatric ventilators, ECMO). Data is trapped across four different Electronic Health Record (EHR) vendors (Epic, Cerner, Meditech, proprietary SQL). Planners need real-time visibility into bed availability and the ability to reserve and transfer patients while complying with strict HIPAA/PHI confidentiality rules.",
+    architecturePhases: [
+      {
+        phase: "1. Operational Ontology and Domain Model",
+        details: "Model operational physical objects and patient care logistics separately from full medical histories.",
+        entities: [
+          { name: "Hospital", properties: ["hospital_id", "facility_name", "region", "trauma_level", "helipad_available", "coordinates"] },
+          { name: "Unit", properties: ["unit_id", "hospital_id", "unit_type (ICU/PICU/Stepdown/General)", "nurse_to_patient_ratio", "status"] },
+          { name: "Bed", properties: ["bed_id", "unit_id", "room_number", "bed_status (Occupied/Available/Cleaning/Maintenance)", "isolation_type", "assigned_patient_id", "last_updated_at"] },
+          { name: "TransferRequest", properties: ["request_id", "origin_hospital_id", "target_hospital_id", "acuity_level", "specialty_needed", "status (Draft/PendingReview/Accepted/InTransit/Completed)", "expires_at"] },
+          { name: "TransportUnit", properties: ["unit_id", "transport_type (Ambulance/Helicopter)", "crew_status", "current_location", "assigned_request_id"] }
+        ],
+        relationships: "Hospital contains many Units. Unit contains many Beds. Bed can be allocated to one TransferRequest. TransferRequest pairs with one TransportUnit."
+      },
+      {
+        phase: "2. Heterogeneous EHR Ingestion and Cleaning",
+        details: "Ingest real-time ADT (Admission, Discharge, Transfer) message streams from multiple health systems and resolve physical reality against system data.",
+        technicalDecisions: [
+          "Connect to hospital interface engines via HL7 v2 ADT feeds (A01 Admission, A02 Transfer, A03 Discharge) and modern FHIR R4 Encounter APIs.",
+          "Solve the 'dirty bed' latency problem: when a patient is discharged in the EHR, the physical bed is not clean for 45-90 minutes. Ingest environmental services (housekeeping) task logs to transition bed states from 'Discharged' to 'Cleaning' to 'Ready'.",
+          "Enforce HIPAA de-identification at the ingestion boundary: clinical descriptions are parsed with NLP (Microsoft Presidio) to strip patient names, Social Security numbers, and exact addresses, preserving only relevant medical acuity criteria.",
+          "Use optimistic concurrency control on Bed records with version numbers so two regional dispatchers cannot lock the same ICU bed simultaneously."
+        ]
+      },
+      {
+        phase: "3. Reservation Workflow and Safe EHR Writeback",
+        details: "Two-phase transfer reservation that protects hospital capacity without locking resources indefinitely.",
+        technicalDecisions: [
+          "Implement a temporary reservation lease (30-minute lock): when a transfer is initiated, the bed is marked 'Reserved'. If the transport team does not confirm departure within 30 minutes, the lock expires and the bed is released back to the general pool.",
+          "Write transfer bookings back to the receiving hospital's EHR via FHIR Appointment or Encounter creation, verified through transactional outbox messages.",
+          "Provide an offline mode for emergency transport crews: ambulance tablets store the transfer packet and patient triage notes locally in an embedded SQLite database, synchronizing over cellular or satellite when in range.",
+          "Maintain row-level security: transferring clinicians see clinical parameters, transport coordinators see routing and weight constraints, and executive leadership sees anonymized network occupancy trends."
+        ]
+      }
+    ],
+    tradeoffs: [
+      { decision: "HL7 v2 event streaming versus polling FHIR REST endpoints", reasoning: "Polling REST endpoints every minute across 28 hospitals and thousands of beds creates excessive load on legacy EHR database instances. Subscribing to HL7 v2 MLLP streams delivers sub-second occupancy updates with minimal system overhead, with periodic REST reconciliation runs catching any missed messages." },
+      { decision: "Automated bed matching versus dispatcher-in-the-loop", reasoning: "A purely algorithmic matching engine risks overlooking unquantified clinical nuances (e.g., patient stability, specialized nursing credentials). The platform provides ranked recommendations based on drive-time, acuity, and equipment availability, but requires the receiving medical officer to confirm acceptance." },
+      { decision: "Temporary reservation leases versus manual releases", reasoning: "Without automated lease expirations, clinicians frequently hold beds for patients who are later stabilized locally or whose families decline transfer, paralyzing regional capacity during surge events." }
+    ],
+    interviewTakeaway: "In healthcare operations decomps, isolate operational logistics from full clinical records. Emphasize HIPAA least-privilege scoping, address the operational lag between system updates and physical cleaning, and design self-expiring reservations to prevent phantom bed shortages."
   }
 ];
