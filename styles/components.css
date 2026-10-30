@@ -546,6 +546,8 @@
 .lib-card h3 .icon { display: inline-block; vertical-align: -2px; margin-left: 2px; color: var(--text-dim); }
 .lib-card p { font-size: 14px; color: var(--text-muted); }
 .lib-card.is-read { border-color: var(--accent-line); }
+.lib-guides { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border); }
+.lib-guides .lead { margin-bottom: 16px; }
 
 /* ---------- Decomp drill ---------- */
 .drill { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; align-items: start; }
