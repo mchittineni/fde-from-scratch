@@ -6,6 +6,7 @@ import { caseStudies } from './data/caseStudies.js';
 import { questionBank } from './data/questionBank.js';
 import { orientationLessons } from './data/foundations.js';
 import { resources, resourceTopics } from './data/resources.js';
+import { fieldGuides, GUIDES_BASE } from './data/guides.js';
 import { portfolioProjects, decompPhases, decompRubric, decompPrompts, storyPrompts, starFields } from './data/labs.js';
 import { esc, pad, pct, cleanTitle, todayKey, XP, rankFor, totalXP as totalXPFor, SIM_START, gradeFor, simScore, applyImpact, fmtClock, phaseAt as phaseAtFor } from './lib/core.js';
 import { practiceFor, topicsFor, learnFor as learnForProgress, projectFor as projectForProgress, projectDone as projectDoneFor, topicById, resById } from './lib/journey.js';
@@ -405,6 +406,7 @@ function renderChrome(path) {
   const rank = rankFor(xp);
   const prog = journeyProgress();
   document.getElementById('xpPill').innerHTML = `
+    <span class="sr-only">Your progress:</span>
     <span class="xp-pill-ring ring" style="width:28px;height:28px">${ring(prog.percent, 28, 4)}</span>
     <span class="xp-pill-label"><strong>${esc(rank.name)}</strong> · ${xp} XP</span>
     <span class="sr-only">${prog.percent}% of journey complete</span>`;
@@ -1342,7 +1344,8 @@ function viewLibrary(_, params) {
     title: 'Library',
     html: `<div class="container">
       <header class="page-head"><div><span class="eyebrow eyebrow-accent"><span class="dot"></span>Library</span><h1>Learn from the best sources</h1>
-        <p class="lead">${resources.length} hand-picked docs, books, courses and tools, ${freeCount} of them free. Filter by skill and level — <strong>Start</strong> assumes nothing, <strong>Core</strong> is job-ready, <strong>Deep</strong> is for senior loops.</p></div>
+        <p class="lead">${resources.length} hand-picked docs, books, courses and tools, ${freeCount} of them free. Filter by skill and level — <strong>Start</strong> assumes nothing, <strong>Core</strong> is job-ready, <strong>Deep</strong> is for senior loops.</p>
+        <p class="mt-8">New to all of this? Read <a href="${GUIDES_BASE}${fieldGuides.find((g) => g.start).file}" target="_blank" rel="noopener">Start here: zero to FDE</a> first, then the <a href="#field-guides">field guides</a> below.</p></div>
         <div class="panel lib-stat"><div class="panel-title">Your reading</div><div class="score-big" style="font-size:40px">${readCount}<small>/${resources.length}</small></div></div></header>
       <div class="toolbar">
         <label class="search"><span class="sr-only">Search the library</span>${icon('search')}<input type="search" id="libSearch" placeholder="Search titles and topics…" value="${esc(state.libSearch)}" data-key="libsearch" autocomplete="off"></label>
@@ -1357,6 +1360,7 @@ function viewLibrary(_, params) {
         </div>
       </div>
       <div id="libList">${libraryListHtml()}</div>
+      ${fieldGuidesHtml()}
     </div>`,
     after() {
       document.getElementById('libSearch')?.addEventListener('input', (e) => {
@@ -1365,6 +1369,21 @@ function viewLibrary(_, params) {
       });
     }
   };
+}
+
+function fieldGuidesHtml() {
+  return `<section class="lib-group lib-guides" id="field-guides" aria-labelledby="field-guides-title">
+      <h2 class="lib-group-title" id="field-guides-title">Field guides <span class="dim mono">${fieldGuides.length}</span></h2>
+      <p class="lead">Long-form manuals that go deeper than any single link: worked examples, templates, checklists and exercises.</p>
+      <div class="lib-grid">
+        ${fieldGuides.map((g) => `
+          <article class="card lib-card">
+            <div class="chip-row"><span class="chip chip-mono">Guide</span>${g.start ? '<span class="chip chip-accent">Start here</span>' : g.topic ? `<span class="chip">${esc(topicById[g.topic].name)}</span>` : '<span class="chip">All pillars</span>'}</div>
+            <h3><a href="${GUIDES_BASE}${g.file}" target="_blank" rel="noopener">${esc(g.title)} ${icon('external', 'icon-sm')}<span class="sr-only">(opens in a new tab)</span></a></h3>
+            <p>${esc(g.summary)}</p>
+          </article>`).join('')}
+      </div>
+    </section>`;
 }
 
 function libraryListHtml() {
