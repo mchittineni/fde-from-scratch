@@ -1,7 +1,10 @@
 name: Deploy to GitHub Pages
 
+# Deploys only after CI (lint, unit and browser tests) has passed on main.
 on:
-  push:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
 
@@ -16,6 +19,7 @@ concurrency:
 
 jobs:
   deploy:
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -24,6 +28,10 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Deploy exactly the commit CI tested, not whatever main points to now.
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -34,13 +42,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Lint, validate and unit test before publishing
-        run: npm run lint && npm test
+      - name: Validate content and run unit tests before publishing
+        run: npm test
 
       - name: Assemble site
         run: |
           mkdir -p _site
-          cp -r index.html styles src .nojekyll _site/
+          cp -r index.html favicon.svg styles src .nojekyll _site/
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0

@@ -1,0 +1,57 @@
+name: Learner feedback
+description: Tell us what helped, what confused you, or what is missing while you learn with the guide.
+labels: [feedback]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time. Feedback from people actually working through the guide is the most useful input this project gets.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part of the guide?
+      options:
+        - Orientation lessons
+        - Journey / learning track
+        - Labs (projects, decomp drill, simulator, story bank, diagnostic, cases, questions)
+        - Library
+        - Company playbooks
+        - Field guides (docs/guides)
+        - The guide as a whole
+    validations:
+      required: true
+  - type: dropdown
+    id: stage
+    attributes:
+      label: Where are you in your journey?
+      options:
+        - Just starting (no or little coding experience)
+        - Working engineer moving into an FDE role
+        - Actively interviewing for FDE roles
+        - Already working as an FDE
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of feedback?
+      options:
+        - Something was confusing or too hard
+        - Something is missing (a topic, skill or resource)
+        - Something is wrong or outdated
+        - Something worked really well
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Be as specific as you can — link the page or route (for example `#/labs/decomp/d3`) and say what you expected.
+    validations:
+      required: true
+  - type: checkboxes
+    id: nda
+    attributes:
+      label: Confidentiality
+      options:
+        - label: This does not include NDA-covered or confidential interview material.
+          required: true
