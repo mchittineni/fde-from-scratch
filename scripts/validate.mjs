@@ -53,7 +53,7 @@ const required = (label, obj, fields) => {
 const pillarIds = new Set(diagnosticPillars.map((p) => p.id));
 const topicIds = new Set(resourceTopics.map((t) => t.id));
 const LEVELS = new Set(['Start', 'Core', 'Deep']);
-const TYPES = new Set(['Book', 'Docs', 'Course', 'Article', 'Tool', 'Guide']);
+const TYPES = new Set(['Book', 'Docs', 'Course', 'Article', 'Tool', 'Guide', 'Video']);
 
 // Roadmaps — task ids must be unique across every track (they share one progress store)
 unique('roadmap tracks', Object.values(experienceLevels).map((r) => r.id));
