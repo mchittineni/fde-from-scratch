@@ -48,7 +48,7 @@ Every pull request runs these in CI. Run them locally before you push:
 | `npm run test:coverage` | Unit tests with coverage thresholds (90% lines and functions, 80% branches) |
 | `npm run test:e2e` | Playwright tests in Chromium: every route, saved progress, keyboard use, themes, mobile layout and axe accessibility checks |
 | `npm run test:all` | All of the above |
-| `npm run check:links` | Every Library URL still loads (needs network; runs weekly in CI) |
+| `npm run check:links` | Every Library URL and every external link in the README and guides still loads (needs network; runs weekly in CI) |
 
 Where tests live:
 
@@ -56,6 +56,10 @@ Where tests live:
 - `tests/e2e/` uses Playwright. The shared fixture fails any test whose page logs a console error. Use `npx playwright test --ui` to debug, and `npx playwright show-report` after a failure.
 
 If you change how stations choose resources (`TOPIC_RULES` in `src/lib/journey.js`), the unit test "every roadmap station gets useful links" checks all tracks for you.
+
+The page sets a Content-Security-Policy in `index.html`: scripts load only from the site, with no inline `<script>` or event-handler attributes, and styles only from the site and Google Fonts. Put new code in a module under `src/` rather than inline. A CSP violation shows up as a console error, which fails the browser tests.
+
+`package.json` uses `overrides` to pin patched versions of two transitive dependencies of markdownlint (`re2js`, `katex`) that `npm audit` flags. Remove them once markdownlint depends on fixed versions — CI runs `npm audit --audit-level=high`.
 
 Progress is stored in your browser's `localStorage`. To start fresh, open the dev tools console and run `localStorage.clear()`.
 
@@ -74,6 +78,7 @@ All content lives in plain ES modules under [`src/data/`](src/data). Each entry 
 | `caseStudies.js` | Decomp architecture cases |
 | `companies.js` | Company interview playbooks |
 | `diagnostic.js` | The 15-question skill diagnostic |
+| `guides.js` | The field guides in `docs/guides/` shown on the Library page |
 
 ### Add a Library resource
 
@@ -82,7 +87,7 @@ All content lives in plain ES modules under [`src/data/`](src/data). Each entry 
   id: 'r-short-name',          // unique, never reuse
   topic: 'data',               // velocity | data | ai | infra | security | decomp | diplomacy | interview
   level: 'Core',               // Start (from zero) | Core (job-ready) | Deep (senior+)
-  type: 'Docs',                // Book | Docs | Course | Article | Tool | Guide
+  type: 'Docs',                // Book | Docs | Course | Article | Tool | Guide | Video
   free: true,
   title: 'Exact title of the resource',
   url: 'https://canonical-source.example/',
@@ -93,7 +98,16 @@ All content lives in plain ES modules under [`src/data/`](src/data). Each entry 
 - Link to the **canonical source** (the author, publisher or project), never a mirror, affiliate link or pirated copy.
 - For books without an official page, use an Open Library search link — see the `book()` helper in `resources.js`.
 - Prefer free resources. A paid resource needs to be clearly the best option for its topic.
-- Run `npm run check:links` after adding links.
+- Run `npm run check:links` after adding links. It checks YouTube videos through YouTube's oEmbed endpoint, because a deleted or mistyped video still returns a normal page.
+- For a video, confirm the title and channel match what you wrote — credit the speaker and the channel that published it.
+
+### Add or edit a field guide
+
+Long-form guides live in [`docs/guides/`](docs/guides). Each one starts with an H1 title and a one-sentence summary, uses numbered `## N.` sections separated by `---`, and prefers tables, templates and worked examples over prose.
+
+- Register a new guide in `src/data/guides.js` so it appears on the Library page. The validator fails if a guide file is missing from that list, or if a listed file does not exist.
+- Link other guides by relative path (`[GLOSSARY.md](GLOSSARY.md)`). The validator checks that every relative link in `docs/guides/` and the README resolves.
+- Every external link must load. Use real customer-style examples with generic names, and never include confidential interview material.
 
 ### Add a question
 
