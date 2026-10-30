@@ -6,6 +6,10 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ### Added
 
+- **Expanded Library**: Curated learning library expanded from 55 to 88 vetted resources across all topics and levels, adding support for video resources (conference talks, architecture deep dives) and canonical engineering articles from Palantir, Databricks, Stripe, Martin Fowler, and ByteByteGo.
+- **Deep-Dive Technical Guides (`docs/guides/`)**: Six comprehensive field manuals covering the Decomposition Playbook, Enterprise Data & Integration (CDC, Spark skew, DuckDB, entity resolution), Air-Gap, Security & Networking (TLS proxies, SAML/OIDC, offline bundles), Applied AI in Enterprise (Production RAG, MCP tool design, CI evals), Client Diplomacy & Field Survival (The Mom Test, Minto Pyramid, scope negotiation), and a Curated Media & Reading List.
+- **Two End-to-End Decomp Case Studies**: Real-Time Financial Crime & AML Triage with High-Throughput CDC (`cs_fraud_aml`) and Regional Emergency Bed and Patient Transfer Coordination (`cs_hospital_bed_coordination`).
+- **Five Question Bank Prompts**: Reconciling CDC lakehouses against legacy ERPs, securing enterprise MCP servers against prompt injection, isolating TCP connection resets behind corporate proxies, greedy interval equipment scheduling, and handling client VP escalation after an ingestion failure.
 - Linting for JavaScript (ESLint), CSS (Stylelint), HTML (html-validate) and Markdown (markdownlint).
 - Unit tests (Node's built-in test runner) for the journey, XP and simulator logic, the content data and the dev server.
 - End-to-end browser tests (Playwright) covering every route, saved progress, themes and mobile layout.
