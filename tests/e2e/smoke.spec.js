@@ -51,3 +51,21 @@ test('skip link moves focus to the main content', async ({ page }) => {
   await page.keyboard.press('Enter');
   await expect(page.locator('#main')).toBeFocused();
 });
+
+test('ships a strict Content-Security-Policy with no inline script', async ({ page }) => {
+  // Any CSP violation is logged as a console error, which the shared fixture turns into a failure.
+  await page.goto('#/library');
+  const csp = await page.locator('meta[http-equiv="Content-Security-Policy"]').getAttribute('content');
+  expect(csp).toContain("default-src 'none'");
+  expect(csp).toMatch(/script-src 'self'(;|$)/);
+  expect(await page.locator('head script:not([src])').count()).toBe(0);
+});
+
+test.describe('without JavaScript', () => {
+  test.use({ javaScriptEnabled: false });
+  test('explains that JavaScript is needed and links the guides', async ({ page }) => {
+    await page.goto('#/');
+    await expect(page.locator('#app h1')).toHaveText(/needs JavaScript/);
+    await expect(page.locator('#app a[href*="docs/guides"]')).toBeVisible();
+  });
+});

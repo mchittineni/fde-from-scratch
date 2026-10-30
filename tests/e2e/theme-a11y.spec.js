@@ -11,11 +11,13 @@ test('theme toggle switches and remembers light mode', async ({ page }) => {
 
 // Pages that cover every component type. Serious and critical axe violations fail the build.
 const A11Y_ROUTES = ['#/', '#/journey', '#/orientation/fde-vs-other-roles', '#/orientation/field-triage', '#/labs', '#/labs/diagnostic',
-  '#/labs/simulator/sim_airgap_bank', '#/labs/questions', '#/labs/decomp/d1', '#/labs/stories', '#/library', '#/playbooks/palantir'];
+  '#/labs/simulator/sim_airgap_bank', '#/labs/questions', '#/labs/decomp/d1', '#/labs/stories', '#/library', '#/playbooks/palantir',
+  '#/start', '#/orientation/how-enterprises-buy-software', '#/labs/projects/p-rag', '#/labs/cases/cs_ontology'];
 
 for (const scheme of ['dark', 'light']) {
   test.describe(`accessibility (${scheme})`, () => {
-    test.use({ colorScheme: scheme, reducedMotion: 'reduce' }); // settle transitions before measuring contrast
+    // axe injects its own styles and reads cross-origin stylesheets; every other spec runs with the CSP enforced.
+    test.use({ colorScheme: scheme, reducedMotion: 'reduce', bypassCSP: true }); // reduced motion settles transitions before measuring contrast
     test.beforeEach(async ({ page }) => { await seedProgress(page, { fde_role: 'mid', fde_onboarded: true }); });
     for (const route of A11Y_ROUTES) {
       test(route, async ({ page }) => {
