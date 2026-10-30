@@ -95,3 +95,18 @@ describe('content guardrails', () => {
     }
   });
 });
+
+describe('field guides', async () => {
+  const { existsSync } = await import('node:fs');
+  const { join } = await import('node:path');
+  const { fieldGuides } = await import('../../src/data/guides.js');
+
+  test('the first guide is the start-here curriculum', () => {
+    assert.equal(fieldGuides[0].start, true);
+    assert.equal(fieldGuides.filter((g) => g.start).length, 1);
+  });
+
+  test('every guide file exists', () => {
+    for (const g of fieldGuides) assert.ok(existsSync(join(root, 'docs', 'guides', g.file)), g.file);
+  });
+});

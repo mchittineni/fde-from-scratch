@@ -75,6 +75,28 @@ describe('dev server', () => {
     assert.equal((await fetch(`${base}/src/missing.js`)).status, 404);
   });
 
+  test('sends hardening headers', async () => {
+    const res = await fetch(`${base}/`);
+    assert.equal(res.headers.get('x-content-type-options'), 'nosniff');
+    assert.equal(res.headers.get('x-frame-options'), 'DENY');
+  });
+
+  test('answers HEAD without a body', async () => {
+    const res = await fetch(`${base}/index.html`, { method: 'HEAD' });
+    assert.equal(res.status, 200);
+    assert.equal(await res.text(), '');
+  });
+
+  test('rejects writes with 405 and an Allow header', async () => {
+    const res = await fetch(`${base}/index.html`, { method: 'POST', body: 'x' });
+    assert.equal(res.status, 405);
+    assert.equal(res.headers.get('allow'), 'GET, HEAD');
+  });
+
+  test('serves the favicon as SVG', async () => {
+    assert.match((await fetch(`${base}/favicon.svg`)).headers.get('content-type'), /image\/svg\+xml/);
+  });
+
   test('refuses dotfiles', async () => {
     assert.equal((await fetch(`${base}/.git/HEAD`)).status, 403);
   });
