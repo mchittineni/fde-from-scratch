@@ -3,7 +3,8 @@
 FDE from Scratch is a static single-page app with no runtime dependencies: one HTML shell, two stylesheets, and native ES modules. There is no build step. Dev dependencies are used only for linting and tests.
 
 ```text
-index.html            Shell: header, <main id="app">, footer, mobile tab bar, toast region
+index.html            Shell: CSP, header, <main id="app">, footer, mobile tab bar, toast region
+src/theme-init.js     Applies the saved theme before first paint (classic script, so the CSP needs no inline script)
 styles/main.css       Design tokens (dark + light), reset, layout, header, footer, tab bar
 styles/components.css Every component: hero, journey route, stations, labs, library, drill…
 src/main.js           Router, state, views and actions
@@ -11,6 +12,7 @@ src/lib/core.js       Pure helpers: esc(), XP and ranks, simulator scoring, dril
 src/lib/journey.js    Pure station logic: TOPIC_RULES, learnFor(), projectFor(), practiceFor()
 src/lib/diagrams.js   Interactive SVG diagrams, as pure functions that return HTML strings
 src/data/*.js         All content (see CONTRIBUTING.md → Content guide)
+docs/guides/*.md      Long-form field guides, listed in src/data/guides.js
 scripts/validate.mjs  Content + syntax validation (CI)
 scripts/check-links.mjs  Library link checker (weekly CI job)
 server.js             Local dev server only (exports createServer() for tests)
@@ -102,3 +104,12 @@ Lesson `blocks` in `src/data/foundations.js` can be `p`, `list`, `steps`, `table
 4. Add a tile in `labTiles()` and, if it earns XP, include it in `totalXP()` in `src/lib/core.js` (and its unit test).
 5. Add styles to `components.css` using the existing tokens.
 6. Add the route to `ROUTES` in `tests/e2e/fixtures.js` and write a spec for its main interaction.
+
+## Security model
+
+The site is static and stores progress only in the visitor's browser, so the main risks are script injection and supply chain.
+
+- **Content-Security-Policy** (meta tag in `index.html`): `default-src 'none'`, scripts from `'self'` only, styles from `'self'` and Google Fonts, plus `style-src-attr 'unsafe-inline'` for the `style` attributes the views and diagrams render. GitHub Pages cannot set response headers, which is why the policy is a meta tag.
+- **Escaping**: every piece of content or user input interpolated into HTML passes through `esc()` in `src/lib/core.js`. The e2e suite checks that search input renders as text.
+- **Supply chain**: there are no runtime dependencies. Dev dependencies are audited in CI (`npm audit --audit-level=high` and `npm audit signatures`), GitHub Actions are pinned to commit SHAs, and checkouts don't persist credentials.
+- **Dev server** (`server.js`): serves only files inside the project, refuses dotfiles and traversal, answers only GET and HEAD, and sends `nosniff`, `X-Frame-Options` and `Referrer-Policy` headers. It is not used in production.
